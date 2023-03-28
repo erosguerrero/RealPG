@@ -14,6 +14,29 @@ import com.example.realpg.R;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
+
+/*
+ * Pasos para meter una pagina nueva a la interfaz principal
+ * (No incluye los pasos para meter la nueva opcion tambien en la navbar. Esto parte de que eso ya esta hecho)
+ * 1-Crear archivo xml copiando el fragment_main2.xml poniendole el nombre que queramos
+ * 2-Crear un archivo java en UI copiando el archivo PlaceholderFragment2
+ * 3-En el archivo xml cambiar (viendo su codigo) tools:context=".ui.main.NombreACambiar">
+ * Sustituir NombreACambiar por el nombre de la clase java
+ * 4-En esta clase modificar getItem
+ * Si estas metiendo la pagina 2 (position 1) poner que si position == 1 haga un return
+ * de tu nueva clase java .newIntance(position+1)
+ * Esta ultima cosa podria no ser necesario, pero asi reutilizamos el codigo de la plantilla
+ * 5-Ir a nuestra nueva clase java y hacer los siguientes cambios
+ * 6-Cambiar el nombre de tipo de la variable private FragmentMain2Binding binding;
+ * el nombre de tipo debera coincidir con el del xml que creamos en camelCase y acabando en Biding
+ * (nos pedira importar dicha clase si lo hemos escrito bien)
+ * 7-En la funcion onCreateView cambiamos la linea  binding = FragmentMain2Binding.inflate(inflater, container, false);
+ * Cambiamos el nombre de FragmentMain2Binding por el mismo que escribimos en el paso anterior
+ *
+ * Nota: La clase pageViewModel ya no sera necesaria ya que ya no estamos poniendo la misma vista
+ * con diferentes datos, sino vistas completamente diferentes, perdiendo asi su utilidad
+ *
+ */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
@@ -29,7 +52,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        if(position == 0)
+            return Page1.newInstance(1);
+        else if(position == 1)
+            return Page2.newInstance(2);
+            //return PlaceholderFragment2.newInstance(2);
+        else
+            return Page3.newInstance(3);
+            //return PlaceholderFragment.newInstance(position + 1);
     }
 
     @Nullable
