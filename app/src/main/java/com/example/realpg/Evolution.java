@@ -50,7 +50,12 @@ public class Evolution {
             this.current++;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Evolution{" +
+                "id=" + id +
+                ", chain=" + chain +
+                ", current=" + current +
+                '}';
+    }
 }
