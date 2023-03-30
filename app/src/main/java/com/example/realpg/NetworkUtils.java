@@ -15,12 +15,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
 public class NetworkUtils {
-
     private final static String URL = "https://pokeapi.co/api/v2/evolution-chain/";
-
-
-
-
     public static String getEvolutionChain(Integer id){
 
         HttpURLConnection urlConnection = null;
@@ -60,16 +55,15 @@ public class NetworkUtils {
 
             json = builder.toString();
 
-            Log.i("ResultadoJSON", json);
 
         }
         catch (UnknownHostException e){
-            Log.e("Error", "ERROR HOST");
-            e.printStackTrace();
+            Log.e("NETWORKAPI", "Error al conectar con el host: " + e.getMessage());
+
         }
         catch (Exception e){
+            Log.e("NETWORKAPI", "Error al llamar a la api: " + e.getMessage());
 
-            e.printStackTrace();
         }
         finally {
             try {

@@ -3,19 +3,19 @@ package com.example.realpg;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvolutionChain {
+public class Evolution {
 
     private Integer id;
     private List<String> chain;
     private int current;
 
-    public EvolutionChain(){
+    public Evolution(){
         this.id = null;
         this.chain = new ArrayList<String>();
         this.current = 0;
     }
 
-    public EvolutionChain(Integer id){
+    public Evolution(Integer id){
         this.id = id;
         this.chain = new ArrayList<String>();
         this.current = 0;
