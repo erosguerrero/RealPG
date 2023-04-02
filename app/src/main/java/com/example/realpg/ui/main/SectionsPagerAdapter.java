@@ -57,9 +57,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         else if(position == 1)
             return Page2.newInstance(2);
             //return PlaceholderFragment2.newInstance(2);
-        else
-            return Page3.newInstance(3);
+        else {
+            Page3 p = Page3.newInstance(3, mContext);
+            //p.update();
+            return Page3.newInstance(3, mContext);
             //return PlaceholderFragment.newInstance(position + 1);
+        }
+
     }
 
     @Nullable
