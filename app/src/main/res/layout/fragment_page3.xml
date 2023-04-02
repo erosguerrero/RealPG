@@ -5,16 +5,236 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFEB3B"
+    android:background="#212121"
     tools:context=".ui.main.Page3">
+
+    <View
+        android:id="@+id/top2rectangle"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/entry_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top1rectangle" />
+
+    <View
+        android:id="@+id/top3rectangle"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/entry_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top2rectangle" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/activity_piechart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.github.mikephil.charting.charts.PieChart>
+
+    <TextView
+        android:id="@+id/catStatsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/catStatsTitle"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/section_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/catStatsTitle" />
+
+    <View
+        android:id="@+id/myRectangleView2"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/section_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top3rectangle" />
+
+    <View
+        android:id="@+id/top1rectangle"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/entry_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
+
+    <TextView
+        android:id="@+id/topActivitiesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/topActivitiesTitle"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView" />
+
+    <TextView
+        android:id="@+id/hoursPerCatTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hoursPerCatTitle"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView2"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView2"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView2"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView2" />
+
+    <TextView
+        android:id="@+id/top1Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/top1Activity"
+        android:textColor="#FDFDFD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
+        app:layout_constraintStart_toStartOf="@+id/top1rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
+
+    <TextView
+        android:id="@+id/top2Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/top2Activity"
+        android:textColor="#FDFDFD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
+        app:layout_constraintStart_toStartOf="@+id/top2rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
+
+    <TextView
+        android:id="@+id/top3Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/top3Activity"
+        android:textColor="#FDFDFD"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
+        app:layout_constraintStart_toStartOf="@+id/top3rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/gold_medal_icon_svg"
+        app:layout_constraintEnd_toStartOf="@+id/top1rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/silver_medal_icon_svg"
+        app:layout_constraintEnd_toStartOf="@+id/top2rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/bronze_medal_icon_svg"
+        app:layout_constraintEnd_toStartOf="@+id/top3rectangle"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <View
+        android:id="@+id/clock1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/clock"
+        app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
+        app:layout_constraintEnd_toStartOf="@+id/top1ActivityTime"
+        app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
+
+    <View
+        android:id="@+id/clock2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/clock"
+        app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
+        app:layout_constraintEnd_toStartOf="@+id/top2ActivityTime"
+        app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
+
+    <View
+        android:id="@+id/clock3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/clock"
+        app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
+        app:layout_constraintEnd_toStartOf="@+id/top3ActivityTime"
+        app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
+
+    <TextView
+        android:id="@+id/top1ActivityTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/top1ActivityTime"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
+        app:layout_constraintEnd_toEndOf="@+id/top1rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
+
+    <TextView
+        android:id="@+id/top2ActivityTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/top2ActivityTime"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
+        app:layout_constraintEnd_toEndOf="@+id/top2rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
+
+    <TextView
+        android:id="@+id/top3ActivityTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/top3ActivityTime"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
+        app:layout_constraintEnd_toEndOf="@+id/top3rectangle"
+        app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

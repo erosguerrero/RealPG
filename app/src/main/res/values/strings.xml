@@ -3,4 +3,13 @@
     <string name="tab_text_1">Personaje</string>
     <string name="tab_text_2">Actividades</string>
     <string name="tab_text_3">Estadísticas</string>
+    <string name="catStatsTitle">Tus estadísticas</string>
+    <string name="topActivitiesTitle">Top actividades</string>
+    <string name="top1Activity">Top1 activity</string>
+    <string name="top2Activity">Top2 activity</string>
+    <string name="top3Activity">Top3 activity</string>
+    <string name="top1ActivityTime">5d 4h y 53mins</string>
+    <string name="top2ActivityTime">1d 11h y 12 mins</string>
+    <string name="top3ActivityTime">23h y 50mins</string>
+    <string name="hoursPerCatTitle">Horas por categoria</string>
 </resources>

@@ -7,20 +7,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.realpg.Category;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage3Binding;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ import java.util.ArrayList;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class Page3 extends Fragment {
+public class Page3 extends Fragment implements OnChartValueSelectedListener {
     private static Context mContext;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static PieChart pieChart;
@@ -85,6 +90,7 @@ public class Page3 extends Fragment {
         }
         setupPieChart();
         loadPieChartData();
+        pieChart.setOnChartValueSelectedListener(this);
 
         return root;
     }
@@ -98,27 +104,28 @@ public class Page3 extends Fragment {
     private void setupPieChart() {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setUsePercentValues(true);
-        pieChart.setEntryLabelTextSize(14);
+        pieChart.setEntryLabelTextSize(16);
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setCenterText("% de horas por categoria");
         pieChart.setCenterTextSize(24);
         pieChart.getDescription().setEnabled(false);
 
-        /*Legend l = pieChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        Legend l = pieChart.getLegend();
+        l.setEnabled(false);
+        /*l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(true);*/
+        l.setDrawInside(false);*/
+
     }
 
     private void loadPieChartData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(0.2f, "Food & Dining"));
-        entries.add(new PieEntry(0.15f, "Medical"));
-        entries.add(new PieEntry(0.10f, "Entertainment"));
-        entries.add(new PieEntry(0.25f, "Electricity and Gas"));
-        entries.add(new PieEntry(0.3f, "Housing"));
+        for (Category cat : Category.values()) {
+
+            float p = (float)1/9;
+            entries.add(new PieEntry(p, cat.toString()));
+        }
 
         ArrayList<Integer> colors = new ArrayList<>();
         for (int color: ColorTemplate.MATERIAL_COLORS) {
@@ -135,7 +142,7 @@ public class Page3 extends Fragment {
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
-        data.setValueTextSize(14f);
+        data.setValueTextSize(16f);
         data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);
@@ -146,5 +153,20 @@ public class Page3 extends Fragment {
 
     public static void update(){
         pieChart.animateY(1400, Easing.EaseInOutQuad);
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        PieEntry pe = (PieEntry) e;
+        Log.d("page3", "en onValueSelected");
+        Log.d("page3", "entry selected: " + ((PieEntry) e).getLabel());
+
+        //TextView v = binding.clickedEntry;
+        //v.setText(pe.getLabel());
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i("page3", "en nothing selected");
     }
 }
