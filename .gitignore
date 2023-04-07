@@ -9,3 +9,7 @@
 .gradle/file-system.probe
 local.properties
 *.bin
+android/local.properties
+.android/local.properties
+*.properties
+local.properties
