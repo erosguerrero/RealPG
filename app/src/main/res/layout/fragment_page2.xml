@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF9800"
+    android:background="@color/background"
     tools:context=".ui.main.Page2">
 
 
@@ -22,93 +22,71 @@
             android:id="@+id/activatePanel1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Panel 1" />
+            android:backgroundTint="@color/primary"
+            android:text="Panel 1"
+            android:textAlignment="textStart"
+            app:icon="@drawable/arrow_forward"
+            app:iconGravity="start"
+            app:iconSize="20dp" />
 
         <LinearLayout
             android:id="@+id/panel1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
-            <!-- widgets in first panel go here -->
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </LinearLayout>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/activatePanel2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Panel 2" />
+            android:backgroundTint="@color/primary"
+            android:text="Panel 2"
+            android:textAlignment="textStart"
+            app:icon="@drawable/arrow_forward"
+            app:iconSize="20dp" />
 
         <LinearLayout
             android:id="@+id/panel2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
-            <!-- widgets in second panel go here -->
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Objeto 1 del panel 2" />
-        </LinearLayout>
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/activatePanel3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Panel 3" />
+            android:backgroundTint="@color/primary"
+            android:text="Panel 3"
+            android:textAlignment="textStart"
+            app:icon="@drawable/arrow_forward"
+            app:iconSize="20dp" />
 
         <LinearLayout
             android:id="@+id/panel3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
-            <!-- widgets in third panel go here -->
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Objeto 2  del panel 3" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Objeto 1del panel 3" />
-        </LinearLayout>
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/activatePanel4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Panel 4" />
+            android:backgroundTint="@color/primary"
+            android:text="Panel 4"
+            android:textAlignment="textStart"
+            app:icon="@drawable/arrow_forward"
+            app:iconSize="20dp" />
 
         <LinearLayout
             android:id="@+id/panel4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
-            <!-- widgets in fourth panel go here -->
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Objeto 2 del panel 4" />
+            android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Objeto 1 del panel 4" />
-        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
