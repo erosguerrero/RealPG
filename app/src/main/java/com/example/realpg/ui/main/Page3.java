@@ -1,6 +1,7 @@
 package com.example.realpg.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.realpg.Category;
+import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage3Binding;
@@ -163,6 +165,9 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
         //TextView v = binding.clickedEntry;
         //v.setText(pe.getLabel());
+        Intent intent = new Intent(this.getActivity(), CategoryInfoActivity.class);
+        intent.putExtra("categoryName", pe.getLabel());
+        startActivity(intent);
     }
 
     @Override
