@@ -38,6 +38,7 @@ public class Page2 extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -234,6 +235,7 @@ public class Page2 extends Fragment {
         binding.panel3.setVisibility(View.GONE);
         binding.panel4.setVisibility(View.GONE);
     }
+
 
 
 

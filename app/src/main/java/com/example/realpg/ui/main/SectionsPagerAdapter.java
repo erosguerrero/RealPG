@@ -53,9 +53,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         if(position == 0)
-            return Page1.newInstance(1);
+        {
+            Page1 p1 = Page1.newInstance(1);
+            return p1;
+        }
         else if(position == 1)
-            return Page2.newInstance(2);
+        {
+            Page2 p2 = Page2.newInstance(2);
+
+            return p2;
+        }
+
             //return PlaceholderFragment2.newInstance(2);
         else {
             Page3 p = Page3.newInstance(3, mContext);
