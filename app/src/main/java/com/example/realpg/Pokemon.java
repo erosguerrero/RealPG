@@ -8,21 +8,18 @@ public class Pokemon {
 
     private Integer id;
     private String name;
-    private String description;
     private String image;
 
 
     public Pokemon(){
         this.id = null;
         this.name = null;
-        this.description = null;
         this.image = null;
     }
 
-    public Pokemon(Integer id, String name, String description, String image) {
+    public Pokemon(Integer id, String name,  String image) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.image = image;
     }
 
@@ -42,14 +39,6 @@ public class Pokemon {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImage() {
         return image;
     }
@@ -63,12 +52,12 @@ public class Pokemon {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pokemon pokemon = (Pokemon) o;
-        return Objects.equals(id, pokemon.id) && Objects.equals(name, pokemon.name) && Objects.equals(description, pokemon.description) && Objects.equals(image, pokemon.image);
+        return id.equals(pokemon.id) && name.equals(pokemon.name) && image.equals(pokemon.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, image);
+        return Objects.hash(id, name, image);
     }
 
     @NonNull
@@ -77,7 +66,6 @@ public class Pokemon {
         return "Pokemon{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
                 ", image='" + image + '\'' +
                 '}';
     }

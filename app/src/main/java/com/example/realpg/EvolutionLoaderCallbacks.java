@@ -21,7 +21,7 @@ public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<E
     @NonNull
     @Override
     public Loader<Evolution> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.d("NETWORKAPI", "EvolutionLoaderCallbacks creado");
+
         Integer idChain = (args != null) ? args.getInt(EXTRA_ID) : null;
         return new EvolutionLoader(context, idChain);
 
@@ -29,7 +29,7 @@ public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<E
 
     @Override
     public void onLoadFinished(@NonNull Loader<Evolution> loader, Evolution data) {
-        Log.d("NETWORKAPI", "Carga completada");
+        Log.d("EVOLUTIONAPI", "Carga completada");
     }
 
     @Override

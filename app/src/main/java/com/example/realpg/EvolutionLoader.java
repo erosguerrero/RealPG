@@ -23,17 +23,17 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
     @Override
     public Evolution loadInBackground() {
 
-        Log.d("NETWORKAPI", "Iniciada tarea en segundo plano");
+
 
         if (id == null){
-            Log.e("NETWORKAPI", "ID es null");
+            Log.e("EVOLUTIONAPI", "ID es null");
             return null;
         }
 
-        String json = NetworkUtils.getEvolutionChain(id);
+        String json = EvolutionNetwork.getEvolutionChain(id);
 
         if (json == null){
-            Log.d("NETWORKAPI", "El json es null");
+            Log.d("EVOLUTIONAPI", "El json es null");
             return null;
         }
 
@@ -65,11 +65,11 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
             }
 
-            Log.d("NETWORKAPI", evolution.toString());
+            Log.d("EVOLUTIONAPI", evolution.toString());
 
         }
         catch (Exception e){
-            Log.e("NETWORKAPI", "Error al convertir el json: " + e.getMessage());
+            Log.e("EVOLUTIONAPI", "Error al convertir el json: " + e.getMessage());
         }
 
 
@@ -78,7 +78,7 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
 
     private static void printJSON(String json){
-        Log.d("NETWORKAPI", json);
+        Log.d("EVOLUTIONAPI", json);
     }
 
     @Override

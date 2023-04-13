@@ -4,17 +4,13 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 
-public class NetworkUtils {
+public class EvolutionNetwork {
     private final static String URL = "https://pokeapi.co/api/v2/evolution-chain/";
     public static String getEvolutionChain(Integer id){
 
@@ -27,8 +23,6 @@ public class NetworkUtils {
         try{
 
             URL requestUrl = new URL(uri.toString());
-
-            Log.d("MyUrl", requestUrl.toString());
 
             urlConnection = (HttpURLConnection) requestUrl.openConnection();
 
@@ -58,11 +52,11 @@ public class NetworkUtils {
 
         }
         catch (UnknownHostException e){
-            Log.e("NETWORKAPI", "Error al conectar con el host: " + e.getMessage());
+            Log.e("EVOLUTIONAPI", "Error al conectar con el host: " + e.getMessage());
 
         }
         catch (Exception e){
-            Log.e("NETWORKAPI", "Error al llamar a la api: " + e.getMessage());
+            Log.e("EVOLUTIONAPI", "Error al llamar a la api: " + e.getMessage());
 
         }
         finally {
@@ -78,8 +72,6 @@ public class NetworkUtils {
 
         return json;
     }
-
-
 
 
 

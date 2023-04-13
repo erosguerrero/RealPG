@@ -31,8 +31,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final int EVOLUTION_LOADER_ID = 0;
+    private static final int POKEMON_LOADER_ID = 1;
+
     private ActivityMainBinding binding;
     private EvolutionLoaderCallbacks evolutionLoaderCallbacks = new EvolutionLoaderCallbacks(this);
+    private PokemonLoaderCallbacks pokemonLoaderCallbacks = new PokemonLoaderCallbacks(this);
     //private PieChart pieChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +61,16 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt(EvolutionLoaderCallbacks.EXTRA_ID, id);
 
-        Log.i("NETWORKAPI", "Bundle creado con id " + id);
-
         LoaderManager.getInstance(this).restartLoader(EVOLUTION_LOADER_ID, bundle, evolutionLoaderCallbacks);
+
+        loaderManager = LoaderManager.getInstance(this);
+        if (loaderManager.getLoader(POKEMON_LOADER_ID) != null)
+            loaderManager.initLoader(POKEMON_LOADER_ID, null, this.pokemonLoaderCallbacks);
+
+        Bundle bundle1 = new Bundle();
+        bundle1.putInt(PokemonLoaderCallbacks.EXTRA_ID, 1);
+        LoaderManager.getInstance(this).restartLoader(POKEMON_LOADER_ID, bundle, pokemonLoaderCallbacks);
+
 
 
         fab.setOnClickListener(new View.OnClickListener() {
