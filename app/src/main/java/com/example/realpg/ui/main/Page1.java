@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,9 @@ public class Page1 extends Fragment {
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        
+        //XP BAR
+        changeLvl(root,9.1);
 
         LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
 
@@ -91,5 +95,15 @@ public class Page1 extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void changeLvl(View root, double lvl){
+        ProgressBar xpBar = root.findViewById(R.id.selectedPokemonLevel);
+        TextView expLabel = root.findViewById(R.id.xpLabel);
+
+        //
+        expLabel.setText("Lvl "+(int)Math.floor(lvl));
+
+        xpBar.setProgress((int)Math.floor(lvl%1*100),true);
     }
 }
