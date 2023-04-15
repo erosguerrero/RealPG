@@ -1,5 +1,6 @@
 package com.example.realpg.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.realpg.ActivityInfoActivity;
+import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage2Binding;
@@ -101,8 +104,17 @@ public class Page2 extends Fragment {
         //datos de demo cat 1
         View itemIn = getLayoutInflater().inflate(R.layout.item_panel, null);
         TextView tvn = itemIn.findViewById(R.id.itemName);
-        tvn.setText("Actividad 1 de la cat 2");
+        tvn.setText("Actividad 1 de la cat 1");
         p1.addView(itemIn);
+
+        tvn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel2", "actividad 1 cat 2");
+                Intent intent = new Intent(getActivity(), ActivityInfoActivity.class);
+                intent.putExtra("activityName", tvn.getText());
+                startActivity(intent);
+            }
+        });
 
         LinearLayout p2 =  root.findViewById(R.id.panel2);
         //datos de demo cat 2
@@ -123,6 +135,14 @@ public class Page2 extends Fragment {
         TextView tv22 = itemI22.findViewById(R.id.itemName);
         tv22.setText("Actividad 2 de la cat 2");
         p2.addView(itemI22);
+        tv22.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel2", "actividad 2 cat 2");
+                Intent intent = new Intent(getActivity(), ActivityInfoActivity.class);
+                intent.putExtra("activityName", tv22.getText());
+                startActivity(intent);
+            }
+        });
 
         LinearLayout p3 =  root.findViewById(R.id.panel3);
         //datos de demo cat 3

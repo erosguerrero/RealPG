@@ -13,4 +13,13 @@
     <string name="top3ActivityTime">23h y 50mins</string>
     <string name="hoursPerCatTitle">Horas por categoria</string>
     <string name="categoryTitle">Category Title</string>
+    <string name="activityInfoHeader">Activity Name</string>
+    <string name="activityCategoryTitle">Categoría</string>
+    <string name="activityCategory">Categoria X</string>
+    <string name="semanaTitle">Semana</string>
+    <string name="mesTitle">Mes</string>
+    <string name="añoTitle">Año</string>
+    <string name="totalTitle">Total</string>
+    <string name="timeSpent">XXd YYh ZZmin</string>
+    <string name="delete">Eliminar</string>
 </resources>
