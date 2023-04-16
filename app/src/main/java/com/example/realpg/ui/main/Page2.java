@@ -148,9 +148,16 @@ public class Page2 extends Fragment {
         //datos de demo cat 3
         View itemI3 = getLayoutInflater().inflate(R.layout.item_panel, null);
         TextView tv3 = itemI3.findViewById(R.id.itemName);
-        tv3.setText("Actividad 1 de la cat 2");
+        tv3.setText("Actividad 1 de la cat 3");
         p3.addView(itemI3);
 
+        for(int i = 2; i < 12; i++)
+        {
+            View itemIi = getLayoutInflater().inflate(R.layout.item_panel, null);
+            TextView tvIi = itemIi.findViewById(R.id.itemName);
+            tv3.setText("Actividad "+ i+" de la cat 3");
+            p3.addView(itemIi);
+        }
 
 
         setButtonsPanelsListeners();
