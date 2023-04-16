@@ -17,6 +17,9 @@
             android:name=".ActivityInfoActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.main.ListMyPoke"
+            android:exported="false" />
+        <activity
             android:name=".CategoryInfoActivity"
             android:exported="false" />
         <activity

@@ -1,12 +1,15 @@
 package com.example.realpg.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
@@ -95,6 +99,36 @@ public class Page1 extends Fragment {
         TextView tv3 = item3.findViewById(R.id.itemName);
         tv3.setText("Tercera actividad mas usada con un texto mas largo");
         latestActCont.addView(item3);
+
+        ImageButton pokeball = binding.pokeballButton;//getActivity().findViewById(R.id.pokeballButton);
+        /*final TextView textView = binding.sectionLabel;
+        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });*/
+        pokeball.setOnClickListener(v -> {
+            Intent intent = new Intent(this.getActivity(), ListMyPoke.class);
+            // intent.putExtra("categoryName", pe.getLabel());
+            startActivity(intent);
+            //hola
+        });
+
+
+        // ImageView demo = binding.selectedPokemonImage;//getActivity().findViewById(R.id.selectedPokemonImage);
+
+        //demo.setImageDrawable(Page1.LoadImageFromWebOperations("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png"));
+
+        //new DownloadImageTask(demo).execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png");
+
+        // Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png").into(demo);
+        int idSelected = getActivity().getIntent().getIntExtra("idPokeSelected", -1);
+        if(idSelected != -1)//nunca habia seleccionado un pokemon si es == -1
+        {
+            ImageView demo = binding.selectedPokemonImage;
+            Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+idSelected+".png").into(demo);
+        }
 
 
 

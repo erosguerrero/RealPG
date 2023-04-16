@@ -31,6 +31,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -43,4 +44,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //Glide para imagenes dese url
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:glide:4.15.1'
+
 }
