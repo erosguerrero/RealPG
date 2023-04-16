@@ -54,11 +54,14 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
             JSONObject jsonObject = new JSONObject(json);
             JSONObject chain = jsonObject.getJSONObject("chain");
 
+            evolution.setId(jsonObject.getInt("id"));
 
             JSONObject specie = chain;
 
             while(specie != null){
-                evolution.add(specie.getJSONObject("species").getString("url"));
+
+                String url = specie.getJSONObject("species").getString("url");
+                evolution.add(Character.getNumericValue(url.charAt(url.length() - 2)));
 
                 JSONArray evolves = specie.getJSONArray("evolves_to");
                 specie = (evolves.length() > 0) ? evolves.getJSONObject(0) : null;

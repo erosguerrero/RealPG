@@ -6,18 +6,18 @@ import java.util.List;
 public class Evolution {
 
     private Integer id;
-    private List<String> chain;
+    private List<Integer> chain;
     private int current;
 
     public Evolution(){
         this.id = null;
-        this.chain = new ArrayList<String>();
+        this.chain = new ArrayList<Integer>();
         this.current = 0;
     }
 
     public Evolution(Integer id){
         this.id = id;
-        this.chain = new ArrayList<String>();
+        this.chain = new ArrayList<Integer>();
         this.current = 0;
     }
 
@@ -29,19 +29,19 @@ public class Evolution {
         this.id = id;
     }
 
-    public List<String> getChain(){
+    public List<Integer> getChain(){
         return this.chain;
     }
 
-    public void setChain(List<String> chain){
+    public void setChain(List<Integer> chain){
         this.chain = chain;
     }
 
-    public void add(String pokeUrl){
-        this.chain.add(pokeUrl);
+    public void add(Integer pokeId){
+        this.chain.add(pokeId);
     }
 
-    public String getPokemon(){
+    public Integer getPokemon(){
         return this.chain.get(current);
     }
 
