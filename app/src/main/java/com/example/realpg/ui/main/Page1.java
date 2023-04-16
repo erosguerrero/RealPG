@@ -1,6 +1,8 @@
 package com.example.realpg.ui.main;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +18,27 @@ import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import static android.content.Context.MODE_PRIVATE;
 /**
  * A placeholder fragment containing a simple view.
  */
 public class Page1 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
+    private static final String FILE_NAME = "example.txt";
+    private double LevelXP = 0;
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
 
@@ -33,7 +49,12 @@ public class Page1 extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
+    private Context contexto;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        contexto = context;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +74,10 @@ public class Page1 extends Fragment {
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        
+        save(contexto);
+        load(contexto);
         //XP BAR
-        changeLvl(root,9.1);
+        changeLvl(root,this.LevelXP);
 
         LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
 
@@ -96,7 +118,61 @@ public class Page1 extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    public void save(Context context) {
+        String text = "2.2";
+        FileOutputStream fos = null;
 
+        try {
+            fos = context.openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write(text.getBytes());
+
+            //Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void load(Context context) {
+        FileInputStream fis = null;
+
+        try {
+            fis = context.openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text).append("\n");
+            }
+
+            this.LevelXP = Double.valueOf(sb.toString());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     private void changeLvl(View root, double lvl){
         ProgressBar xpBar = root.findViewById(R.id.selectedPokemonLevel);
         TextView expLabel = root.findViewById(R.id.xpLabel);
