@@ -41,11 +41,11 @@
         android:layout_height="30dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/startActivityButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/startActivityButton"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:backgroundTint="#00FFFFFF"

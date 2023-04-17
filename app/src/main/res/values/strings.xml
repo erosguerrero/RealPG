@@ -22,4 +22,5 @@
     <string name="totalTitle">Total</string>
     <string name="timeSpent">XXd YYh ZZmin</string>
     <string name="delete">Eliminar</string>
+    <string name="stopWatch">00:00:00</string>
 </resources>

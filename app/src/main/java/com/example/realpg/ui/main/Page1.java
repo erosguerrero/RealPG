@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.MainActivity;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,8 +37,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.VISIBLE;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -46,6 +60,8 @@ public class Page1 extends Fragment {
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
 
+    private Boolean onPause;
+    private ManageStopWatch manageStopWatch;
     public static Page1 newInstance(int index) {
         Page1 fragment = new Page1();
         Bundle bundle = new Bundle();
@@ -88,6 +104,14 @@ public class Page1 extends Fragment {
         View item1 = getLayoutInflater().inflate(R.layout.item_panel, null);
         TextView tv1 = item1.findViewById(R.id.itemName);
         tv1.setText("Actividad mas usada");
+        ImageButton startActivityButton = item1.findViewById(R.id.startActivityButton);
+        startActivityButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel1", "start activity1");
+                showTimeWatch();
+                onPause = false;
+            }
+        });
         latestActCont.addView(item1);
 
         View item2 = getLayoutInflater().inflate(R.layout.item_panel, null);
@@ -115,6 +139,53 @@ public class Page1 extends Fragment {
             //hola
         });
 
+        Timer timer = new Timer();
+        onPause = true;
+        TextView stopWatch = binding.stopWatch;
+        ImageButton restartButton = binding.restartButton;
+        ImageButton pauseButton = binding.pauseButton;
+        ImageButton playButton = binding.playButton; //tmb se puede usar getActivity().findViewById como hago abajo
+        ImageButton endButton = binding.endButton;
+        if(manageStopWatch == null) manageStopWatch = new ManageStopWatch();
+        timer.schedule(manageStopWatch, 1000, 1000);
+        //ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
+
+
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel1", "restart activity1");
+                stopWatch.setText("00:00:00");
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel1", "pause activity1");
+                onPause = true;
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(VISIBLE);
+            }
+        });
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel1", "play activity1");
+                onPause = false;
+                playButton.setVisibility(View.GONE);
+                pauseButton.setVisibility(VISIBLE);
+            }
+        });
+
+        endButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("Panel1", "end activity1");
+                onPause = true;
+                showLatestActivities();
+            }
+        });
+
+
+
 
         // ImageView demo = binding.selectedPokemonImage;//getActivity().findViewById(R.id.selectedPokemonImage);
 
@@ -131,11 +202,6 @@ public class Page1 extends Fragment {
         }
 
 
-
-
-
-
-
         /*final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -145,7 +211,6 @@ public class Page1 extends Fragment {
         });*/
         return root;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -216,4 +281,111 @@ public class Page1 extends Fragment {
 
         xpBar.setProgress((int)Math.floor(lvl%1*100),true);
     }
+
+    private void showTimeWatch(){
+        // hide latest activities related views
+        TextView recentActividadesLabel = getActivity().findViewById(R.id.recentActividadesLabel);
+        recentActividadesLabel.setVisibility(View.GONE);
+
+        LinearLayout latestAcivitiesList = getActivity().findViewById(R.id.LatestActivitiesContainer);
+        latestAcivitiesList.setVisibility(View.GONE);
+
+        // show time controls of activity timeWatch
+        View activityInProgressHeader = getActivity().findViewById(R.id.activityInProgressHeader);
+        activityInProgressHeader.setVisibility(VISIBLE);
+
+        TextView activityInProgressName = getActivity().findViewById(R.id.activityInProgressName);
+        activityInProgressName.setVisibility(VISIBLE);
+
+        ImageButton restartButton = getActivity().findViewById(R.id.restartButton);
+        restartButton.setVisibility(VISIBLE);
+
+        ImageButton pauseButton = getActivity().findViewById(R.id.pauseButton);
+        pauseButton.setVisibility(VISIBLE);
+
+        ImageButton endButton = getActivity().findViewById(R.id.endButton);
+        endButton.setVisibility(VISIBLE);
+
+        TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+        stopWatch.setVisibility(VISIBLE);
+        stopWatch.setText("00:00:00");
+    }
+
+    private void showLatestActivities(){
+        // hide latest activities related views
+        TextView recentActividadesLabel = getActivity().findViewById(R.id.recentActividadesLabel);
+        recentActividadesLabel.setVisibility(VISIBLE);
+
+        LinearLayout latestAcivitiesList = getActivity().findViewById(R.id.LatestActivitiesContainer);
+        latestAcivitiesList.setVisibility(VISIBLE);
+
+        // show time controls of activity timeWatch
+        View activityInProgressHeader = getActivity().findViewById(R.id.activityInProgressHeader);
+        activityInProgressHeader.setVisibility(View.GONE);
+
+        TextView activityInProgressName = getActivity().findViewById(R.id.activityInProgressName);
+        activityInProgressName.setVisibility(View.GONE);
+
+        ImageButton restartButton = getActivity().findViewById(R.id.restartButton);
+        restartButton.setVisibility(View.GONE);
+
+        ImageButton pauseButton = getActivity().findViewById(R.id.pauseButton);
+        pauseButton.setVisibility(View.GONE);
+
+        ImageButton playButton = getActivity().findViewById(R.id.playButton);
+        playButton.setVisibility(View.GONE);
+
+        ImageButton endButton = getActivity().findViewById(R.id.endButton);
+        endButton.setVisibility(View.GONE);
+
+        TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+        stopWatch.setVisibility(View.GONE);
+    }
+
+    class ManageStopWatch extends TimerTask {
+        public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    addSecondToStopWatch();
+                }
+            });
+
+        }
+
+        private void addSecondToStopWatch(){
+            if(!onPause) {
+                TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+                String[] parts = stopWatch.getText().toString().split(":");
+                Integer hours = Integer.parseInt(parts[0]);
+                Integer mins = Integer.parseInt(parts[1]);
+                Integer secs = Integer.parseInt(parts[2]);
+                Log.i("Panel1", "Hours: " + hours + " Mins: " + mins + " Seconds: " + secs);
+
+                secs +=1;
+
+                if(secs == 60) {
+                    secs = 0;
+                    mins +=1;
+                }
+
+                if(mins == 60){
+                    mins = 0;
+                    hours += 1;
+                }
+
+                if(hours == 24){
+                    secs = 0;
+                    mins = 0;
+                    hours = 0;
+                }
+
+                Log.i("Panel1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
+
+                String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
+                stopWatch.setText(actualTime);
+            }
+        }
+    }
+
 }
