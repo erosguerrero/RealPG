@@ -60,10 +60,22 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
             while(specie != null){
 
+                String name = specie.getJSONObject("species").getString("name");
                 String url = specie.getJSONObject("species").getString("url");
-                evolution.add(Character.getNumericValue(url.charAt(url.length() - 2)));
+                String[] idFinder = url.split("/");
+                Integer pokeId = Integer.parseInt(idFinder[idFinder.length - 1]);
+
+
+
+
+                JSONArray details = specie.getJSONArray("evolution_details");
+                Integer level = (details.length() > 0) ? details.getJSONObject(0).getInt("min_level") : 0;
+
+
+                evolution.add(pokeId, level, name);
 
                 JSONArray evolves = specie.getJSONArray("evolves_to");
+
                 specie = (evolves.length() > 0) ? evolves.getJSONObject(0) : null;
 
             }

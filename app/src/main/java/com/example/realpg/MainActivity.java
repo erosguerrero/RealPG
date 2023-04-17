@@ -29,14 +29,9 @@ import com.example.realpg.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final int EVOLUTION_LOADER_ID = 0;
-    private static final int POKEMON_LOADER_ID = 1;
-
+public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
-    private EvolutionLoaderCallbacks evolutionLoaderCallbacks = new EvolutionLoaderCallbacks(this);
-    private PokemonLoaderCallbacks pokemonLoaderCallbacks = new PokemonLoaderCallbacks(this);
+
     //private PieChart pieChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,26 +46,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
-
-
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
-        if (loaderManager.getLoader(EVOLUTION_LOADER_ID) != null){
-            loaderManager.initLoader(EVOLUTION_LOADER_ID, null, this.evolutionLoaderCallbacks);
-        }
-
-        int id = 1;
-        Bundle bundle = new Bundle();
-        bundle.putInt(EvolutionLoaderCallbacks.EXTRA_ID, id);
-
-        LoaderManager.getInstance(this).restartLoader(EVOLUTION_LOADER_ID, bundle, evolutionLoaderCallbacks);
-
-        loaderManager = LoaderManager.getInstance(this);
-        if (loaderManager.getLoader(POKEMON_LOADER_ID) != null)
-            loaderManager.initLoader(POKEMON_LOADER_ID, null, this.pokemonLoaderCallbacks);
-
-        Bundle bundle1 = new Bundle();
-        bundle1.putInt(PokemonLoaderCallbacks.EXTRA_ID, 1);
-        LoaderManager.getInstance(this).restartLoader(POKEMON_LOADER_ID, bundle, pokemonLoaderCallbacks);
 
 
 
