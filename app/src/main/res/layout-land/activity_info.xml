@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock1" />
 
     <TextView
-        android:id="@+id/timeSpent"
+        android:id="@+id/timeWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock2" />
 
     <TextView
-        android:id="@+id/timeSpent1"
+        android:id="@+id/timeMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -132,7 +132,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock3" />
 
     <TextView
-        android:id="@+id/timeSpent2"
+        android:id="@+id/timeYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -166,7 +166,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock4" />
 
     <TextView
-        android:id="@+id/timeSpent3"
+        android:id="@+id/timeTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -186,7 +186,7 @@
         android:textColor="#FFFFFF"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/timeSpent"
+        app:layout_constraintStart_toEndOf="@+id/timeWeek"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <TextView
@@ -207,9 +207,9 @@
         android:layout_height="wrap_content"
         android:text="@string/delete"
         app:backgroundTint="@color/delete"
-        app:layout_constraintBottom_toBottomOf="@+id/timeSpent3"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTotal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/timeSpent3"
-        app:layout_constraintTop_toTopOf="@+id/timeSpent3" />
+        app:layout_constraintStart_toEndOf="@+id/timeTotal"
+        app:layout_constraintTop_toTopOf="@+id/timeTotal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

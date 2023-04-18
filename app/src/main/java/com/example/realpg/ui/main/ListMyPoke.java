@@ -56,12 +56,12 @@ public class ListMyPoke extends AppCompatActivity {
          //TODO   (solo necesitamos su id y nombre para mostrar esta vista)
 
         List<PokeRecyclerInfo> demoPokes = new ArrayList<>();
-        demoPokes.add(new PokeRecyclerInfo("Poke1", 1));
-        demoPokes.add(new PokeRecyclerInfo("Poke124", 124));
-        PokeRecyclerInfo firstSelected = new PokeRecyclerInfo("Poke393", 393);
+        demoPokes.add(new PokeRecyclerInfo("Poke1", 1,1));
+        demoPokes.add(new PokeRecyclerInfo("Poke124", 124,124));
+        PokeRecyclerInfo firstSelected = new PokeRecyclerInfo("Poke393", 393,393);
        // firstSelected.isSelected = true;
         demoPokes.add(firstSelected);
-        demoPokes.add(new PokeRecyclerInfo("Poke4",4));
+        demoPokes.add(new PokeRecyclerInfo("Poke4",4,4));
 
         Random rand = new Random();
 
@@ -69,7 +69,7 @@ public class ListMyPoke extends AppCompatActivity {
         {
             int idPoke = rand.nextInt((845) + 1) +10;
             String urlImg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+idPoke+".png";
-            demoPokes.add(new PokeRecyclerInfo("Poke"+idPoke, idPoke));
+            demoPokes.add(new PokeRecyclerInfo("Poke"+idPoke, idPoke, idPoke));
         }
         adapter.setPokeListData(demoPokes);
 
@@ -80,9 +80,11 @@ public class ListMyPoke extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ListMyPoke.this, MainActivity.class);
                 int idSelected = adapter.getSelectedPoke().getIdPoke();
+                int idEvoSelected = adapter.getSelectedPoke().getIdEvolve();
                 Log.i("demo", "el id seleccionado es "+idSelected);
 
                 intent.putExtra("idPokeSelected", idSelected);
+                intent.putExtra("idEvoSelected", idEvoSelected);
                 startActivity(intent);
             }
         });

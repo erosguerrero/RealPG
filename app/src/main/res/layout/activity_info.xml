@@ -86,7 +86,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock1" />
 
     <TextView
-        android:id="@+id/timeSpent"
+        android:id="@+id/timeWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
@@ -121,7 +121,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock2" />
 
     <TextView
-        android:id="@+id/timeSpent1"
+        android:id="@+id/timeMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
@@ -156,7 +156,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock3" />
 
     <TextView
-        android:id="@+id/timeSpent2"
+        android:id="@+id/timeYear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
@@ -191,7 +191,7 @@
         app:layout_constraintTop_toTopOf="@+id/clock4" />
 
     <TextView
-        android:id="@+id/timeSpent3"
+        android:id="@+id/timeTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
