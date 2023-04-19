@@ -69,7 +69,14 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
 
                 JSONArray details = specie.getJSONArray("evolution_details");
-                Integer level = (details.length() > 0) ? details.getJSONObject(0).getInt("min_level") : 0;
+
+                Integer level = null;
+                if (details.length() > 0){
+                    JSONObject detail = details.getJSONObject(0);
+                    if (!detail.isNull("min_level")){
+                        level = detail.getInt("min_level");
+                    }
+                }
 
 
                 evolution.add(pokeId, level, name);

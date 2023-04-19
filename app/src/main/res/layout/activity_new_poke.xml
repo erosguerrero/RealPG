@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.NewPoke"
-    android:background="@color/background">
+    android:background="@color/background"
+    tools:context=".ui.main.NewPoke">
 
     <View
         android:id="@+id/header3"
@@ -37,6 +37,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow_back" />
+
+    <ImageView
+        android:id="@+id/pokeImage1"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="224dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="335dp" />
+
+    <ImageView
+        android:id="@+id/pokeImage2"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header3" />
+
+    <ImageView
+        android:id="@+id/pokeImage3"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="105dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage1" />
+
+    <ImageView
+        android:id="@+id/pokeImage4"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="105dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
