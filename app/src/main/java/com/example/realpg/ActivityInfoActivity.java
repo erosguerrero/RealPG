@@ -6,15 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class ActivityInfoActivity extends AppCompatActivity {
+    protected ArrayAdapter<String> spinnerAdapter;
+    protected ArrayList<String> categories;
+    protected String currentCategory;
+    protected Spinner categoriesSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +165,38 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
        // TextView headerTitle = findViewById(R.id.activityName);
        // headerTitle.setText(activityName);
 
+        categoriesSpinner = findViewById(R.id.categorySpinner);
+
+        currentCategory = "Viajes"; // TODO: remplazar por la category.getCategory()
+        categories = manageSpinnerList(currentCategory);
+
+        spinnerAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories);
+        categoriesSpinner.setAdapter(spinnerAdapter);
+
+        categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //Toast.makeText(ActivityInfoActivity.this, "Selecciona una", Toast.LENGTH_SHORT).show();
+                String selectedCat = (String) categoriesSpinner.getSelectedItem();
+
+                if(i == 0) {
+                    // cuando se carga la activity/se recarga el adapter, el item en pos 0 se autoselecciona
+                    Log.i("ActivityInfo", "Seleccionado categoria actual: " + selectedCat + " en pos 0");
+                } else if (i > 0){
+                    Log.i("ActivityInfo", "Cat seleccionada: " + selectedCat);
+                    categoriesSpinner.setSelection(i);
+                    spinnerAdapter.clear();
+                    spinnerAdapter.addAll(manageSpinnerList(selectedCat));
+                    categoriesSpinner.setAdapter(spinnerAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         ImageButton backArrowButton = findViewById(R.id.backArrow);
         backArrowButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -172,5 +214,19 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
         });
 
 
+    }
+
+
+    private ArrayList<String> manageSpinnerList(String firstCategory){
+        String[] categoriesList = {"Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+        ArrayList<String> newCategories = new ArrayList<>();
+
+        newCategories.add(firstCategory);
+
+        for(String cat: categoriesList){
+            if(cat != firstCategory) newCategories.add(cat);
+        }
+
+        return newCategories;
     }
 }

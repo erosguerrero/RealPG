@@ -60,6 +60,7 @@
         android:text="@string/activityCategory"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/activityCategoryTitle"
         app:layout_constraintStart_toEndOf="@+id/activityCategoryTitle" />
 
@@ -212,4 +213,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Se usa el layout para poner el fondo blanco y que no se pierda "magicamente" la arrow del spinner -->
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/activityCategoryTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/activityCategoryTitle"
+        app:layout_constraintTop_toTopOf="@+id/activityCategoryTitle">
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
