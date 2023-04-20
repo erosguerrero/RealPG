@@ -11,6 +11,8 @@ import androidx.loader.content.Loader;
 
 import com.example.realpg.ui.main.NewPoke;
 
+import java.util.List;
+
 public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<Evolution> {
 
     private Context context;
@@ -33,11 +35,13 @@ public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<E
     public void onLoadFinished(@NonNull Loader<Evolution> loader, Evolution data) {
         Log.d("EVOLUTIONAPI", "Carga completada");
         NewPoke n = (NewPoke) context;
-        n.apiCalls(data.getIds().get(0));
+        n.apiCalls(data);
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Evolution> loader) {
 
     }
+
+
 }

@@ -9,6 +9,8 @@ import androidx.loader.content.AsyncTaskLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
     //id chain
@@ -87,12 +89,14 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
             }
 
+            evolution.getLevels().set(0,0);
             Log.d("EVOLUTIONAPI", evolution.toString());
 
         }
         catch (Exception e){
             Log.e("EVOLUTIONAPI", "Error al convertir el json: " + e.getMessage());
         }
+
 
 
         return evolution;

@@ -29,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/back"
         android:layout_width="31dp"
         android:layout_height="22dp"
         android:layout_marginStart="15dp"
@@ -87,6 +88,46 @@
         android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage2" />
+
+    <ProgressBar
+        android:id="@+id/pokeBar1"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokeImage1"
+        app:layout_constraintEnd_toEndOf="@+id/pokeImage1"
+        app:layout_constraintStart_toStartOf="@+id/pokeImage1"
+        app:layout_constraintTop_toTopOf="@+id/pokeImage1" />
+
+    <ProgressBar
+        android:id="@+id/pokeBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokeImage2"
+        app:layout_constraintEnd_toEndOf="@+id/pokeImage2"
+        app:layout_constraintStart_toStartOf="@+id/pokeImage2"
+        app:layout_constraintTop_toTopOf="@+id/pokeImage2" />
+
+    <ProgressBar
+        android:id="@+id/pokeBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokeImage3"
+        app:layout_constraintEnd_toEndOf="@+id/pokeImage3"
+        app:layout_constraintStart_toStartOf="@+id/pokeImage3"
+        app:layout_constraintTop_toTopOf="@+id/pokeImage3" />
+
+    <ProgressBar
+        android:id="@+id/pokeBar4"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokeImage4"
+        app:layout_constraintEnd_toEndOf="@+id/pokeImage4"
+        app:layout_constraintStart_toStartOf="@+id/pokeImage4"
+        app:layout_constraintTop_toTopOf="@+id/pokeImage4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

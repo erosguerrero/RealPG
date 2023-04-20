@@ -6,7 +6,7 @@ import java.util.List;
 public class Evolution {
     private Integer id;
     private List<Integer> ids;
-    private List<Integer> levels;
+    private ArrayList<Integer> levels;
     private List<String> names;
     private int current;
 
@@ -41,7 +41,7 @@ public class Evolution {
         return ids;
     }
 
-    public List<Integer> getLevels() {
+    public ArrayList<Integer> getLevels() {
         return levels;
     }
 
