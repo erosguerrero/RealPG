@@ -22,6 +22,19 @@
         app:layout_constraintWidth_percent="1"/>
 
     <ImageButton
+        android:id="@+id/pokeballButton2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="332dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_button"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/whitepokeball"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/pokeballButton"
         android:layout_width="60dp"
         android:layout_height="60dp"

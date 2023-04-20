@@ -125,6 +125,7 @@ public class Page1 extends Fragment {
         latestActCont.addView(item3);
 
         ImageButton pokeball = binding.pokeballButton;//getActivity().findViewById(R.id.pokeballButton);
+        ImageButton pokeBall2 = binding.pokeballButton2;
         /*final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -133,10 +134,15 @@ public class Page1 extends Fragment {
             }
         });*/
         pokeball.setOnClickListener(v -> {
-            Intent intent = new Intent(this.getActivity(), NewPoke.class);
+            Intent intent = new Intent(this.getActivity(), ListMyPoke.class);
             // intent.putExtra("categoryName", pe.getLabel());
             startActivity(intent);
             //hola
+        });
+
+        pokeBall2.setOnClickListener(v -> {
+            Intent intent = new Intent(this.getActivity(), NewPoke.class);
+            startActivity(intent);
         });
 
         Timer timer = new Timer();
