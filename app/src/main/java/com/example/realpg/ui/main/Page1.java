@@ -152,15 +152,19 @@ public class Page1 extends Fragment {
         ImageButton pauseButton = binding.pauseButton;
         ImageButton playButton = binding.playButton; //tmb se puede usar getActivity().findViewById como hago abajo
         ImageButton endButton = binding.endButton;
-        if(manageStopWatch == null) manageStopWatch = new ManageStopWatch();
-        timer.schedule(manageStopWatch, 1000, 1000);
+        if(manageStopWatch == null) {
+            manageStopWatch = new ManageStopWatch();
+            timer.schedule(manageStopWatch, 1000, 1000);
+        }
+
         //ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
 
 
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("Panel1", "restart activity1");
-                stopWatch.setText("00:00:00");
+                //stopWatch.setText(0);
+                setStopWatchTime(128.017);
             }
         });
 
@@ -187,6 +191,9 @@ public class Page1 extends Fragment {
                 Log.i("Panel1", "end activity1");
                 onPause = true;
                 showLatestActivities();
+                String currentTime = getStopWatchTime();
+                Log.i("Page1", "current time: " + currentTime);
+                Log.i("Page1", "minutes: " + getStopWatchTimeMinutes());
             }
         });
 
@@ -366,7 +373,7 @@ public class Page1 extends Fragment {
                 Integer hours = Integer.parseInt(parts[0]);
                 Integer mins = Integer.parseInt(parts[1]);
                 Integer secs = Integer.parseInt(parts[2]);
-                Log.i("Panel1", "Hours: " + hours + " Mins: " + mins + " Seconds: " + secs);
+                //Log.i("Panel1", "Hours: " + hours + " Mins: " + mins + " Seconds: " + secs);
 
                 secs +=1;
 
@@ -386,12 +393,53 @@ public class Page1 extends Fragment {
                     hours = 0;
                 }
 
-                Log.i("Panel1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
+                Log.i("Page1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
 
                 String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
                 stopWatch.setText(actualTime);
             }
         }
+    }
+
+    private void setStopWatchTime(double minutes){
+        TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+
+        String stringMinutes = String.valueOf(minutes);
+        //Log.i("Page1", "stringMins: " + stringMinutes);
+        String[] parts = stringMinutes.split("\\.");
+
+        double intPart = Double.parseDouble(parts[0]);
+        //int decimalPart = Integer.parseInt(parts[1]);
+        //Log.i("Page1", "decimalPart: " + decimalPart);
+        double decimals = Double.parseDouble("0." + parts[1]);
+        //Log.i("Page1", "decimals: " + decimals);
+
+        Integer hours = (int)intPart/60;
+        Integer mins = (int)intPart%60;
+        Integer secs = (int)(decimals*60);
+        //Log.i("Page1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
+
+        String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
+        stopWatch.setText(actualTime);
+    }
+
+    private String getStopWatchTime(){
+        TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+        String[] parts = stopWatch.getText().toString().split(":");
+        Integer hours = Integer.parseInt(parts[0]);
+        Integer mins = Integer.parseInt(parts[1]);
+        Integer secs = Integer.parseInt(parts[2]);
+        String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
+        return actualTime;
+    }
+
+    private double getStopWatchTimeMinutes(){
+        TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
+        String[] parts = stopWatch.getText().toString().split(":");
+        Integer hours = Integer.parseInt(parts[0]);
+        Integer mins = Integer.parseInt(parts[1]);
+        Integer secs = Integer.parseInt(parts[2]);
+        return hours*60 + mins + (double)secs/60;
     }
 
 }

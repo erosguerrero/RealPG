@@ -36,18 +36,16 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class Page3 extends Fragment implements OnChartValueSelectedListener {
-    private static Context mContext;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static PieChart pieChart;
  //   private PageViewModel pageViewModel;
     private FragmentPage3Binding binding;
 
-    public static Page3 newInstance(int index, Context context) {
+    public static Page3 newInstance(int index) {
         Page3 fragment = new Page3();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-        mContext = context;
 
         return fragment;
     }

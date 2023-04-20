@@ -40,7 +40,7 @@ import com.example.realpg.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_2, R.string.tab_text_1, R.string.tab_text_3};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -52,24 +52,21 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        if(position == 0)
+        if(position == 1)
         {
             Page1 p1 = Page1.newInstance(1);
             return p1;
         }
-        else if(position == 1)
+        else if(position == 0)
         {
             Page2 p2 = Page2.newInstance(2);
 
             return p2;
         }
-
-            //return PlaceholderFragment2.newInstance(2);
         else {
-            Page3 p = Page3.newInstance(3, mContext);
-            //p.update();
-            return Page3.newInstance(3, mContext);
-            //return PlaceholderFragment.newInstance(position + 1);
+            Page3 p3 = Page3.newInstance(3);
+
+            return p3;
         }
 
     }

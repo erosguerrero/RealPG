@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity{
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
 
-
+        TabLayout.Tab tab = tabs.getTabAt(1);
+        tab.select();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
