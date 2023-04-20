@@ -145,6 +145,11 @@ public class Page1 extends Fragment {
             startActivity(intent);
         });
 
+        pokeBall2.setOnClickListener(v -> {
+            Intent intent = new Intent(this.getActivity(), NewPoke.class);
+            startActivity(intent);
+        });
+
         Timer timer = new Timer();
         onPause = true;
         TextView stopWatch = binding.stopWatch;
