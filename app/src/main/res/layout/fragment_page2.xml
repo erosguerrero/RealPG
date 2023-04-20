@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary"
-                    android:text="Panel 1"
+                    android:text="Bienestar"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconGravity="start"
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary"
-                    android:text="Panel 2"
+                    android:text="Casa"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary"
-                    android:text="Panel 3"
+                    android:text="Deporte"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/primary"
-                    android:text="Panel 4"
+                    android:text="Estudios"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -126,7 +126,104 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone" />
+                    android:visibility="gone" >
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activatePanel5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary"
+                    android:text="Ocio"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/arrow_forward"
+                    app:iconSize="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/panel5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activatePanel6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary"
+                    android:text="Otros"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/arrow_forward"
+                    app:iconSize="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/panel6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activatePanel7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary"
+                    android:text="Proyectos"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/arrow_forward"
+                    app:iconSize="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/panel7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activatePanel8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary"
+                    android:text="Trabajo"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/arrow_forward"
+                    app:iconSize="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/panel8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/activatePanel9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary"
+                    android:text="Viajes"
+                    android:textAlignment="textStart"
+                    app:icon="@drawable/arrow_forward"
+                    app:iconSize="20dp" />
+
+                <LinearLayout
+                    android:id="@+id/panel9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
 
             </LinearLayout>
 

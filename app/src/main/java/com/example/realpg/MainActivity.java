@@ -28,9 +28,12 @@ import com.example.realpg.ui.main.SectionsPagerAdapter;
 import com.example.realpg.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
+
+    private List<ActivityBasicInfo> activitesBasicInfoList;
 
     //private PieChart pieChart;
     @Override
@@ -58,9 +61,31 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        //datos de prueba para actividades
+        activitesBasicInfoList = new ArrayList<>();
+        for(int i = 0; i < 1; i++)
+        {
+            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.CASA));
+        }
+
+        for(int i = 1; i < 3; i++)
+        {
+            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.BIENESTAR));
+        }
+
+        for(int i = 3; i < 4; i++)
+        {
+            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.ESTUDIOS));
+        }
+
         //pieChart = findViewById(R.id.activity_piechart);
         //setupPieChart();
         //loadPieChartData();
+    }
+
+
+    public List<ActivityBasicInfo> getActivitesBasicInfoList() {
+        return activitesBasicInfoList;
     }
 
 

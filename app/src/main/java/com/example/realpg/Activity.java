@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Activity {
     private int idActivity;
@@ -172,31 +173,24 @@ public class Activity {
     public JSONObject toJson()
     {
         JSONObject json = new JSONObject();
-
         try {
           //  json.put("idAct", idActivity);
             json.put("cat", category);
             json.put("name", name);
             json.put("totalMin", totalMinutes);
-
             JSONArray jsonArray = new JSONArray();
 
             for(ActivitySession as: latestSessions)
             {
                 JSONObject jsonSession = as.toJson();
-
                 jsonArray.put(jsonSession);
             }
-
             json.put("latestSessions", jsonArray);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
         return json;
-
     }
-
     /**Genera un objeto nuevo de tipo Activity a partir de los datos dados
      *
      * @param json Json con el formato y datos necesarios para construir una Actividad
@@ -270,5 +264,38 @@ public class Activity {
 
     public String getName() {
         return name;
+    }
+
+    public String getCatStr()
+    {
+        String cat = categoryToStr(category).toLowerCase();
+        cat = cat.substring(0, 1).toUpperCase() + cat.substring(1);
+        return cat;
+    }
+
+    public static String categoryToStr(Category cat) {
+
+        switch (cat) {
+            case BIENESTAR:
+                return "BIENESTAR";
+            case CASA:
+                return "CASA";
+            case DEPORTE:
+                return "DEPORTE";
+            case ESTUDIOS:
+                return "ESTUDIOS";
+            case OCIO:
+                return "OCIO";
+            case OTROS:
+                return "OTROS";
+            case PROYECTOS:
+                return "PROYECTOS";
+            case TRABAJO:
+                return "TRABAJO";
+            case VIAJES:
+                return "VIAJES";
+            default:
+                throw new IllegalArgumentException("Invalid category: " + cat);
+        }
     }
 }

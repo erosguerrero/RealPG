@@ -15,12 +15,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.realpg.ActivityBasicInfo;
 import com.example.realpg.ActivityInfoActivity;
+import com.example.realpg.Category;
 import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.MainActivity;
+import com.example.realpg.MyOnClickListenerRunAct;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage2Binding;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -64,6 +71,13 @@ public class Page2 extends Fragment {
         binding = FragmentPage2Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        setButtonsPanelsListeners();
+        for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
+            Log.i("demo","los ids son: "+ abi.getId());
+             addActivityToCatPanel(abi);
+        }
+
         /*TODO
         Al crear la vista hacer lo siguiente:
         1. coger el linearLayout de cada panel (se corresponde a una categoria)
@@ -71,11 +85,11 @@ public class Page2 extends Fragment {
         3. A cada panelItem asignarle los datos que le toquen (nombre y listeners a los botones que tenga)
          */
         //Al crear la vista coger el linear layout de
-        LinearLayout p4 =  root.findViewById(R.id.panel4);
+/*        LinearLayout p4 =  root.findViewById(R.id.panel4);
 
         if(p4 != null)
         {
-            Log.i("Page2", "view encontrada");
+            Log.i("Page2", "view encontrada");*/
            /*
            Por algun motivo el inflater no funciona al usarlo varias veces, y se debe usar getLayoutInflater
 
@@ -90,11 +104,17 @@ public class Page2 extends Fragment {
 
             p4.addView(item1);
             p4.addView(item2);*/
+/*            for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList())
+            {
+                View itemI = getLayoutInflater().inflate(R.layout.item_panel, null);
+                TextView tv1 = itemI.findViewById(R.id.itemName);
+                tv1.setText(abi.getName());
 
-            View itemI = getLayoutInflater().inflate(R.layout.item_panel, null);
-            TextView tv1 = itemI.findViewById(R.id.itemName);
-            tv1.setText("Actividad de la cat 4");
-            p4.addView(itemI);
+                itemI.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+
+                p4.addView(itemI);
+            }
+
 
         }
         else
@@ -107,6 +127,10 @@ public class Page2 extends Fragment {
         tvn.setText("Actividad 1 de la cat 1");
         p1.addView(itemIn);
 
+        List<Integer> ids = new ArrayList<>();
+        ids.add(49);
+        ids.add(7);
+
         tvn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i("Panel2", "actividad 1 cat 2");
@@ -116,7 +140,7 @@ public class Page2 extends Fragment {
             }
         });
 
-        LinearLayout p2 =  root.findViewById(R.id.panel2);
+        LinearLayout p2 =  root.findViewById(R.id.panel2);*/
         //datos de demo cat 2
         /*ConstraintLayout item2 = (ConstraintLayout) inflater.inflate(R.layout.item_panel, null, false);
         TextView tv2 = item2.findViewById(R.id.itemName);
@@ -126,7 +150,7 @@ public class Page2 extends Fragment {
         tv3.setText("Actividad 2 de la cat 2");
         p2.addView(tv2);
         p2.addView(tv3);*/
-
+/*
         View itemI2 = getLayoutInflater().inflate(R.layout.item_panel, null);
         TextView tv2 = itemI2.findViewById(R.id.itemName);
         tv2.setText("Actividad 1 de la cat 2");
@@ -156,12 +180,13 @@ public class Page2 extends Fragment {
             View itemIi = getLayoutInflater().inflate(R.layout.item_panel, null);
             TextView tvIi = itemIi.findViewById(R.id.itemName);
             tv3.setText("Actividad "+ i+" de la cat 3");
+            itemIi.setOnClickListener(new MyOnClickListenerRunAct(i, getActivity()));
             p3.addView(itemIi);
         }
 
 
         setButtonsPanelsListeners();
-
+*/
 
         /*final TextView textView = binding.sectionLabel;
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -170,6 +195,8 @@ public class Page2 extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+
         return root;
     }
 
@@ -181,7 +208,7 @@ public class Page2 extends Fragment {
             public void onClick(View v) {
                 //HideAllPanels();
                 MaterialButton b = (MaterialButton) binding.activatePanel1;
-
+                Log.i("demo", "pulsado el 1");
                 if(!binding.panel1.isShown())
                 {
                     binding.panel1.setVisibility(View.VISIBLE);
@@ -252,6 +279,95 @@ public class Page2 extends Fragment {
             }
         });
 
+        binding.activatePanel5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //HideAllPanels();
+                MaterialButton b = (MaterialButton) binding.activatePanel5;
+
+                if(!binding.panel5.isShown()) {
+                    binding.panel5.setVisibility(View.VISIBLE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
+                }
+                else{
+                    binding.panel5.setVisibility(View.GONE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_forward));
+                }
+
+            }
+        });
+
+        binding.activatePanel6.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //HideAllPanels();
+                MaterialButton b = (MaterialButton) binding.activatePanel6;
+
+                if(!binding.panel6.isShown()) {
+                    binding.panel6.setVisibility(View.VISIBLE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
+                }
+                else{
+                    binding.panel6.setVisibility(View.GONE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_forward));
+                }
+
+            }
+        });
+
+        binding.activatePanel7.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //HideAllPanels();
+                MaterialButton b = (MaterialButton) binding.activatePanel7;
+
+                if(!binding.panel7.isShown()) {
+                    binding.panel7.setVisibility(View.VISIBLE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
+                }
+                else{
+                    binding.panel7.setVisibility(View.GONE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_forward));
+                }
+
+            }
+        });
+
+        binding.activatePanel8.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //HideAllPanels();
+                MaterialButton b = (MaterialButton) binding.activatePanel8;
+
+                if(!binding.panel8.isShown()) {
+                    binding.panel8.setVisibility(View.VISIBLE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
+                }
+                else{
+                    binding.panel8.setVisibility(View.GONE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_forward));
+                }
+
+            }
+        });
+
+        binding.activatePanel9.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //HideAllPanels();
+                MaterialButton b = (MaterialButton) binding.activatePanel9;
+
+                if(!binding.panel9.isShown()) {
+                    binding.panel9.setVisibility(View.VISIBLE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
+                }
+                else{
+                    binding.panel9.setVisibility(View.GONE);
+                    b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_forward));
+                }
+
+            }
+        });
+
+
+
+
+
     }
 
     private void HideAllPanels()
@@ -270,5 +386,57 @@ public class Page2 extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    private void addActivityToCatPanel(ActivityBasicInfo abi)
+    {
+
+        View item = getLayoutInflater().inflate(R.layout.item_panel, null);
+        TextView tv = item.findViewById(R.id.itemName);
+        tv.setText(abi.getName());
+        Log.i("demo", "id en al add " + abi.getId());
+        item.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+
+        switch (abi.getCat()) {
+            case BIENESTAR:{
+                LinearLayout p1 =  binding.panel1;//bind.findViewById(R.id.panel1);
+                p1.addView(item);
+                break;}
+            case CASA:
+                LinearLayout p2 =  binding.panel2;//bind.findViewById(R.id.panel1);
+                p2.addView(item);
+                break;
+            case DEPORTE:
+                LinearLayout p3 =  binding.panel3;//bind.findViewById(R.id.panel1);
+                p3.addView(item);
+                break;
+            case ESTUDIOS:
+                LinearLayout p4 =  binding.panel4;//bind.findViewById(R.id.panel1);
+                p4.addView(item);
+                break;
+            case OCIO:
+                LinearLayout p5 =  binding.panel5;//bind.findViewById(R.id.panel1);
+                p5.addView(item);
+                break;
+            case OTROS:
+                LinearLayout p6 =  binding.panel6;//bind.findViewById(R.id.panel1);
+                p6.addView(item);
+                break;
+            case PROYECTOS:
+                LinearLayout p7 =  binding.panel7;//bind.findViewById(R.id.panel1);
+                p7.addView(item);
+                break;
+            case TRABAJO:
+                LinearLayout p8 =  binding.panel8;//bind.findViewById(R.id.panel1);
+                p8.addView(item);
+                break;
+            case VIAJES:
+                LinearLayout p9 =  binding.panel9;//bind.findViewById(R.id.panel1);
+                p9.addView(item);
+                break;
+            default:
+                // Default secuencia de sentencias.
+        }
     }
 }

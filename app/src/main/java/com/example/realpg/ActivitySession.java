@@ -75,15 +75,12 @@ public class ActivitySession {
         /*json.append("date", getDateStr());
         json.append("minutes", minutes);/*
          */
-
         try {
             json.put("date", getDateStr());
             json.put("minutes", minutes);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
-
         return json;
     }
 
@@ -92,7 +89,6 @@ public class ActivitySession {
         try {
             String dateStr = json.getString("date");
             int minutes = json.getInt("minutes");
-
             return new ActivitySession(dateStr,minutes);
 
         } catch (JSONException e) {
