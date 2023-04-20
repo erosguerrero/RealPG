@@ -11,7 +11,9 @@ import com.bumptech.glide.Glide;
 import com.example.realpg.EvolutionLoaderCallbacks;
 import com.example.realpg.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class NewPoke extends AppCompatActivity {
@@ -22,18 +24,15 @@ public class NewPoke extends AppCompatActivity {
 
     private int times;
     private Random random;
-    private HashMap<String, Integer> images;
+    private int[] images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poke);
 
-        images = new HashMap<>();
-        images.put("pokeImage1", R.id.pokeImage1);
-        images.put("pokeImage2", R.id.pokeImage2);
-        images.put("pokeImage3", R.id.pokeImage3);
-        images.put("pokeImage4", R.id.pokeImage4);
+        images = new int[]{R.id.pokeImage1, R.id.pokeImage2, R.id.pokeImage3, R.id.pokeImage4};
+
 
         random = new Random();
         times = 0;
@@ -58,20 +57,18 @@ public class NewPoke extends AppCompatActivity {
 
     }
 
+    private void loadImage(Integer id){
+        ImageView imageView = findViewById(images[times - 1]);
+        Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png").into(imageView);
+    }
+
     public void apiCalls(Integer id){
 
-
-
-        if (times > 0){
-
-            ImageView imageView = findViewById(images.get("pokeImage" + times));
-            Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png").into(imageView);
-
-        }
-
+        if (times > 0) loadImage(id);
 
         if (times < MAX_POKES)
-            apiCall(Math.abs(random.nextInt() % 120));
+            apiCall(Math.abs(random.nextInt() % 530));
+
         times++;
     }
 }

@@ -133,7 +133,7 @@ public class Page1 extends Fragment {
             }
         });*/
         pokeball.setOnClickListener(v -> {
-            Intent intent = new Intent(this.getActivity(), ListMyPoke.class);
+            Intent intent = new Intent(this.getActivity(), NewPoke.class);
             // intent.putExtra("categoryName", pe.getLabel());
             startActivity(intent);
             //hola
