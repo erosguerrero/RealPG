@@ -202,7 +202,7 @@ public class Activity {
         try {
             int totalMin = json.getInt("totalMin");
             String name = json.getString("name");
-            Category cat = Activity.StrToCategory(json.getString("cat"));
+            Category cat = Activity.strToCategory(json.getString("cat"));
             JSONArray jsonArray = json.getJSONArray("latestSessions");
 
             List<ActivitySession> actSesList = new ArrayList<>();
@@ -223,8 +223,9 @@ public class Activity {
 
     }
 
-    public static Category StrToCategory(String catStr) {
+    public static Category strToCategory(String catStr) {
 
+        catStr = catStr.toUpperCase();
         switch (catStr) {
             case "BIENESTAR":
                     return Category.BIENESTAR;
@@ -260,6 +261,10 @@ public class Activity {
 
     public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(String category) {
+        this.category =  strToCategory(category);
     }
 
     public String getName() {

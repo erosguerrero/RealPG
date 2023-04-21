@@ -1,13 +1,20 @@
 package com.example.realpg.ui.main;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.realpg.Activity;
 import com.example.realpg.ActivityBasicInfo;
 import com.example.realpg.ActivityInfoActivity;
 import com.example.realpg.Category;
@@ -29,6 +37,9 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
+import android.widget.Toast;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -38,6 +49,12 @@ public class Page2 extends Fragment {
 
  //   private PageViewModel pageViewModel;
     private FragmentPage2Binding binding;
+
+    protected ArrayAdapter<String> spinnerAdapter;
+    protected ArrayList<String> categories;
+
+    String catToCreate = "Bienestar";
+   // protected Spinner categoriesSpinner;
 
     public void changeShow2(){
         Log.i("MainActivity","pulsado");
@@ -195,6 +212,84 @@ public class Page2 extends Fragment {
                 textView.setText(s);
             }
         });*/
+
+
+        //categoriesSpinner = binding.
+        String currentCategory = "Bienestar";
+
+        categories = manageSpinnerList(currentCategory);
+        //adapter=new SpinnerAdapter(getApplicationContext());
+        spinnerAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories);
+
+
+        binding.addActivityButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i("demo", "boton add activity pulsado");
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.row_spinner);
+                dialog.setCancelable(true);
+
+                final Spinner spinner = (Spinner) dialog.findViewById(R.id.spinnerDialog);
+                final EditText edittext = (EditText) dialog.findViewById(R.id.editText1);
+                Button button = (Button) dialog.findViewById(R.id.button1);
+
+                spinner.setAdapter(spinnerAdapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        //Toast.makeText(ActivityInfoActivity.this, "Selecciona una", Toast.LENGTH_SHORT).show();
+                        String selectedCat = (String) spinner.getSelectedItem();
+
+                        if(i == 0) {
+                            // cuando se carga la activity/se recarga el adapter, el item en pos 0 se autoselecciona
+                            Log.i("ActivityInfo", "Seleccionado categoria actual: " + selectedCat + " en pos 0");
+                        } else if (i > 0){
+
+                            Log.i("ActivityInfo", "Cat seleccionada: " + selectedCat);
+                            spinner.setSelection(i);
+                            spinnerAdapter.clear();
+                            spinnerAdapter.addAll(manageSpinnerList(selectedCat));
+                            spinner.setAdapter(spinnerAdapter);
+                            catToCreate = selectedCat;
+                            //ac.setCategory(selectedCat);
+
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        if(edittext.getText().toString().equals(""))
+                            Toast.makeText(getActivity(), "Debes indicar un nombre para la nueva Actividad", Toast.LENGTH_LONG).show();
+                        else {
+                            dialog.dismiss();
+
+                            Toast.makeText(getActivity(), "Actividad creada con exito", Toast.LENGTH_LONG).show();
+
+                            //TODO, ver que id toca poner e incrementarlo para el siguinte (lectura y escritura dle fihero)
+                            ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), -1, Activity.strToCategory(catToCreate));
+                            addActivityToCatPanel(ab);
+                            ((MainActivity)getActivity()).addActBasInf(ab);
+                            //TODO guardar la info de la nueva actividad en la lista de actividades
+                        }
+                       }
+                });
+
+                dialog.show();
+
+            }
+        });
 
 
         return root;
@@ -438,5 +533,18 @@ public class Page2 extends Fragment {
             default:
                 // Default secuencia de sentencias.
         }
+    }
+
+    private ArrayList<String> manageSpinnerList(String firstCategory){
+        String[] categoriesList = {"Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+        ArrayList<String> newCategories = new ArrayList<>();
+
+        newCategories.add(firstCategory);
+
+        for(String cat: categoriesList){
+            if(cat != firstCategory) newCategories.add(cat);
+        }
+
+        return newCategories;
     }
 }

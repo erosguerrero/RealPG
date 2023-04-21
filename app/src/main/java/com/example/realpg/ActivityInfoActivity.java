@@ -26,6 +26,8 @@ public class ActivityInfoActivity extends AppCompatActivity {
     protected String currentCategory;
     protected Spinner categoriesSpinner;
 
+    Activity ac;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +115,7 @@ public class ActivityInfoActivity extends AppCompatActivity {
 
             Log.i("demo", "Josn cogido: "+jsonAct.toString());
 
-            Activity ac = Activity.createActivityFromJson(jsonAct, idActivity);
+            ac = Activity.createActivityFromJson(jsonAct, idActivity);
 
             TextView headerTitle = findViewById(R.id.activityName);
             headerTitle.setText(ac.getName());
@@ -230,11 +232,15 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
                         // cuando se carga la activity/se recarga el adapter, el item en pos 0 se autoselecciona
                         Log.i("ActivityInfo", "Seleccionado categoria actual: " + selectedCat + " en pos 0");
                     } else if (i > 0){
+
                         Log.i("ActivityInfo", "Cat seleccionada: " + selectedCat);
                         categoriesSpinner.setSelection(i);
                         spinnerAdapter.clear();
                         spinnerAdapter.addAll(manageSpinnerList(selectedCat));
                         categoriesSpinner.setAdapter(spinnerAdapter);
+
+                        ac.setCategory(selectedCat);
+                        //TODO sobreescribir en el fichero esta Actividad
                     }
                 }
 
@@ -256,6 +262,9 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Log.i("ActivityInfo", "Borrando actividad");
+                    //TODO leer json completo de actividades y hacer remove(ac.getId())
+                    //volver a MainActivity
+
 
                 }
             });

@@ -88,6 +88,11 @@ public class MainActivity extends AppCompatActivity{
         return activitesBasicInfoList;
     }
 
+    public void addActBasInf(ActivityBasicInfo ab)
+    {
+        activitesBasicInfoList.add(ab);
+    }
+
 
 
 
