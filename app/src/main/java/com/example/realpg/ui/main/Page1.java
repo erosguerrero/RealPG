@@ -56,7 +56,7 @@ import static android.view.View.VISIBLE;
 public class Page1 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private double LevelXP = 0;
+
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
 
@@ -74,8 +74,8 @@ public class Page1 extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
-    private JSONObject json;
+    private DataManager DM;
+    private JSONObject jsonPokemon, jsonExtra;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +85,9 @@ public class Page1 extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
       //  pageViewModel.setIndex(index);
+        this.DM = new DataManager(getActivity());
+        jsonPokemon = DM.load("pokemon.json");
+        jsonExtra = DM.load("extra.json");
     }
 
     @Override
@@ -95,37 +98,13 @@ public class Page1 extends Fragment {
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //JSON
-        json = new JSONObject();
-        try {
-            json.put("Length", 10);
-            JSONObject last3json = new JSONObject();
-            JSONObject oneof3json = new JSONObject();
-            oneof3json.put("ID", 9);
-            oneof3json.put("nombre", "Testeoo");
-            last3json.put("1",oneof3json);             last3json.put("2",oneof3json);
-            last3json.put("3",oneof3json);
-            json.put("Last3", last3json);
 
-            JSONObject pokechosen = new JSONObject();
-            pokechosen.put("IDEvolucion", 9);
-            pokechosen.put("IDPokemon", 9);
-            json.put("PokeChosen",pokechosen);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        DataManager DM = new DataManager(getActivity());
-        DM.save( "extra.json",json);
-        json = DM.load("extra.json");
 
-        this.LevelXP = 3;//json.getDouble("exp");
-
-        //XP BAR
-        changeLvl(root,this.LevelXP);
 
         //LATEST ACTIVITIES
+        //TODO Controlar falta de extra.json
         try {
-            JSONObject last3json = json.getJSONObject("Last3");
+            JSONObject last3json = jsonExtra.getJSONObject("Last3");
             LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
             //TODO ¿Que hago con la ID  de la tarea?
             View item1 = getLayoutInflater().inflate(R.layout.item_panel, null);
@@ -164,6 +143,7 @@ public class Page1 extends Fragment {
                 textView.setText(s);
             }
         });*/
+
         pokeball.setOnClickListener(v -> {
             Intent intent = new Intent(this.getActivity(), ListMyPoke.class);
             // intent.putExtra("categoryName", pe.getLabel());
@@ -244,18 +224,30 @@ public class Page1 extends Fragment {
 
         // Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png").into(demo);
         int idSelected = -1;
-        if(json != null){
+        int idEvoSelected = -1;
             try {
-                idSelected = json.getJSONObject("PokeChosen").getInt("IDPokemon");
+                JSONObject jsonSelected = jsonExtra.getJSONObject("PokeChosen");
+                if(jsonSelected != null){
+                    idSelected = jsonSelected.getInt("IDPokemon");
+                    idEvoSelected = jsonSelected.getInt("IDEvolucion");
+                }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-        }
     //getActivity().getIntent().getIntExtra("idPokeSelected", -1);
-        if(idSelected != -1)//nunca habia seleccionado un pokemon si es == -1
+        if(idSelected != -1 && idEvoSelected != -1) //-1 == NEW USER
         {
             ImageView demo = binding.selectedPokemonImage;
             Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+idSelected+".png").into(demo);
+
+            try {
+                JSONObject pokemonData = jsonPokemon.getJSONObject(String.valueOf(idEvoSelected));
+
+            } catch (JSONException e) {
+                //throw new RuntimeException(e);
+            }
+
+            changeLvl(root,3.2);
         }
 
 
