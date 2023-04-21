@@ -94,7 +94,14 @@ public class Page1 extends Fragment {
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        save(contexto);
+        //JSON
+        JSONObject json = new JSONObject();
+        try {
+            json.put("exp", 4.2);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        save(contexto, json);
         load(contexto);
         //XP BAR
         changeLvl(root,this.LevelXP);
@@ -235,15 +242,13 @@ public class Page1 extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    public void save(Context context) {
-        String text = "2.2";
+    public void save(Context context, JSONObject json) {
         FileOutputStream fos = null;
 
         try {
             fos = context.openFileOutput(FILE_NAME, MODE_PRIVATE);
-            fos.write(text.getBytes());
-
-            //Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
+            fos.write(json.toString().getBytes());
+            Log.d("ARCHIVO CREADO","Saved to " + context.getFilesDir());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -274,7 +279,14 @@ public class Page1 extends Fragment {
                 sb.append(text).append("\n");
             }
 
-            this.LevelXP = Double.valueOf(sb.toString());
+            try {
+                JSONObject json = new JSONObject(sb.toString());
+                this.LevelXP = json.getDouble("exp");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
