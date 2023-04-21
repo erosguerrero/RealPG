@@ -55,7 +55,6 @@ import static android.view.View.VISIBLE;
 public class Page1 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String FILE_NAME = "example.txt";
     private double LevelXP = 0;
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
@@ -69,11 +68,10 @@ public class Page1 extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-    private Context contexto;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        contexto = context;
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,12 +95,17 @@ public class Page1 extends Fragment {
         //JSON
         JSONObject json = new JSONObject();
         try {
-            json.put("exp", 4.2);
+            json.put("exp", 5.9);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        save(contexto, json);
-        load(contexto);
+        save( "pokemon.json",json,getActivity());
+        json = load("pokemon.json",getActivity());
+        try {
+            this.LevelXP = json.getDouble("exp");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         //XP BAR
         changeLvl(root,this.LevelXP);
 
@@ -242,11 +245,11 @@ public class Page1 extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    public void save(Context context, JSONObject json) {
+    public void save(String filename, JSONObject json, Context context ) {
         FileOutputStream fos = null;
 
         try {
-            fos = context.openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos = context.openFileOutput(filename, MODE_PRIVATE);
             fos.write(json.toString().getBytes());
             Log.d("ARCHIVO CREADO","Saved to " + context.getFilesDir());
 
@@ -265,11 +268,11 @@ public class Page1 extends Fragment {
         }
     }
 
-    public void load(Context context) {
+    public JSONObject load(String filename, Context context) {
         FileInputStream fis = null;
-
+        JSONObject json = null;
         try {
-            fis = context.openFileInput(FILE_NAME);
+            fis = context.openFileInput(filename);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -280,8 +283,7 @@ public class Page1 extends Fragment {
             }
 
             try {
-                JSONObject json = new JSONObject(sb.toString());
-                this.LevelXP = json.getDouble("exp");
+                json = new JSONObject(sb.toString());
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
@@ -300,6 +302,8 @@ public class Page1 extends Fragment {
                     e.printStackTrace();
                 }
             }
+
+            return json;
         }
     }
     private void changeLvl(View root, double lvl){
