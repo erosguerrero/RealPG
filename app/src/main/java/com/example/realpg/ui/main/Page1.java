@@ -95,44 +95,61 @@ public class Page1 extends Fragment {
         //JSON
         JSONObject json = new JSONObject();
         try {
-            json.put("exp", 5.9);
+            json.put("Length", 10);
+            JSONObject last3json = new JSONObject();
+            JSONObject oneof3json = new JSONObject();
+            oneof3json.put("ID", 9);
+            oneof3json.put("nombre", "Testeo");
+            last3json.put("1",oneof3json);             last3json.put("2",oneof3json);
+            last3json.put("3",oneof3json);
+            json.put("Last3", last3json);
+
+            JSONObject pokechosen = new JSONObject();
+            pokechosen.put("IDEvolucion", 9);
+            pokechosen.put("IDPokemon", 9);
+            json.put("PokeChosen",pokechosen);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        save( "pokemon.json",json,getActivity());
-        json = load("pokemon.json",getActivity());
-        try {
-            this.LevelXP = json.getDouble("exp");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        save( "extra.json",json,getActivity());
+        json = load("extra.json",getActivity());
+
+        this.LevelXP = 3;//json.getDouble("exp");
+
         //XP BAR
         changeLvl(root,this.LevelXP);
 
-        LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
+        //LATEST ACTIVITIES
+        try {
+            JSONObject last3json = json.getJSONObject("Last3");
+            LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
+            //TODO ¿Que hago con la ID  de la tarea?
+            View item1 = getLayoutInflater().inflate(R.layout.item_panel, null);
+            TextView tv1 = item1.findViewById(R.id.itemName);
+            tv1.setText(last3json.getJSONObject("1").getString("nombre"));
+            ImageButton startActivityButton = item1.findViewById(R.id.startActivityButton);
+            startActivityButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.i("Panel1", "start activity1");
+                    showTimeWatch();
+                    onPause = false;
+                }
+            });
+            latestActCont.addView(item1);
 
-        View item1 = getLayoutInflater().inflate(R.layout.item_panel, null);
-        TextView tv1 = item1.findViewById(R.id.itemName);
-        tv1.setText("Actividad mas usada");
-        ImageButton startActivityButton = item1.findViewById(R.id.startActivityButton);
-        startActivityButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i("Panel1", "start activity1");
-                showTimeWatch();
-                onPause = false;
-            }
-        });
-        latestActCont.addView(item1);
+            View item2 = getLayoutInflater().inflate(R.layout.item_panel, null);
+            TextView t2 = item2.findViewById(R.id.itemName);
+            t2.setText(last3json.getJSONObject("2").getString("nombre"));
+            latestActCont.addView(item2);
 
-        View item2 = getLayoutInflater().inflate(R.layout.item_panel, null);
-        TextView t2 = item2.findViewById(R.id.itemName);
-        t2.setText("Segunda actividad mas usada");
-        latestActCont.addView(item2);
+            View item3 = getLayoutInflater().inflate(R.layout.item_panel, null);
+            TextView tv3 = item3.findViewById(R.id.itemName);
+            tv3.setText(last3json.getJSONObject("3").getString("nombre"));
+            latestActCont.addView(item3);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
-        View item3 = getLayoutInflater().inflate(R.layout.item_panel, null);
-        TextView tv3 = item3.findViewById(R.id.itemName);
-        tv3.setText("Tercera actividad mas usada con un texto mas largo");
-        latestActCont.addView(item3);
 
         ImageButton pokeball = binding.pokeballButton;//getActivity().findViewById(R.id.pokeballButton);
         ImageButton pokeBall2 = binding.pokeballButton2;
