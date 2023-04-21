@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.DataManager;
 import com.example.realpg.MainActivity;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
@@ -73,6 +74,8 @@ public class Page1 extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
+    private JSONObject json;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,13 +96,13 @@ public class Page1 extends Fragment {
         View root = binding.getRoot();
 
         //JSON
-        JSONObject json = new JSONObject();
+        json = new JSONObject();
         try {
             json.put("Length", 10);
             JSONObject last3json = new JSONObject();
             JSONObject oneof3json = new JSONObject();
             oneof3json.put("ID", 9);
-            oneof3json.put("nombre", "Testeo");
+            oneof3json.put("nombre", "Testeoo");
             last3json.put("1",oneof3json);             last3json.put("2",oneof3json);
             last3json.put("3",oneof3json);
             json.put("Last3", last3json);
@@ -111,8 +114,9 @@ public class Page1 extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        save( "extra.json",json,getActivity());
-        json = load("extra.json",getActivity());
+        DataManager DM = new DataManager(getActivity());
+        DM.save( "extra.json",json);
+        json = DM.load("extra.json");
 
         this.LevelXP = 3;//json.getDouble("exp");
 
@@ -239,7 +243,15 @@ public class Page1 extends Fragment {
         //new DownloadImageTask(demo).execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png");
 
         // Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png").into(demo);
-        int idSelected = getActivity().getIntent().getIntExtra("idPokeSelected", -1);
+        int idSelected = -1;
+        if(json != null){
+            try {
+                idSelected = json.getJSONObject("PokeChosen").getInt("IDPokemon");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    //getActivity().getIntent().getIntExtra("idPokeSelected", -1);
         if(idSelected != -1)//nunca habia seleccionado un pokemon si es == -1
         {
             ImageView demo = binding.selectedPokemonImage;
@@ -262,67 +274,7 @@ public class Page1 extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    public void save(String filename, JSONObject json, Context context ) {
-        FileOutputStream fos = null;
 
-        try {
-            fos = context.openFileOutput(filename, MODE_PRIVATE);
-            fos.write(json.toString().getBytes());
-            Log.d("ARCHIVO CREADO","Saved to " + context.getFilesDir());
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public JSONObject load(String filename, Context context) {
-        FileInputStream fis = null;
-        JSONObject json = null;
-        try {
-            fis = context.openFileInput(filename);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
-
-            while ((text = br.readLine()) != null) {
-                sb.append(text).append("\n");
-            }
-
-            try {
-                json = new JSONObject(sb.toString());
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return json;
-        }
-    }
     private void changeLvl(View root, double lvl){
         ProgressBar xpBar = root.findViewById(R.id.selectedPokemonLevel);
         TextView expLabel = root.findViewById(R.id.xpLabel);
