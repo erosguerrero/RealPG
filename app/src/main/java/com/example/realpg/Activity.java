@@ -36,6 +36,17 @@ public class Activity {
          totalMinutes = 0;
      }
 
+     public Activity(int id, String name, String cat)
+     {
+         this.idActivity = id;
+         this.name = name;
+         category = Activity.strToCategory(cat);
+
+         totalMinutes = 0;
+         latestSessions = new ArrayList<>();
+
+     }
+
      public Activity(int id, int totalMinutes, List<ActivitySession> actSesList, String name, Category cat){
         idActivity = id;
         this.totalMinutes = totalMinutes;
@@ -269,6 +280,10 @@ public class Activity {
 
     public String getName() {
         return name;
+    }
+
+    public int getIdActivity() {
+        return idActivity;
     }
 
     public String getCatStr()

@@ -27,6 +27,7 @@ import com.example.realpg.ActivityBasicInfo;
 import com.example.realpg.ActivityInfoActivity;
 import com.example.realpg.Category;
 import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.DataManager;
 import com.example.realpg.MainActivity;
 import com.example.realpg.MyOnClickListenerRunAct;
 import com.example.realpg.R;
@@ -39,6 +40,9 @@ import java.util.List;
 
 import android.app.Dialog;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -90,10 +94,10 @@ public class Page2 extends Fragment {
 
 
         setButtonsPanelsListeners();
-      /*  for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
+        for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
             Log.i("demo","los ids son: "+ abi.getId());
              addActivityToCatPanel(abi);
-        }*/
+        }
 
         /*TODO
         Al crear la vista hacer lo siguiente:
@@ -275,13 +279,36 @@ public class Page2 extends Fragment {
                         else {
                             dialog.dismiss();
 
+                            DataManager dm = new DataManager(getActivity());
+                            JSONObject jsonExtra = dm.load(DataManager.EXTRA_FILE_NAME);
+                            int newId;
+                            try {
+                                //lee la nueva id a asignar e incrementa el contador de ids
+                                newId = jsonExtra.getInt("Length");
+                                jsonExtra.put("Length", newId+1);
+                                dm.save(DataManager.EXTRA_FILE_NAME, jsonExtra);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+
                             Toast.makeText(getActivity(), "Actividad creada con exito", Toast.LENGTH_LONG).show();
 
                             //TODO, ver que id toca poner e incrementarlo para el siguinte (lectura y escritura dle fihero)
-                            ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), -1, Activity.strToCategory(catToCreate));
+                            ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), newId, Activity.strToCategory(catToCreate));
                             addActivityToCatPanel(ab);
                             ((MainActivity)getActivity()).addActBasInf(ab);
+
+                            Activity a = new Activity(newId,edittext.getText().toString(), catToCreate);
+
+
                             //TODO guardar la info de la nueva actividad en la lista de actividades
+                            JSONObject jsonAct = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+                            try {
+                                jsonAct.put(a.getIdActivity()+"", a.toJson());
+                                dm.save(DataManager.ACTIVITIES_FILE_NAME, jsonAct);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                        }
                 });

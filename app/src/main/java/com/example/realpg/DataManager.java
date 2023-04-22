@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,11 +19,70 @@ import java.io.InputStreamReader;
 public class DataManager {
     Context context = null;
 
-    public static String ACTIVITIES_FILE_NAME = "Activities";
+    public static String ACTIVITIES_FILE_NAME = "activities.json";
+
+
+    public static String POKEMON_FILE_NAME = "pokemon.json";
+
+    public static String EXTRA_FILE_NAME = "extra.json";
+
+
 
     public DataManager(Context context) {
         this.context = context;
     }
+
+    /**
+     * Inicializa los ficheros de datos en caso de que no existieran
+     * @param c
+     * @return Devuelve true si se hizo la inicializacion (no existian los ficheros) o false si no hizo nada (los ficheros existian)
+     */
+    public static boolean initFiles(Context c)
+    {
+        DataManager dm = new DataManager(c);
+        JSONObject emptyJson = new JSONObject();
+        //comprueba que exista un fichero cualquiera de datos
+
+        boolean nuevo = false;
+        JSONObject json = dm.load(ACTIVITIES_FILE_NAME);
+        if(json == null) {
+            dm.save(ACTIVITIES_FILE_NAME, emptyJson);
+            nuevo = true;
+        }
+
+        json = dm.load(POKEMON_FILE_NAME);
+        if(json == null) {
+            dm.save(POKEMON_FILE_NAME, emptyJson);
+            nuevo = true;
+        }
+
+        json = dm.load(EXTRA_FILE_NAME);
+        if(json == null) {
+            nuevo = true;
+
+            JSONObject jsonExtra = new JSONObject();
+            try {
+                jsonExtra.put("Last3", new JSONArray());
+
+                //TODO por ahora puesto valor 10. En un futuro poner -1 o directamente se creara
+                //desde MainActivity un nuevo pokemon inicial, escribiendo el valor que toque
+                jsonExtra.put("PokeChosen",-1);
+
+
+                jsonExtra.put("Length",0);
+                jsonExtra.put("Coins", 0);
+                dm.save(EXTRA_FILE_NAME, jsonExtra);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
+        return nuevo;
+    }
+
+
 
     public void save(String filename, JSONObject json) {
         FileOutputStream fos = null;
@@ -86,8 +146,64 @@ public class DataManager {
         }
     }
 
+    /*Aux: Formato de los archivos
+
+    jsonExtra:
+    {"Last3":[], "PokeChosen":5, "Coins": 16, "Length":0}
+
+    activities.json:
+    {
+        "0": {
+            "cat": "CASA",
+            "name": "Actividad 0",
+            "totalMin": 50,
+            "latestSessions": [{
+                "date": "2023-04-04",
+                "minutes": 20
+            }, {
+                "date": "2023-04-17",
+                "minutes": 15
+            }]
+        },
+        "1": {
+            "cat": "VIAJES",
+            "name": "Actividad 1",
+            "totalMin": 60,
+            "latestSessions": [{
+                "date": "2023-04-04",
+                "minutes": 20
+            }, {
+                "date": "2023-04-17",
+                "minutes": 15
+            }]
+        }
+    }
+
+
+    pokemon.json:
+    {
+	"7": {
+		"level": "14,7",
+		"names": ["pichu", "pikachu", "raichu"],
+		"ids": [14, 15, 16],
+		"levels": [12, 25]
+	},
+	"352": {
+		"level": "22,3",
+		"names": ["chimchar", "monferno", "infernape"],
+		"ids": [502, 503, 504],
+		"levels": [16, 35]
+	}
+}
+
+
+
+
+     */
+
     public void demoExtraJson(){
-        JSONObject extraJson = new JSONObject();
+        //TODO comentado por nuevo sistema de deteccion de ficheros vacios
+      /*  JSONObject extraJson = new JSONObject();
         try {
             extraJson.put("Length", 10);
             extraJson.put("Coins", 10);
@@ -103,7 +219,7 @@ public class DataManager {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        this.save( "extra.json",extraJson);
+        this.save( "extra.json",extraJson);*/
     }
 
     public void demoPokemonJson(){

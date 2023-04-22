@@ -88,6 +88,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectedPokemonLevel" />
 
+    <TextView
+        android:id="@+id/noLatestText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="No hay activiades recientes.\nCuando realices alguna actividad aparecera aqui"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/LatestActivitiesContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recentActividadesLabel" />
+
     <LinearLayout
         android:id="@+id/LatestActivitiesContainer"
         android:layout_width="0dp"
@@ -100,7 +116,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recentActividadesLabel"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/recentActividadesLabel">
+
+    </LinearLayout>
 
     <View
         android:id="@+id/activityInProgressHeader"

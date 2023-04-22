@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.realpg.Activity;
 import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.DataManager;
 import com.example.realpg.Evolution;
@@ -30,6 +31,7 @@ import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -172,13 +174,15 @@ public class Page1 extends Fragment {
 
         //TODO DEMO BORRAR
         DM.demoPokemonJson();
-        DM.demoExtraJson();
+       // DM.demoExtraJson();//comentado porque ya se genera vacio y no necesario para datos de prueba
         //FIN DEMO
 
         //LATEST ACTIVITIES
         //TODO Controlar falta de extra.json
+        //TODO creo que ya esta hecho
 
-        try {
+        updateLatestActivitiesPanel();
+   /*     try {
             JSONObject last3json = jsonExtra.getJSONObject("Last3");
             LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
             //TODO ¿Que hago con la ID  de la tarea?
@@ -210,7 +214,7 @@ public class Page1 extends Fragment {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
+*/
 
         ImageButton pokeball = binding.pokeballButton;//getActivity().findViewById(R.id.pokeballButton);
         ImageButton pokeBall2 = binding.pokeballButton2;
@@ -354,6 +358,52 @@ public class Page1 extends Fragment {
             }
         });*/
         return root;
+    }
+
+
+    //TODO: actualizar lista de recientes dinamicamente
+    public void updateLatestActivitiesPanel()
+    {
+        //TODO crear nueva clase listener para el comienzo de actividades y ponerselo a estas
+        JSONObject jsonExtra = DM.load(DataManager.EXTRA_FILE_NAME);
+
+        //JSONObject last3json = jsonExtra.getJSONObject("Last3");
+        try {
+            JSONArray last3 = jsonExtra.getJSONArray("Last3");
+
+            //  last3.put(1);
+            //  last3.put(2);
+            LinearLayout latestActCont = binding.LatestActivitiesContainer;
+            if(last3.length() ==0)
+                binding.noLatestText.setVisibility(VISIBLE);
+            else
+                binding.noLatestText.setVisibility(View.GONE);
+
+            for(int i = 0; i < last3.length(); i++)
+            {
+                View item = getLayoutInflater().inflate(R.layout.item_panel, null);
+                TextView tv = item.findViewById(R.id.itemName);
+                //dado el id guardado, leemos el archivo de actividades y cogemos la actividad con ese id
+                int idAct = last3.getInt(i);
+                JSONObject jsonActivities = DM.load(DataManager.ACTIVITIES_FILE_NAME);
+
+                Activity ac = Activity.createActivityFromJson(jsonActivities.getJSONObject(idAct+""), idAct);
+                tv.setText(ac.getName());
+                ImageButton startActivityButton = item.findViewById(R.id.startActivityButton);
+                startActivityButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.i("Panel1", "start activity1");
+                        showTimeWatch();
+                        onPause = false;
+                    }
+                });
+
+                latestActCont.addView(item);
+            }
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
