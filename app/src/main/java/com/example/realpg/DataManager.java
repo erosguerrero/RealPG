@@ -90,6 +90,7 @@ public class DataManager {
         JSONObject extraJson = new JSONObject();
         try {
             extraJson.put("Length", 10);
+            extraJson.put("Coins", 10);
             JSONObject last3json = new JSONObject();
             JSONObject oneof3json = new JSONObject();
             oneof3json.put("ID", 9);
