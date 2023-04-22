@@ -27,8 +27,9 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/entry_rectangle"
-                app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/top1rectangle" />
 
             <View
@@ -36,8 +37,9 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/entry_rectangle"
-                app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/top2rectangle" />
 
             <com.github.mikephil.charting.charts.PieChart
@@ -76,8 +78,9 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/entry_rectangle"
-                app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
             <TextView
