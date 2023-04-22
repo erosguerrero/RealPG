@@ -27,6 +27,9 @@ public class ActivityInfoActivity extends AppCompatActivity {
     protected Spinner categoriesSpinner;
 
     Activity ac;
+    DataManager dm;
+
+    JSONObject json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class ActivityInfoActivity extends AppCompatActivity {
         //TODO ver si necesario guardra un valor en el json que sea siguiente id
         //se utilizaria como id al crear una actividad y se incrementaria en uno
         //Asi asegura ids unicas sin mucha complejidad
-        String readedData = "{\n" +
+        /*String readedData = "{\n" +
                 "\n" +
                 "\t\"0\": {\n" +
                 "\t\t\"cat\": \"CASA\",\n" +
@@ -99,12 +102,14 @@ public class ActivityInfoActivity extends AppCompatActivity {
                 "\t\t}]\n" +
                 "\t}\n" +
                 "\n" +
-                "}";
+                "}";*/
 
 
 
         try {
-            JSONObject json = new JSONObject(readedData);
+            DataManager dm = new DataManager(this);
+            //JSONObject json = new JSONObject(readedData);
+            json = dm.load(DataManager.ACTIVITIES_FILE_NAME);
             Log.i("demo", "Json leido: "+ json);
 
             int idActivity = getIntent().getIntExtra("idAct",-1);
@@ -172,7 +177,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
 
 /////////pruebas
-            ActivitySession demo = new ActivitySession("2023-04-17",10);
+      /*      ActivitySession demo = new ActivitySession("2023-04-17",10);
 
             Activity demoAc = new Activity();
 
@@ -201,12 +206,12 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
             Log.i("demo", "mins en mas de un anio: " + demoAc.getMinutesLatestdays(600));
 
 
-            Log.i("demo","Json activity: "+ demoAc.toJson().toString());
+            Log.i("demo","Json activity: "+ demoAc.toJson().toString());*/
 
 
     ///////// fin pruebas
 
-            //TODO por el intent se tendra que pasar ahora el id de la actividad
+
             //String activityName = getIntent().getStringExtra("activityName");
 
            // TextView headerTitle = findViewById(R.id.activityName);
@@ -214,7 +219,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
             categoriesSpinner = findViewById(R.id.categorySpinner);
 
-            //currentCategory = "Viajes"; // TODO: remplazar por la category.getCategory()
+            //currentCategory = "Viajes";
             currentCategory = ac.getCatStr();
 
             categories = manageSpinnerList(currentCategory);
@@ -241,6 +246,13 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
                         ac.setCategory(selectedCat);
                         //TODO sobreescribir en el fichero esta Actividad
+                        try {
+                            json.put(idActivity+"",ac.toJson());
+                            Log.i("demo2", "nuevo Json: " +json.toString());
+                            dm.save(DataManager.ACTIVITIES_FILE_NAME, json);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
 

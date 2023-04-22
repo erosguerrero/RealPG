@@ -8,6 +8,8 @@ public class ActivityBasicInfo{
 
     public ActivityBasicInfo(String name, int id, Category cat){this.name = name; this.id = id; this.cat = cat;}
 
+    public ActivityBasicInfo(String name, int id, String cat){this.name = name; this.id = id; this.cat = Activity.strToCategory(cat);}
+
     public void setName(String name) {
         this.name = name;
     }

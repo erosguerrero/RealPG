@@ -27,11 +27,18 @@ import android.view.View;
 import com.example.realpg.ui.main.SectionsPagerAdapter;
 import com.example.realpg.databinding.ActivityMainBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
+
+    DataManager dm;
 
     private List<ActivityBasicInfo> activitesBasicInfoList;
 
@@ -39,6 +46,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //TODO: datos de prueba, quitar en version final
+        //solo llamarla una vez y luego comentarla
+        //DataManager.demoCreateActivitiesData(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -61,8 +72,34 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        //datos de prueba para actividades
+        dm = new DataManager(this);
         activitesBasicInfoList = new ArrayList<>();
+        JSONObject activitiesJson = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+        Log.i("demo2","json leido de fichero"+ activitiesJson.toString());
+
+        ArrayList<String> keys = new ArrayList<>();
+        String key;
+
+        for (Iterator<String> it = activitiesJson.keys(); it.hasNext(); ) {
+
+            key = it.next();
+            String name;
+            String cat;
+            try {
+                name = activitiesJson.getJSONObject(key).getString("name");
+                cat = activitiesJson.getJSONObject(key).getString("cat");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+            activitesBasicInfoList.add(new ActivityBasicInfo(name,Integer.parseInt(key),cat));
+
+            keys.add(key);
+        }
+        Log.i("demo2", "keys: "+keys.toString());
+
+        //datos de prueba para actividades
+       /* activitesBasicInfoList = new ArrayList<>();
         for(int i = 0; i < 1; i++)
         {
             activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.CASA));
@@ -76,7 +113,7 @@ public class MainActivity extends AppCompatActivity{
         for(int i = 3; i < 4; i++)
         {
             activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.ESTUDIOS));
-        }
+        }*/
 
         //pieChart = findViewById(R.id.activity_piechart);
         //setupPieChart();

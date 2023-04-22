@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 public class DataManager {
     Context context = null;
 
+    public static String ACTIVITIES_FILE_NAME = "Activities";
+
     public DataManager(Context context) {
         this.context = context;
     }
@@ -81,6 +83,69 @@ public class DataManager {
             }
 
             return json;
+        }
+    }
+
+    public static void demoCreateActivitiesData(Context context)
+    {
+        String demodata= "{\n" +
+                "\t\"0\": {\n" +
+                "\t\t\"cat\": \"CASA\",\n" +
+                "\t\t\"name\": \"Actividad 0\",\n" +
+                "\t\t\"totalMin\": 50,\n" +
+                "\t\t\"latestSessions\": [{\n" +
+                "\t\t\t\"date\": \"2023-04-04\",\n" +
+                "\t\t\t\"minutes\": 20\n" +
+                "\t\t}, {\n" +
+                "\t\t\t\"date\": \"2023-04-17\",\n" +
+                "\t\t\t\"minutes\": 15\n" +
+                "\t\t}]\n" +
+                "\t},\n" +
+                "\t\"1\": {\n" +
+                "\t\t\"cat\": \"BIENESTAR\",\n" +
+                "\t\t\"name\": \"Actividad 1\",\n" +
+                "\t\t\"totalMin\": 60,\n" +
+                "\t\t\"latestSessions\": [{\n" +
+                "\t\t\t\"date\": \"2023-04-04\",\n" +
+                "\t\t\t\"minutes\": 20\n" +
+                "\t\t}, {\n" +
+                "\t\t\t\"date\": \"2023-04-17\",\n" +
+                "\t\t\t\"minutes\": 15\n" +
+                "\t\t}]\n" +
+                "\t},\n" +
+                "\t\"2\": {\n" +
+                "\t\t\"cat\": \"BIENESTAR\",\n" +
+                "\t\t\"name\": \"Actividad 2\",\n" +
+                "\t\t\"totalMin\": 20,\n" +
+                "\t\t\"latestSessions\": [{\n" +
+                "\t\t\t\"date\": \"2023-04-04\",\n" +
+                "\t\t\t\"minutes\": 20\n" +
+                "\t\t}, {\n" +
+                "\t\t\t\"date\": \"2023-04-17\",\n" +
+                "\t\t\t\"minutes\": 15\n" +
+                "\t\t}]\n" +
+                "\t},\n" +
+                "\t\"3\": {\n" +
+                "\t\t\"cat\": \"ESTUDIOS\",\n" +
+                "\t\t\"name\": \"Actividad 3\",\n" +
+                "\t\t\"totalMin\": 10,\n" +
+                "\t\t\"latestSessions\": [{\n" +
+                "\t\t\t\"date\": \"2023-04-04\",\n" +
+                "\t\t\t\"minutes\": 20\n" +
+                "\t\t}, {\n" +
+                "\t\t\t\"date\": \"2023-04-17\",\n" +
+                "\t\t\t\"minutes\": 15\n" +
+                "\t\t}]\n" +
+                "\t}\n" +
+                "}";
+        try {
+            JSONObject json = new JSONObject(demodata);
+            DataManager dm = new DataManager(context);
+
+            dm.save("Activities",json);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
 }
