@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        dm = new DataManager(this);
+     /*   dm = new DataManager(this);
         activitesBasicInfoList = new ArrayList<>();
         JSONObject activitiesJson = dm.load(DataManager.ACTIVITIES_FILE_NAME);
         Log.i("demo2","json leido de fichero"+ activitiesJson.toString());
@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity{
         Log.i("demo2", "keys: "+keys.toString());
 
         //datos de prueba para actividades
+
+
+      */
        /* activitesBasicInfoList = new ArrayList<>();
         for(int i = 0; i < 1; i++)
         {

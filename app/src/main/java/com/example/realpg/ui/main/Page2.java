@@ -90,10 +90,10 @@ public class Page2 extends Fragment {
 
 
         setButtonsPanelsListeners();
-        for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
+      /*  for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
             Log.i("demo","los ids son: "+ abi.getId());
              addActivityToCatPanel(abi);
-        }
+        }*/
 
         /*TODO
         Al crear la vista hacer lo siguiente:
