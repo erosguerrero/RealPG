@@ -2,6 +2,8 @@ package com.example.realpg.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +45,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -58,11 +66,18 @@ import static android.view.View.VISIBLE;
 public class Page1 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+<<<<<<< Updated upstream
 
+=======
+    private String sharedPrefFile;
+    SharedPreferences mPreferences;
+    private double LevelXP = 0;
+>>>>>>> Stashed changes
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
 
-    private Boolean onPause;
+    private Boolean onPause = false;
+    private Boolean isActivityDisplaying = false;
     private ManageStopWatch manageStopWatch;
     public static Page1 newInstance(int index) {
         Page1 fragment = new Page1();
@@ -87,11 +102,102 @@ public class Page1 extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
       //  pageViewModel.setIndex(index);
+<<<<<<< Updated upstream
         this.DM = new DataManager(getActivity());
         jsonPokemon = DM.load("pokemon.json");
         jsonExtra = DM.load("extra.json");
+=======
+
+
+>>>>>>> Stashed changes
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        isActivityDisplaying = mPreferences.getBoolean("isActivityDisplaying", false);
+        Boolean savedOnPause = mPreferences.getBoolean("onPause", true);
+        double savedMinutes = mPreferences.getFloat("savedMinutes", -2);
+
+        if(isActivityDisplaying){
+            LocalDateTime time = LocalDateTime.now();
+            double actualMinutes = parseLocalDateTimeToFloat(time);
+            double stopWatchTime = mPreferences.getFloat("stopWatchTime", -1);
+            double minutesPassed = actualMinutes - savedMinutes;
+            double timeToDisplay = stopWatchTime + minutesPassed;
+            onPause = savedOnPause;
+            if(!onPause) {
+                setStopWatchTime(timeToDisplay);
+            } else {
+                setStopWatchTime(stopWatchTime);
+            }
+            showTimeWatch();
+        }
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // solo hace falta guardar el cronometro, si se estaba ejecutando
+
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        //preferencesEditor.putFloat("stopWatchMinutes", (float)getStopWatchTimeMinutes());
+        LocalDateTime time = LocalDateTime.now();
+        preferencesEditor.putFloat("savedMinutes", parseLocalDateTimeToFloat(time));
+        preferencesEditor.putFloat("stopWatchTime", (float)getStopWatchTimeMinutes());
+        preferencesEditor.putBoolean("onPause", onPause);
+        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+        Log.i("Page1", "saved minutes: " + parseLocalDateTimeToFloat(time));
+        preferencesEditor.apply();
+        onPause = true; // necesario para q no se quede el hilo contando de la activity, pq cuando se vuelve a crear
+        // la activity se crea otro hilo y cuenta x2 (o algo asi)
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // para q cada vez q se cierre del to.do la app, se muestre la pantalla de actividades recientes
+        // ojala, pero no seirve pq onViewCreated creo q se ejecuta antes q onResume
+        setStopWatchTime(0);
+        onPause = true;
+        isActivityDisplaying = false;
+        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean("onPause", onPause);
+        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+    }
+    /*@Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        double savedMinutes = mPreferences.getFloat("savedMinutes", -1);
+        LocalDateTime time = LocalDateTime.now();
+        double actualMinutes = parseLocalDateTimeToFloat(time);
+        double stopWatchTime = mPreferences.getFloat("stopWatchTime", -1);
+        Boolean savedOnPause = mPreferences.getBoolean("onPause", true);
+        isActivityDisplaying = mPreferences.getBoolean("isActivityDisplaying", false);
+        Log.i("Page1", "time loaded: " + savedMinutes);
+        Log.i("Page1", " saved displayActivity: " + isActivityDisplaying);
+
+
+        double minutesPassed = actualMinutes - savedMinutes;
+        double timeToDisplay = stopWatchTime + minutesPassed;
+
+        // si se estaba mostrando una activity (en pause o play) y existe un valor stopWatchMinutes guardado
+        if(isActivityDisplaying && (savedMinutes != -1)){
+            onPause = savedOnPause;
+            if(!onPause) {
+                setStopWatchTime(timeToDisplay);
+            } else {
+                setStopWatchTime(stopWatchTime);
+            }
+            showTimeWatch();
+            Log.i("Page1", "stopWatchTime in onViewCreated: " + savedMinutes);
+        }
+    }*/
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -100,6 +206,24 @@ public class Page1 extends Fragment {
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+<<<<<<< Updated upstream
+=======
+
+        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+
+        //JSON
+        JSONObject json = new JSONObject();
+        try {
+            json.put("Length", 10);
+            JSONObject last3json = new JSONObject();
+            JSONObject oneof3json = new JSONObject();
+            oneof3json.put("ID", 9);
+            oneof3json.put("nombre", "Testeo");
+            last3json.put("1",oneof3json);             last3json.put("2",oneof3json);
+            last3json.put("3",oneof3json);
+            json.put("Last3", last3json);
+>>>>>>> Stashed changes
 
         //TODO DEMO BORRAR
         DM.demoPokemonJson();
@@ -119,9 +243,13 @@ public class Page1 extends Fragment {
             ImageButton startActivityButton = item1.findViewById(R.id.startActivityButton);
             startActivityButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Log.i("Panel1", "start activity1");
-                    showTimeWatch();
+                    Log.i("Page1", "start activity1");
                     onPause = false;
+                    isActivityDisplaying = true;
+                    preferencesEditor.putBoolean("onPause", onPause);
+                    preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+                    showTimeWatch();
+
                 }
             });
             latestActCont.addView(item1);
@@ -179,30 +307,56 @@ public class Page1 extends Fragment {
             timer.schedule(manageStopWatch, 1000, 1000);
         }
 
+
+
         //ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(1);
 
 
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "restart activity1");
+                Log.i("Page1", "restart activity1");
                 //stopWatch.setText(0);
-                setStopWatchTime(128.017);
+                preferencesEditor.putBoolean("isActivityDisplaying", true);
+                setStopWatchTime(0);
             }
         });
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "pause activity1");
+                Log.i("Page1", "pause activity1");
                 onPause = true;
+                preferencesEditor.putBoolean("onPause", onPause);
+                preferencesEditor.putBoolean("isActivityDisplaying", true);
                 pauseButton.setVisibility(View.GONE);
                 playButton.setVisibility(VISIBLE);
+
+                //esto deberia coger bien la hora de madrid, pero sigue cogiendo la que tiene el telefono, q no es la de madrid
+                // sin embargo, da igual pq solo queremos saber la diferencia entre 2 horas dadas
+                //LocalDateTime now = LocalDateTime.now();
+                //ZoneId madridTimeZone = ZoneId.of("Europe/Madrid");
+                //ZonedDateTime madridDateTime = now.atZone(madridTimeZone);
+                LocalDateTime actualDate = LocalDateTime.now();
+                String hour = actualDate.getHour() + "";
+                String min = actualDate.getMinute() + "";
+                String sec = actualDate.getSecond() + "";
+
+                LocalDateTime prueba = LocalDateTime.of(2023, 4, 22, 13, 30, 0);
+
+
+                Log.i("Page1", "hour: " + hour + " min: " + min + " sec: " + sec);
+
+                LocalDateTime res = prueba.minusHours(actualDate.getHour()).minusMinutes(actualDate.getMinute()).minusSeconds(actualDate.getSecond());
+                Log.i("Page1", "differences   hour: " + res.getHour() + " mins: " + res.getMinute() + " secs: " + res.getSecond());
             }
         });
 
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "play activity1");
+                Log.i("Page1", "play activity1");
                 onPause = false;
+                preferencesEditor.putBoolean("isActivityDisplaying", true);
+                preferencesEditor.putBoolean("onPause", onPause);
+
                 playButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(VISIBLE);
             }
@@ -212,6 +366,11 @@ public class Page1 extends Fragment {
             public void onClick(View v) {
                 Log.i("Panel1", "end activity1");
                 onPause = true;
+                isActivityDisplaying = false;
+                preferencesEditor.putBoolean("onPause", onPause);
+                preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+
+                setStopWatchTime(0);
                 showLatestActivities();
                 String currentTime = getStopWatchTime();
                 Log.i("Page1", "current time: " + currentTime);
@@ -268,9 +427,15 @@ public class Page1 extends Fragment {
         return root;
     }
 
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //no se ejecuta. Cuando se cierra del to.do la app nunca se ejecuta??????
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        Log.i("Page1", "dentro de onDestroy");
+        preferencesEditor.putFloat("savedMinutes", -1);
         binding = null;
     }
 
@@ -302,15 +467,29 @@ public class Page1 extends Fragment {
         ImageButton restartButton = getActivity().findViewById(R.id.restartButton);
         restartButton.setVisibility(VISIBLE);
 
-        ImageButton pauseButton = getActivity().findViewById(R.id.pauseButton);
-        pauseButton.setVisibility(VISIBLE);
+        if(!onPause) {
+            ImageButton playButton = getActivity().findViewById(R.id.playButton);
+            playButton.setVisibility(View.GONE);
+
+            ImageButton pauseButton = getActivity().findViewById(R.id.pauseButton);
+            pauseButton.setVisibility(VISIBLE);
+        }
+
+        if(onPause) {
+            ImageButton pauseButton = getActivity().findViewById(R.id.pauseButton);
+            pauseButton.setVisibility(View.GONE);
+
+            ImageButton playButton = getActivity().findViewById(R.id.playButton);
+            playButton.setVisibility(View.VISIBLE);
+        }
 
         ImageButton endButton = getActivity().findViewById(R.id.endButton);
         endButton.setVisibility(VISIBLE);
 
         TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
         stopWatch.setVisibility(VISIBLE);
-        stopWatch.setText("00:00:00");
+        if(!isActivityDisplaying) stopWatch.setText("00:00:00");
+
     }
 
     private void showLatestActivities(){
@@ -346,13 +525,14 @@ public class Page1 extends Fragment {
 
     class ManageStopWatch extends TimerTask {
         public void run() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    addSecondToStopWatch();
-                }
-            });
-
+            if(getActivity()!=null){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        addSecondToStopWatch();
+                    }
+                });
+            }
         }
 
         private void addSecondToStopWatch(){
@@ -431,4 +611,12 @@ public class Page1 extends Fragment {
         return hours*60 + mins + (double)secs/60;
     }
 
+    private float parseLocalDateTimeToFloat(LocalDateTime time){
+        //returns minutes in float
+        float hours = time.getHour();
+        float minutes = time.getMinute();
+        float seconds = time.getSecond();
+        Log.i("Page1", "Inside parseLocalDateTime " + hours + " "+ minutes+" "+seconds);
+        return hours*60 + minutes + seconds/60;
+    }
 }
