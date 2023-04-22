@@ -1,6 +1,7 @@
 package com.example.realpg;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //TODO: datos de prueba, quitar en version final
         //solo llamarla una vez y luego comentarla
@@ -117,10 +119,6 @@ public class MainActivity extends AppCompatActivity{
         {
             activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.ESTUDIOS));
         }*/
-
-        //pieChart = findViewById(R.id.activity_piechart);
-        //setupPieChart();
-        //loadPieChartData();
     }
 
 
