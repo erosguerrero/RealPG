@@ -26,9 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.DataManager;
-import com.example.realpg.Evolution;
 import com.example.realpg.MainActivity;
-import com.example.realpg.Pokemon;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
@@ -225,14 +223,10 @@ public class Page1 extends Fragment {
             json.put("Last3", last3json);
 >>>>>>> Stashed changes
 
-        //TODO DEMO BORRAR
-        DM.demoPokemonJson();
-        DM.demoExtraJson();
-        //FIN DEMO
+
 
         //LATEST ACTIVITIES
         //TODO Controlar falta de extra.json
-
         try {
             JSONObject last3json = jsonExtra.getJSONObject("Last3");
             LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
@@ -388,22 +382,22 @@ public class Page1 extends Fragment {
         //new DownloadImageTask(demo).execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png");
 
         // Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png").into(demo);
-
-
-
-            int idEvoSelected = -1;
+        int idSelected = -1;
+        int idEvoSelected = -1;
             try {
-                idEvoSelected = jsonExtra.getInt("PokeChosen");
+                JSONObject jsonSelected = jsonExtra.getJSONObject("PokeChosen");
+                if(jsonSelected != null){
+                    idSelected = jsonSelected.getInt("IDPokemon");
+                    idEvoSelected = jsonSelected.getInt("IDEvolucion");
+                }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
-
-        if(idEvoSelected != -1){ //-1 == NEW USER
-            Evolution evoObject = Evolution.createEvolutionFromJson(idEvoSelected, jsonPokemon);
-            Pokemon currentPoke = evoObject.getCurrentPokemon();
-            changeLvl(root,evoObject.getCurrentXp());
+    //getActivity().getIntent().getIntExtra("idPokeSelected", -1);
+        if(idSelected != -1 && idEvoSelected != -1) //-1 == NEW USER
+        {
             ImageView demo = binding.selectedPokemonImage;
-            Glide.with(this).load(currentPoke.getImage()).into(demo);
+            Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+idSelected+".png").into(demo);
 
             try {
                 JSONObject pokemonData = jsonPokemon.getJSONObject(String.valueOf(idEvoSelected));
@@ -412,9 +406,8 @@ public class Page1 extends Fragment {
                 //throw new RuntimeException(e);
             }
 
-
+            changeLvl(root,3.2);
         }
-
 
 
         /*final TextView textView = binding.sectionLabel;

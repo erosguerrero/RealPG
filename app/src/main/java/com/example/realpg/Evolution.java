@@ -82,6 +82,7 @@ public class Evolution {
     {
         try {
             JSONObject selectedJSON = json.getJSONObject(String.valueOf(idEvolution));
+            Log.d("SELECTED JSON", selectedJSON.toString());
             double xpCurrent = selectedJSON.getDouble("level");
 
             JSONArray levelsArray = selectedJSON.getJSONArray("levels");
@@ -125,10 +126,6 @@ public class Evolution {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public double getCurrentXp() {
-        return currentXp;
     }
 
     @Override
