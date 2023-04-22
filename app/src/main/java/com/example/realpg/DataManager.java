@@ -98,9 +98,7 @@ public class DataManager {
             last3json.put("3",oneof3json);
             extraJson.put("Last3", last3json);
 
-            JSONObject pokechosen = new JSONObject();
-            pokechosen.put("IdEvolucion", 0);
-            extraJson.put("PokeChosen",pokechosen);
+            extraJson.put("PokeChosen",1);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -111,13 +109,13 @@ public class DataManager {
         JSONObject pokemonJson = null;
         try {
             pokemonJson = new JSONObject("{\n" +
-                    "\t\"0\": {\n" +
-                    "\t\t\"level\": \"14.7\",\n" +
-                    "\t\t\"names\": [\"pichu\", \"pikachu\", \"raichu\"],\n" +
-                    "\t\t\"ids\": [14, 15, 16],\n" +
-                    "\t\t\"levels\": [12, 25]\n" +
-                    "\t},\n" +
                     "\t\"1\": {\n" +
+                    "\t\t\"level\": \"17\",\n" +
+                    "\t\t\"names\": [\"bulbasaur\", \"ivysaur\", \"venusaur\"],\n" +
+                    "\t\t\"ids\": [1, 2, 3],\n" +
+                    "\t\t\"levels\": [16, 36]\n" +
+                    "\t},\n" +
+                    "\t\"2\": {\n" +
                     "\t\t\"level\": \"22.3\",\n" +
                     "\t\t\"names\": [\"chimchar\", \"monferno\", \"infernape\"],\n" +
                     "\t\t\"ids\": [502, 503, 504],\n" +
