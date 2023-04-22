@@ -112,13 +112,13 @@ public class DataManager {
         try {
             pokemonJson = new JSONObject("{\n" +
                     "\t\"0\": {\n" +
-                    "\t\t\"level\": \"14,7\",\n" +
+                    "\t\t\"level\": \"14.7\",\n" +
                     "\t\t\"names\": [\"pichu\", \"pikachu\", \"raichu\"],\n" +
                     "\t\t\"ids\": [14, 15, 16],\n" +
                     "\t\t\"levels\": [12, 25]\n" +
                     "\t},\n" +
                     "\t\"1\": {\n" +
-                    "\t\t\"level\": \"22,3\",\n" +
+                    "\t\t\"level\": \"22.3\",\n" +
                     "\t\t\"names\": [\"chimchar\", \"monferno\", \"infernape\"],\n" +
                     "\t\t\"ids\": [502, 503, 504],\n" +
                     "\t\t\"levels\":[16,35]\n" +
