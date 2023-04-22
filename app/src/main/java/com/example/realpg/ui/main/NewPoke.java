@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -32,10 +33,21 @@ public class NewPoke extends AppCompatActivity {
     private static final int EVOLUTION_LOADER_ID = 0;
     private static final int MAX_POKES = 4;
     private EvolutionLoaderCallbacks evolutionLoaderCallbacks = new EvolutionLoaderCallbacks(this);
-    private int times;
+    private int times; //Contador de las veces que se ha llamado a la api
     private Random random;
+
+    /*
+        Como el número de imágnes, barras de progreso y botones es siempre el mismo,
+        y su funcionalidad tambíen, se almacenan sus ids en unos arrays para que sea
+        más sencillo trabajar con ellos
+     */
     private int[] images;
     private int[] progress;
+
+    private int[] buttons;
+
+    //Evolutions guarda el las evoluciones que se han generado llamando a la api
+    private ArrayList<Evolution> evolutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +55,41 @@ public class NewPoke extends AppCompatActivity {
         setContentView(R.layout.activity_new_poke);
         initFields();
 
+        //Se inicializa el boton de volver atras
         ImageButton back = findViewById(R.id.back);
         back.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            //hola
         });
 
-        apiCalls(null);
 
+        //Para todos los botones, cuando se pulse uno, se llama a la funcion
+        //ButtonAction pasandole la evolución asociada a dicho botón
+        for (int i = 0; i < 4; i++){
+            Button button = findViewById(buttons[i]);
+            int finalI = i;
+            button.setOnClickListener(view -> {
+                buttonAction(evolutions.get(finalI));
+            });
+            button.setVisibility(View.GONE);
+        }
+
+
+        //Se llama a la api para generar los pokemones
+        apiCalls(null);
 
     }
 
     private void initFields(){
         images = new int[]{R.id.pokeImage1, R.id.pokeImage2, R.id.pokeImage3, R.id.pokeImage4};
         progress = new int[]{R.id.pokeBar1, R.id.pokeBar2, R.id.pokeBar3, R.id.pokeBar4};
+        buttons = new int[]{R.id.pokeButton1, R.id.pokeButton2, R.id.pokeButton3, R.id.pokeButton4};
         random = new Random();
+        evolutions = new ArrayList<Evolution>();
         times = 0;
     }
 
+    //ApiCall llama una única vez a la api, se le pasa un id previamente generado aleatoriamente
     private void apiCall(Integer id){
 
         LoaderManager loaderManager = LoaderManager.getInstance(this);
@@ -76,11 +104,11 @@ public class NewPoke extends AppCompatActivity {
 
     }
 
+    //LoadImage carga la imagen correspondiente con el id en su espacio adecuado
     private void loadImage(Integer id){
         int time = times - 1;
         ImageView imageView = findViewById(images[times - 1]);
         String url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png";
-        Log.d("Imagenes", url);
         Glide.with(this).load(url).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -95,15 +123,27 @@ public class NewPoke extends AppCompatActivity {
             private boolean hideBar(){
                 View v  = findViewById(progress[time]);
                 v.setVisibility(View.GONE);
+
+                Button b = findViewById(buttons[time]);
+                b.setVisibility(View.VISIBLE);
                 return false;
             }
         }).into(imageView);
     }
 
+    /*
+    * ApiCalls es la funcion que actua como callback del loader, es la que añade la evolucion
+    * obtenida a la lista, en caso de ser válida, y la que decide si se vuelve
+    * a llamar a la api o ya se para
+    *
+    * */
+
     public void apiCalls(Evolution evolution){
 
-        if ((isCorrect(evolution)) && times > 0)
+        if ((isCorrect(evolution)) && times > 0){
+            evolutions.add(evolution);
             loadImage(evolution.getIds().get(0));
+        }
 
         if (!isCorrect(evolution) ||times < MAX_POKES)
             apiCall(Math.abs(random.nextInt() % 530));
@@ -114,6 +154,9 @@ public class NewPoke extends AppCompatActivity {
 
     }
 
+    /*
+    * Dada una evolución comprueba que es correcta
+    * */
     private boolean isCorrect(Evolution evolution){
 
         if (evolution == null) return false;
@@ -127,5 +170,13 @@ public class NewPoke extends AppCompatActivity {
 
 
         return true;
+    }
+
+    /*
+    * Función a completar por Eros:
+    * */
+
+    private void buttonAction(Evolution evolution){
+        Log.d("NEWPOKE", "Se ha seleccionado la siguiente evolución : " + evolution.toString());
     }
 }

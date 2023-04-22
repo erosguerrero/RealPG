@@ -75,7 +75,7 @@
         android:id="@+id/pokeImage3"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="105dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage1" />
@@ -84,9 +84,11 @@
         android:id="@+id/pokeImage4"
         android:layout_width="170dp"
         android:layout_height="170dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="105dp"
         android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pokeImage3"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage2" />
 
     <ProgressBar
@@ -128,6 +130,47 @@
         app:layout_constraintEnd_toEndOf="@+id/pokeImage4"
         app:layout_constraintStart_toStartOf="@+id/pokeImage4"
         app:layout_constraintTop_toTopOf="@+id/pokeImage4" />
+
+    <Button
+        android:id="@+id/pokeButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage1" />
+
+    <Button
+        android:id="@+id/pokeButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage2" />
+
+    <Button
+        android:id="@+id/pokeButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Seleccionar"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage3" />
+
+    <Button
+        android:id="@+id/pokeButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Seleccionar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/pokeImage4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
