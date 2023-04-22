@@ -100,7 +100,6 @@ public class DataManager {
 
             JSONObject pokechosen = new JSONObject();
             pokechosen.put("IdEvolucion", 0);
-            pokechosen.put("xp", 15.5);
             extraJson.put("PokeChosen",pokechosen);
         } catch (JSONException e) {
             throw new RuntimeException(e);

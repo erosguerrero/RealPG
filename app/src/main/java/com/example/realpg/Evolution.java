@@ -1,5 +1,7 @@
 package com.example.realpg;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,20 +15,19 @@ public class Evolution {
     private ArrayList<Integer> levels;
     private List<String> names;
     private double currentXp;
-    private int current;
+
 
     public Evolution(){
         id = null;
         init();
     }
 
-    public Evolution(Integer id, List<Integer> ids, ArrayList<Integer> levels, List<String> names, double currentXp, int current) {
+    public Evolution(Integer id, List<Integer> ids, ArrayList<Integer> levels, List<String> names, double currentXp) {
         this.id = id;
         this.ids = ids;
         this.levels = levels;
         this.names = names;
         this.currentXp = currentXp;
-        this.current = current;
     }
 
     public Evolution(Integer id){
@@ -34,11 +35,20 @@ public class Evolution {
         init();
     }
 
+    public Pokemon getCurrentPokemon(){
+        int index = 0;
+        for(int i = 0; i < levels.size(); i++) {
+            if((int)Math.floor(currentXp) > levels.get(i)){
+                index++;
+            }
+        }
+
+        return new Pokemon(ids.get(index), names.get(index));
+    }
     private void init(){
         ids = new ArrayList<Integer>();
         levels = new ArrayList<Integer>();
         names = new ArrayList<String>();
-        current = 0;
     }
 
     public void add(Integer id, Integer level, String name){
@@ -71,13 +81,24 @@ public class Evolution {
     public static Evolution createEvolutionFromJson(int idEvolution, JSONObject json)
     {
         try {
-            double xpCurrent = json.getDouble("level");
-            //levels
-            //names
-            //ids
+            JSONObject selectedJSON = json.getJSONObject(String.valueOf(idEvolution));
+            Log.d("SELECTED JSON", selectedJSON.toString());
+            double xpCurrent = selectedJSON.getDouble("level");
+
+            JSONArray levelsArray = selectedJSON.getJSONArray("levels");
+            JSONArray namesArray = selectedJSON.getJSONArray("names");
+            JSONArray idsArray = selectedJSON.getJSONArray("ids");
 
 
-            return new Evolution();
+            ArrayList<Integer> levelsList = new ArrayList<Integer>();
+            ArrayList<String> namesList = new ArrayList<String>();
+            ArrayList<Integer> idsList = new ArrayList<Integer>();
+
+            for(int i = 0; i < levelsArray.length(); i++) {levelsList.add(levelsArray.getInt(i));}
+            for(int i = 0; i < namesArray.length(); i++) {namesList.add(namesArray.getString(i));}
+            for(int i = 0; i < idsArray.length(); i++) {idsList.add(idsArray.getInt(i));}
+
+            return new Evolution(idEvolution, idsList, levelsList, namesList, xpCurrent);
 
 
         } catch (JSONException e) {
@@ -102,9 +123,6 @@ public class Evolution {
         return names;
     }
 
-    public int getCurrent() {
-        return current;
-    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -117,7 +135,7 @@ public class Evolution {
                 ", ids=" + ids +
                 ", levels=" + levels +
                 ", names=" + names +
-                ", current=" + current +
+                ", current=" + getCurrentPokemon().toString()+
                 '}';
     }
 }

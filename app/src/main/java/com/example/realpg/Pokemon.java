@@ -23,6 +23,12 @@ public class Pokemon {
         this.image = image;
     }
 
+    public Pokemon(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+        this.image = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+id+".png";
+    }
+
     public Integer getId() {
         return id;
     }
