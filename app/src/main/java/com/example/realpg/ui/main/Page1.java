@@ -66,11 +66,12 @@ public class Page1 extends Fragment {
 
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
+    private static Page1 instance;
 
     private Boolean onPause = false;
     private Boolean isActivityDisplaying = false;
     private ManageStopWatch manageStopWatch;
-    private String sharedPrefFile;
+    private String sharedPrefFile = "functionality";
     SharedPreferences mPreferences;
 
     public static Page1 newInstance(int index) {
@@ -90,6 +91,7 @@ public class Page1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
    //     pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
@@ -99,6 +101,10 @@ public class Page1 extends Fragment {
         this.DM = new DataManager(getActivity());
         jsonPokemon = DM.load("pokemon.json");
         jsonExtra = DM.load("extra.json");
+    }
+
+    public static Page1 getInstance() {
+        return instance;
     }
 
     @Override
@@ -167,6 +173,10 @@ public class Page1 extends Fragment {
 
         binding = FragmentPage1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        View view = inflater.inflate(R.layout.fragment_page1, container, false);
+        View vw = getActivity().findViewById(R.id.constraintLayout);
+        view.setTag("homeTab");
 
         mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
@@ -431,6 +441,8 @@ public class Page1 extends Fragment {
     }
 
     private void showTimeWatch(){
+        Log.i("Page1", "mostrando stopWatch");
+
         // hide latest activities related views
         TextView recentActividadesLabel = getActivity().findViewById(R.id.recentActividadesLabel);
         recentActividadesLabel.setVisibility(View.GONE);
@@ -550,7 +562,21 @@ public class Page1 extends Fragment {
         }
     }
 
+    public void startStopWatch(){
+        onPause = false;
+        isActivityDisplaying = true;
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean("onPause", onPause);
+        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+        preferencesEditor.apply();
+
+        setStopWatchTime(0);
+        showTimeWatch();
+    }
+
     private void setStopWatchTime(double minutes){
+        Log.i("Page1", "en setTime, onPause: " + onPause + " onDisplaying: " + isActivityDisplaying);
+
         TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
 
         String stringMinutes = String.valueOf(minutes);
