@@ -99,8 +99,11 @@ public class ListMyPoke extends AppCompatActivity {
                 Intent intent = new Intent(ListMyPoke.this, MainActivity.class);
                 int idSelected = adapter.getSelectedPoke().getIdPoke();
                 int idEvoSelected = adapter.getSelectedPoke().getIdEvolve();
-                Log.i("demo", "el id seleccionado es "+idSelected);
-
+                try {
+                    dm.save(dm.EXTRA_FILE_NAME,dm.load(dm.EXTRA_FILE_NAME).put("PokeChosen", idEvoSelected));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
                 intent.putExtra("idPokeSelected", idSelected);
                 intent.putExtra("idEvoSelected", idEvoSelected);
                 startActivity(intent);
