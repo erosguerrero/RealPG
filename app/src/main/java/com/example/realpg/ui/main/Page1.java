@@ -173,7 +173,7 @@ public class Page1 extends Fragment {
 
 
         //TODO DEMO BORRAR
-        DM.demoPokemonJson();
+        //DM.demoPokemonJson();
        // DM.demoExtraJson();//comentado porque ya se genera vacio y no necesario para datos de prueba
         //FIN DEMO
 

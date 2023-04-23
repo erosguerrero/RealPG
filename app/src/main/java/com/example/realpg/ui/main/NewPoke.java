@@ -18,10 +18,14 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.realpg.DataManager;
 import com.example.realpg.Evolution;
 import com.example.realpg.EvolutionLoaderCallbacks;
 import com.example.realpg.MainActivity;
 import com.example.realpg.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,5 +182,26 @@ public class NewPoke extends AppCompatActivity {
 
     private void buttonAction(Evolution evolution){
         Log.d("NEWPOKE", "Se ha seleccionado la siguiente evolución : " + evolution.toString());
+        DataManager dm = new DataManager(this);
+        JSONObject pokemonJson = dm.load(dm.POKEMON_FILE_NAME);
+        JSONObject extraJson = dm.load(dm.EXTRA_FILE_NAME);
+        try {
+            String evoId = String.valueOf(evolution.getId());
+
+            //Modificaciones
+            pokemonJson.put(evoId, evolution.toJson());
+            extraJson.put("PokeChosen", evoId);
+
+            //Guardado
+            dm.save(dm.POKEMON_FILE_NAME,pokemonJson);
+            dm.save(dm.EXTRA_FILE_NAME, extraJson);
+
+            //Volver
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

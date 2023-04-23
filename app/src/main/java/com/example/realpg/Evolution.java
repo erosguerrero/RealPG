@@ -46,6 +46,7 @@ public class Evolution {
         return new Pokemon(ids.get(index), names.get(index));
     }
     private void init(){
+        currentXp = 0.0;
         ids = new ArrayList<Integer>();
         levels = new ArrayList<Integer>();
         names = new ArrayList<String>();
@@ -59,18 +60,39 @@ public class Evolution {
 
     public JSONObject toJson()
     {
-        JSONObject json = new JSONObject();
+        JSONObject jsonData = null;
         try {
-            JSONObject jsonData = new JSONObject();
+            jsonData = new JSONObject();
             jsonData.put("level", this.currentXp);
-            jsonData.put("levels", this.levels);
-            jsonData.put("names", names);
-            jsonData.put("ids", this.ids);
-            json.put(String.valueOf(this.id),jsonData);
+
+            //LEVELS ARRAY
+            JSONArray levelsJsonArray = new JSONArray();
+            for(Integer lvl: this.levels)
+            {
+                levelsJsonArray.put(lvl);
+            }
+            jsonData.put("levels", levelsJsonArray);
+
+            //NAMES ARRAY
+            JSONArray namesJsonArray = new JSONArray();
+            for(String name: this.names)
+            {
+                namesJsonArray.put(name);
+            }
+            jsonData.put("names", namesJsonArray);
+
+            //LEVELS ARRAY
+            JSONArray idsJsonArray = new JSONArray();
+            for(Integer id: this.ids)
+            {
+                idsJsonArray.put(id);
+            }
+            jsonData.put("ids", idsJsonArray);
+
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        return json;
+        return jsonData;
     }
     /**Genera un objeto nuevo de tipo Evolution de un JSON
      *
@@ -81,6 +103,7 @@ public class Evolution {
     public static Evolution createEvolutionFromJson(int idEvolution, JSONObject json)
     {
         try {
+            Log.d("TESTJSON", json.toString());
             JSONObject selectedJSON = json.getJSONObject(String.valueOf(idEvolution));
             double xpCurrent = selectedJSON.getDouble("level");
 
