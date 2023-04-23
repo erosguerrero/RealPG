@@ -1,7 +1,10 @@
 package com.example.realpg.ui.main;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -163,6 +166,13 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
         //TextView v = binding.clickedEntry;
         //v.setText(pe.getLabel());
+
+        SharedPreferences mPreferences = getActivity().getSharedPreferences("previousTab", MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        preferencesEditor.putBoolean("tabHasToChange", true);
+        preferencesEditor.putInt("prevTab", 2);
+        preferencesEditor.apply();
+
         Intent intent = new Intent(this.getActivity(), CategoryInfoActivity.class);
         intent.putExtra("categoryName", pe.getLabel());
         startActivity(intent);

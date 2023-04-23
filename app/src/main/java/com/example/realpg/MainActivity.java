@@ -1,6 +1,7 @@
 package com.example.realpg;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.example.realpg.databinding.ActivityMainBinding;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -68,8 +70,21 @@ public class MainActivity extends AppCompatActivity{
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
 
-        TabLayout.Tab tab = tabs.getTabAt(1);
-        tab.select();
+        //TabLayout.Tab tab = tabs.getTabAt(1);
+        //tab.select();
+        Log.i("MainActivity", "Viendo si hay cambio de tab");
+        SharedPreferences mPreferences = getSharedPreferences("previousTab", MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        int tabIndex = mPreferences.getInt("prevTab", -1);
+        boolean tabHasToChange = mPreferences.getBoolean("tabHasToChange", false);
+        if(tabHasToChange) {
+            Log.i("MainActivity", "Si que hay cambio de tab");
+            preferencesEditor.putBoolean("tabHasToChange", false);
+            setTab(tabIndex);
+        } else {
+            setTab(1);
+        }
+        preferencesEditor.apply();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +151,10 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-
+    public void setTab(int tabIndex){
+        TabLayout tabs = binding.tabs;
+        TabLayout.Tab tab = tabs.getTabAt(tabIndex);
+        tab.select();
+    }
 
 }
