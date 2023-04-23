@@ -225,7 +225,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
             categories = manageSpinnerList(currentCategory);
 
             spinnerAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories);
-            categoriesSpinner.setAdapter(spinnerAdapter);
+            if(spinnerAdapter != null) categoriesSpinner.setAdapter(spinnerAdapter);
 
             categoriesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -242,7 +242,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
                         categoriesSpinner.setSelection(i);
                         spinnerAdapter.clear();
                         spinnerAdapter.addAll(manageSpinnerList(selectedCat));
-                        categoriesSpinner.setAdapter(spinnerAdapter);
+                        if(spinnerAdapter != null) categoriesSpinner.setAdapter(spinnerAdapter);
 
                         ac.setCategory(selectedCat);
                         //TODO sobreescribir en el fichero esta Actividad

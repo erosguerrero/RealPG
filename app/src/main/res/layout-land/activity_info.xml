@@ -189,17 +189,22 @@
         app:layout_constraintStart_toEndOf="@+id/timeWeek"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
-    <TextView
-        android:id="@+id/activityCategory"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/activityCategory"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/activityCategoryTitle"
         app:layout_constraintStart_toStartOf="@+id/activityCategoryTitle"
-        app:layout_constraintTop_toBottomOf="@+id/activityCategoryTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/activityCategoryTitle">
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/deleteButton"
