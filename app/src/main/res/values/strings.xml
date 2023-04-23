@@ -11,6 +11,7 @@
     <string name="top1ActivityTime">5d 4h y 53mins</string>
     <string name="top2ActivityTime">1d 11h y 12 mins</string>
     <string name="top3ActivityTime">23h y 50mins</string>
+    <string name="noLatestText">No hay actividades recientes.</string>
     <string name="hoursPerCatTitle">Horas por categoria</string>
     <string name="categoryTitle">Category Title</string>
     <string name="activityInfoHeader">Activity Name</string>
