@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -30,6 +31,7 @@ import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.DataManager;
 import com.example.realpg.MainActivity;
 import com.example.realpg.MyOnClickListenerRunAct;
+import com.example.realpg.MyOnClickListenerStartActivity;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage2Binding;
@@ -518,7 +520,12 @@ public class Page2 extends Fragment {
         TextView tv = item.findViewById(R.id.itemName);
         tv.setText(abi.getName());
         Log.i("demo", "id en al add " + abi.getId());
-        item.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+        //item.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+        tv.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+
+        ImageButton playButton = item.findViewById(R.id.startActivityButton);
+        playButton.setOnClickListener(new MyOnClickListenerStartActivity(abi.getId(), getActivity()));
+
 
         switch (abi.getCat()) {
             case BIENESTAR:{
