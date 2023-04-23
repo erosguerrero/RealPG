@@ -72,18 +72,17 @@ public class MainActivity extends AppCompatActivity{
 
         //TabLayout.Tab tab = tabs.getTabAt(1);
         //tab.select();
-        Log.i("MainActivity", "Viendo si hay cambio de tab");
         SharedPreferences mPreferences = getSharedPreferences("previousTab", MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         int tabIndex = mPreferences.getInt("prevTab", -1);
         boolean tabHasToChange = mPreferences.getBoolean("tabHasToChange", false);
         if(tabHasToChange) {
             Log.i("MainActivity", "Si que hay cambio de tab");
-            preferencesEditor.putBoolean("tabHasToChange", false);
             setTab(tabIndex);
         } else {
             setTab(1);
         }
+        preferencesEditor.putBoolean("tabHasToChange", false);
         preferencesEditor.apply();
 
         fab.setOnClickListener(new View.OnClickListener() {
