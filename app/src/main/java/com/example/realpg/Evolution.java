@@ -103,14 +103,12 @@ public class Evolution {
     public static Evolution createEvolutionFromJson(int idEvolution, JSONObject json)
     {
         try {
-            Log.d("TESTJSON", json.toString());
             JSONObject selectedJSON = json.getJSONObject(String.valueOf(idEvolution));
             double xpCurrent = selectedJSON.getDouble("level");
 
             JSONArray levelsArray = selectedJSON.getJSONArray("levels");
             JSONArray namesArray = selectedJSON.getJSONArray("names");
             JSONArray idsArray = selectedJSON.getJSONArray("ids");
-
 
             ArrayList<Integer> levelsList = new ArrayList<Integer>();
             ArrayList<String> namesList = new ArrayList<String>();

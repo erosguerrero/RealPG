@@ -181,7 +181,6 @@ public class NewPoke extends AppCompatActivity {
     * */
 
     private void buttonAction(Evolution evolution){
-        Log.d("NEWPOKE", "Se ha seleccionado la siguiente evolución : " + evolution.toString());
         DataManager dm = new DataManager(this);
         JSONObject pokemonJson = dm.load(dm.POKEMON_FILE_NAME);
         JSONObject extraJson = dm.load(dm.EXTRA_FILE_NAME);

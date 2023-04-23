@@ -13,11 +13,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.realpg.ActivityBasicInfo;
 import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.DataManager;
+import com.example.realpg.Evolution;
 import com.example.realpg.MainActivity;
+import com.example.realpg.Pokemon;
 import com.example.realpg.R;
+import com.github.mikephil.charting.renderer.scatter.ChevronUpShapeRenderer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -36,8 +45,7 @@ public class ListMyPoke extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO sustituir el id del first selected por el que tengamos almacenado
-         adapter = new PokeListAdapter(this, 393);
+
 
         setContentView(R.layout.list_my_poke);
 
@@ -52,28 +60,38 @@ public class ListMyPoke extends AppCompatActivity {
        // loadingText = findViewById(R.id.loadingText);
         //adapter.setLoadingTextView(loadingText);
 
-        //TODO datos de prueba: sustituir por la lista de pokes que tengamos almacenados
-         //TODO   (solo necesitamos su id y nombre para mostrar esta vista)
-
-        List<PokeRecyclerInfo> demoPokes = new ArrayList<>();
-        demoPokes.add(new PokeRecyclerInfo("Poke1", 1,1));
-        demoPokes.add(new PokeRecyclerInfo("Poke124", 124,124));
-        PokeRecyclerInfo firstSelected = new PokeRecyclerInfo("Poke393", 393,393);
-       // firstSelected.isSelected = true;
-        demoPokes.add(firstSelected);
-        demoPokes.add(new PokeRecyclerInfo("Poke4",4,4));
-
-        Random rand = new Random();
-
-        for(int i = 0; i< 20; i++)
-        {
-            int idPoke = rand.nextInt((845) + 1) +10;
-            String urlImg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"+idPoke+".png";
-            demoPokes.add(new PokeRecyclerInfo("Poke"+idPoke, idPoke, idPoke));
+        DataManager dm = new DataManager(this);
+        JSONObject extraJson = dm.load(dm.EXTRA_FILE_NAME);
+        int idSelected = -1;
+        try {
+            idSelected = extraJson.getInt("PokeChosen");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
-        adapter.setPokeListData(demoPokes);
 
-            recycler.setAdapter(adapter);
+        JSONObject pokemonJson = dm.load(dm.POKEMON_FILE_NAME);
+        List<PokeRecyclerInfo> pokeRecyclerList = new ArrayList<>();
+
+
+
+        String key;
+        for (Iterator<String> it = pokemonJson.keys(); it.hasNext(); ) {
+            key = it.next();
+            String name; int idPoke;
+
+                Evolution evoSelected = Evolution.createEvolutionFromJson(Integer.valueOf(key), pokemonJson);
+                Pokemon currentPoke = evoSelected.getCurrentPokemon();
+                name = currentPoke.getName();
+                idPoke = currentPoke.getId();
+                pokeRecyclerList.add(new PokeRecyclerInfo(name, idPoke,Integer.valueOf(key)));
+                if(idSelected == Integer.valueOf(key)){
+                    idSelected = currentPoke.getId();
+                }
+        }
+
+        adapter = new PokeListAdapter(this, idSelected);
+        adapter.setPokeListData(pokeRecyclerList);
+        recycler.setAdapter(adapter);
 
         ImageButton backArrowButton = findViewById(R.id.backArrowListPoke);
         backArrowButton.setOnClickListener(new View.OnClickListener() {
