@@ -364,6 +364,9 @@ public class Page1 extends Fragment {
     //TODO: actualizar lista de recientes dinamicamente
     public void updateLatestActivitiesPanel()
     {
+        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+
         //TODO crear nueva clase listener para el comienzo de actividades y ponerselo a estas
         JSONObject jsonExtra = DM.load(DataManager.EXTRA_FILE_NAME);
 
@@ -371,6 +374,7 @@ public class Page1 extends Fragment {
         try {
             JSONArray last3 = jsonExtra.getJSONArray("Last3");
 
+            //last3.put(0);
             //  last3.put(1);
             //  last3.put(2);
             LinearLayout latestActCont = binding.LatestActivitiesContainer;
@@ -393,8 +397,12 @@ public class Page1 extends Fragment {
                 startActivityButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Log.i("Panel1", "start activity1");
-                        showTimeWatch();
                         onPause = false;
+                        isActivityDisplaying = true;
+                        preferencesEditor.putBoolean("onPause", onPause);
+                        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+                        showTimeWatch();
+
                     }
                 });
 
