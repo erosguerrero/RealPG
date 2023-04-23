@@ -4,14 +4,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -84,9 +91,14 @@ public class NewPoke extends AppCompatActivity {
             }
         }
 
+        if (isNetworkAvailable()){
+            apiCalls(null);
+        }
+        else{
+            Toast toast = Toast.makeText(this, "Sin conexión a internet", Toast.LENGTH_LONG);
+            toast.show();
+        }
 
-        //Se llama a la api para generar los pokemones
-        apiCalls(null);
 
     }
 
@@ -213,5 +225,11 @@ public class NewPoke extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm != null ? cm.getActiveNetworkInfo() : null;
+        return info != null && info.isConnected();
     }
 }
