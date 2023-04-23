@@ -46,12 +46,15 @@ public class NewPoke extends AppCompatActivity {
         más sencillo trabajar con ellos
      */
     private int[] images;
+
     private int[] progress;
 
     private int[] buttons;
 
     //Evolutions guarda el las evoluciones que se han generado llamando a la api
     private ArrayList<Evolution> evolutions;
+
+    private int money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,9 @@ public class NewPoke extends AppCompatActivity {
                 buttonAction(evolutions.get(finalI));
             });
             button.setVisibility(View.GONE);
+            if (money < 10){
+                button.setEnabled(false);
+            }
         }
 
 
@@ -91,6 +97,7 @@ public class NewPoke extends AppCompatActivity {
         random = new Random();
         evolutions = new ArrayList<Evolution>();
         times = 0;
+        money = 10;
     }
 
     //ApiCall llama una única vez a la api, se le pasa un id previamente generado aleatoriamente
@@ -195,6 +202,10 @@ public class NewPoke extends AppCompatActivity {
             dm.save(dm.POKEMON_FILE_NAME,pokemonJson);
             dm.save(dm.EXTRA_FILE_NAME, extraJson);
 
+
+            //Restar monedas
+            money -= 10;
+            Log.d("Monedas", "monedas : " + money);
             //Volver
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
