@@ -365,11 +365,13 @@ public class Page1 extends Fragment {
                             double newLvl = evo.getCurrentXp();
 
                             int dif = (int)Math.floor(newLvl) - (int)Math.floor(prevLvl);
+                            Log.i("demo2", "dif: "+ dif);
                             if(dif > 0)
                             {
+                                Log.i("demo2", "nuevas coins: "+ coins + " + " + dif);
                                 coins += dif;
-                                jsonExtra2.put("coins", coins);
-                                DM.save(DataManager.POKEMON_FILE_NAME, jsonExtra2);
+                                jsonExtra2.put("Coins", coins);
+                                DM.save(DataManager.EXTRA_FILE_NAME, jsonExtra2);
                             }
 
                             changeLvl(root,evo.getCurrentXp());
