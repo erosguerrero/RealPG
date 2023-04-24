@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#00ADB5</color>
     <color name="seconday">#393E46</color>
+    <color name="greenSecondary">#00747A</color>
     <color name="background">#212121</color>
     <color name="delete">#E53935</color>
     <color name="yellow">#FBC02D</color>
