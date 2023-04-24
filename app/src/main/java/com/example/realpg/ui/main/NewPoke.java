@@ -77,6 +77,8 @@ public class NewPoke extends AppCompatActivity {
 
         try {
             money = jsonExtra.getInt("Coins");
+            //TODO QUITAR ESET SET de 75
+            //money = 75;
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

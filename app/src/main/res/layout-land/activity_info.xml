@@ -217,4 +217,16 @@
         app:layout_constraintStart_toEndOf="@+id/timeTotal"
         app:layout_constraintTop_toTopOf="@+id/timeTotal" />
 
+    <Button
+        android:id="@+id/undoDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deshacer borrado"
+        android:visibility="gone"
+        app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@+id/timeTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeTotal"
+        app:layout_constraintTop_toTopOf="@+id/timeTotal" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

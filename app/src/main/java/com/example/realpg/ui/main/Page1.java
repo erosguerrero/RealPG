@@ -46,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,7 +124,7 @@ public class Page1 extends Fragment {
         isActivityDisplaying = mPreferences.getBoolean("isActivityDisplaying", false);
         Boolean savedOnPause = mPreferences.getBoolean("onPause", true);
         double savedMinutes = mPreferences.getFloat("savedMinutes", -2);
-
+        idRunningAct = mPreferences.getInt("idRunningAct", -1);
         if(isActivityDisplaying){
             Log.i("Page1", "Inside displaying activity");
             LocalDateTime time = LocalDateTime.now();
@@ -331,8 +332,84 @@ public class Page1 extends Fragment {
                 Log.i("Page1", "current time: " + currentTime);
                 setStopWatchTime(0);
 
+                int minutes = strTimeToMinutes(currentTime);
+                Log.i("Page1", "minutes "+ minutes);
+
                 isActivityDisplaying = mPreferences.getBoolean("isActivityDisplaying", false);
                 Log.i("Page1", "activity displaying inside endbutton2: " + isActivityDisplaying);
+
+
+                if(minutes > 0)
+                {
+                    int idEvoSelected = -1;
+
+                    //actualizacion de la info del pokemon seleccionado actual
+                    try {
+
+                        JSONObject jsonExtra2 =  DM.load(DataManager.EXTRA_FILE_NAME);
+                        idEvoSelected = jsonExtra2.getInt("PokeChosen");
+
+                        int coins = jsonExtra2.getInt("Coins");
+
+                        Log.i("Page1", "el id del seleccionado es "+idEvoSelected);
+                        if(idEvoSelected != -1) {
+                            JSONObject jsonEvolutions = DM.load(DataManager.POKEMON_FILE_NAME);
+
+                            Evolution evo = Evolution.createEvolutionFromJson(idEvoSelected, jsonEvolutions);
+
+                            Pokemon prevPoke = evo.getCurrentPokemon();
+                            double prevLvl = evo.getCurrentXp();
+                            evo.addXp(minutes);
+                            //evo.demoSetLvl(31.7);
+                            Pokemon newPoke = evo.getCurrentPokemon();
+                            double newLvl = evo.getCurrentXp();
+
+                            int dif = (int)Math.floor(newLvl) - (int)Math.floor(prevLvl);
+                            if(dif > 0)
+                            {
+                                coins += dif;
+                                jsonExtra2.put("coins", coins);
+                                DM.save(DataManager.POKEMON_FILE_NAME, jsonExtra2);
+                            }
+
+                            changeLvl(root,evo.getCurrentXp());
+
+                            if(prevPoke.getId() != newPoke.getId())
+                            {
+                                ImageView demo = binding.selectedPokemonImage;
+                                Glide.with(getActivity()).load(newPoke.getImage()).into(demo);
+                            }
+
+                            jsonEvolutions.put(idEvoSelected+"", evo.toJson());
+
+                            DM.save(DataManager.POKEMON_FILE_NAME, jsonEvolutions);
+
+                        }
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                    JSONObject jsonActivities = DM.load(DataManager.ACTIVITIES_FILE_NAME);
+                    try {
+                        JSONObject jsonAct = jsonActivities.getJSONObject(idRunningAct+"");
+
+                        Activity ac = Activity.createActivityFromJson(jsonAct, idRunningAct);
+                        ac.addNewSession(minutes);
+
+                        jsonActivities.put(idRunningAct+"", ac.toJson());
+
+                        DM.save(DataManager.ACTIVITIES_FILE_NAME, jsonActivities);
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+
+
+
             }
         });
 
@@ -376,6 +453,24 @@ public class Page1 extends Fragment {
             }
         });*/
         return root;
+    }
+
+    /**
+     * Dada un tiempo en un formato devuelve su equivalencia en minutos
+     * @param time recive un string con el formato hh:mm:ss
+     * @return Devuelve los minutos como entero redondeado (31 secs es un 1min)
+     */
+    private int strTimeToMinutes(String time)
+    {
+        float minutes;
+        String[] parts = time.split(":");
+        Integer hours = Integer.parseInt(parts[0]);
+        Integer mins = Integer.parseInt(parts[1]);
+        Float secs = Float.valueOf(Integer.parseInt(parts[2]));
+        minutes = (hours*60) + mins + (secs/60);
+        Log.i("Page1", "minutes func "+minutes);
+
+        return Math.round(minutes);
     }
 
 
@@ -637,6 +732,7 @@ public class Page1 extends Fragment {
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         preferencesEditor.putBoolean("onPause", onPause);
         preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
+        preferencesEditor.putInt("idRunningAct",idRunningAct);
         preferencesEditor.apply();
 
         setStopWatchTime(0);

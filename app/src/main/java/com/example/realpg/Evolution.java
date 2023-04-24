@@ -37,8 +37,8 @@ public class Evolution {
 
     public Pokemon getCurrentPokemon(){
         int index = 0;
-        for(int i = 0; i < levels.size(); i++) {
-            if((int)Math.floor(currentXp) > levels.get(i)){
+        for(int i = 1; i < levels.size(); i++) {
+            if((int)Math.floor(currentXp) >= levels.get(i)){
                 index++;
             }
         }
@@ -152,6 +152,15 @@ public class Evolution {
         return currentXp;
     }
 
+    /**
+     * Suma experiencia al pokemon. Multiplicar minutes *0.1 significa que un minuto es un 10% de la xp para subir un nivel
+     * @param minutes
+     */
+    public void addXp(int minutes)
+    {
+        currentXp += (minutes*0.5);
+    }
+
     @Override
     public String toString() {
         return "Evolution{" +
@@ -161,5 +170,10 @@ public class Evolution {
                 ", names=" + names +
                 ", current=" + getCurrentPokemon().toString()+
                 '}';
+    }
+
+    public void demoSetLvl(double lvl)
+    {
+        this.currentXp = lvl;
     }
 }
