@@ -215,6 +215,20 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Se usa el layout para poner el fondo blanco y que no se pierda "magicamente" la arrow del spinner -->
+
+    <Button
+        android:id="@+id/undoDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Deshacer borrado"
+        android:visibility="gone"
+        app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <RelativeLayout
         android:layout_width="150dp"
         android:layout_height="wrap_content"

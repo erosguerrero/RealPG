@@ -7,6 +7,18 @@
     android:background="@color/background"
     tools:context=".ui.main.NewPoke">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Cada pokemon cuesta 10 monedas"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/pokeImage2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header3" />
+
     <View
         android:id="@+id/header3"
         android:layout_width="2000dp"
@@ -154,5 +166,17 @@
         app:layout_constraintEnd_toEndOf="@+id/pokeImage4"
         app:layout_constraintStart_toStartOf="@+id/pokeImage4"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage4" />
+
+    <TextView
+        android:id="@+id/coinsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/pokeImage4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

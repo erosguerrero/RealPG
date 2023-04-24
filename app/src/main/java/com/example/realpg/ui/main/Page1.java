@@ -26,6 +26,8 @@ import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.DataManager;
 import com.example.realpg.Evolution;
 import com.example.realpg.MainActivity;
+import com.example.realpg.MyOnClickListenerRunAct;
+import com.example.realpg.MyOnClickListenerStartActivity;
 import com.example.realpg.Pokemon;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentMain2Binding;
@@ -45,6 +47,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -73,6 +77,10 @@ public class Page1 extends Fragment {
     private ManageStopWatch manageStopWatch;
     private String sharedPrefFile = "functionality";
     SharedPreferences mPreferences;
+
+
+    int idRunningAct = -1;
+
 
     public static Page1 newInstance(int index) {
         Page1 fragment = new Page1();
@@ -371,6 +379,55 @@ public class Page1 extends Fragment {
     }
 
 
+    public void updateLatestActivities(Integer newId)
+    {
+        List<String> lastActivitiesStr = new ArrayList<>();
+
+        JSONObject jsonExtra = DM.load(DataManager.EXTRA_FILE_NAME);
+
+        try {
+            JSONArray last3 = jsonExtra.getJSONArray("Last3");
+            for(int i = 0; i < last3.length(); i++) {
+                lastActivitiesStr.add(last3.getInt(i)+"");
+            }
+
+            int pos = -1;
+            if(lastActivitiesStr.contains(newId+""))
+            {
+                lastActivitiesStr.remove(newId+"");
+                lastActivitiesStr.add(0, newId+"");
+           /*     List<String> newListStr = new ArrayList<>();
+                newListStr.add(newId+"");
+                for(int i = 0; i < lastActivitiesStr.size(); i++) {
+                    newListStr.add( lastActivitiesStr.get(i));
+                }*/
+
+            }
+            else {
+                lastActivitiesStr.add(0, newId+"");
+                if(lastActivitiesStr.size() >3 )
+                    lastActivitiesStr.remove(lastActivitiesStr.size()-1);
+            }
+
+            JSONArray newLast3 = new JSONArray();
+            for(int i = 0; i < lastActivitiesStr.size(); i++)
+            {
+                newLast3.put(Integer.parseInt(lastActivitiesStr.get(i)));
+                Log.i("demo2", "latest pos "+ i + " is: "+lastActivitiesStr.get(i));
+            }
+
+            jsonExtra.put("Last3", newLast3);
+            DM.save(DataManager.EXTRA_FILE_NAME, jsonExtra);
+
+            updateLatestActivitiesPanel();
+
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     //TODO: actualizar lista de recientes dinamicamente
     public void updateLatestActivitiesPanel()
     {
@@ -388,6 +445,7 @@ public class Page1 extends Fragment {
             //  last3.put(1);
             //  last3.put(2);
             LinearLayout latestActCont = binding.LatestActivitiesContainer;
+            latestActCont.removeAllViews();
             if(last3.length() ==0)
                 binding.noLatestText.setVisibility(VISIBLE);
             else
@@ -395,15 +453,19 @@ public class Page1 extends Fragment {
 
             for(int i = 0; i < last3.length(); i++)
             {
+                int idAct = last3.getInt(i);
                 View item = getLayoutInflater().inflate(R.layout.item_panel, null);
                 TextView tv = item.findViewById(R.id.itemName);
+                tv.setOnClickListener(new MyOnClickListenerRunAct(idAct, getActivity()));
                 //dado el id guardado, leemos el archivo de actividades y cogemos la actividad con ese id
-                int idAct = last3.getInt(i);
+                ImageButton playButton = item.findViewById(R.id.startActivityButton);
+                playButton.setOnClickListener(new MyOnClickListenerStartActivity(idAct, getActivity()));
+
                 JSONObject jsonActivities = DM.load(DataManager.ACTIVITIES_FILE_NAME);
 
                 Activity ac = Activity.createActivityFromJson(jsonActivities.getJSONObject(idAct+""), idAct);
                 tv.setText(ac.getName());
-                ImageButton startActivityButton = item.findViewById(R.id.startActivityButton);
+              /*  ImageButton startActivityButton = item.findViewById(R.id.startActivityButton);
                 startActivityButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Log.i("Panel1", "start activity1");
@@ -414,7 +476,7 @@ public class Page1 extends Fragment {
                         showTimeWatch();
 
                     }
-                });
+                });*/
 
                 latestActCont.addView(item);
             }
@@ -454,7 +516,14 @@ public class Page1 extends Fragment {
         View activityInProgressHeader = getActivity().findViewById(R.id.activityInProgressHeader);
         activityInProgressHeader.setVisibility(VISIBLE);
 
+        JSONObject jsonActivities = DM.load(DataManager.ACTIVITIES_FILE_NAME);
+
         TextView activityInProgressName = getActivity().findViewById(R.id.activityInProgressName);
+        try {
+           activityInProgressName.setText(jsonActivities.getJSONObject(idRunningAct+"").getString("name"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         activityInProgressName.setVisibility(VISIBLE);
 
         ImageButton restartButton = getActivity().findViewById(R.id.restartButton);
@@ -624,6 +693,10 @@ public class Page1 extends Fragment {
         float seconds = time.getSecond();
         Log.i("Page1", "Inside parseLocalDateTime " + hours + " "+ minutes+" "+seconds);
         return hours*60 + minutes + seconds/60;
+    }
+
+    public void setIdRunningAct(int idRunningAct) {
+        this.idRunningAct = idRunningAct;
     }
 
 }

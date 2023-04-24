@@ -12,19 +12,21 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityInfoActivity extends AppCompatActivity {
     protected ArrayAdapter<String> spinnerAdapter;
     protected ArrayList<String> categories;
     protected String currentCategory;
     protected Spinner categoriesSpinner;
+
+    Activity acBackup;
 
     Activity ac;
     DataManager dm;
@@ -152,70 +154,6 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
             //TODO Ahora mismo lo anterior no es necesario, ya que se accede por ids
 
 
-        /*    JSONObject jsonAct = json.getJSONObject(idActivity+"");
-            Log.i("demo", "Json act: "+ jsonAct);
-
-            Activity ac = Activity.createActivityFromJson(jsonAct, idActivity);
-
-            TextView timeWeek = findViewById(R.id.timeWeek);
-            TextView timeMonth = findViewById(R.id.timeMonth);
-            TextView timeYear = findViewById(R.id.timeYear);
-            TextView timeTotal = findViewById(R.id.timeTotal);
-
-            Log.i("demo", "tiempo semana: "+ac.getMinutesLatestdays(7));
-            timeWeek.setText(ac.getMinutesLatestDaysFormatted(7));
-            timeMonth.setText(ac.getMinutesLatestDaysFormatted(30));
-            timeYear.setText(ac.getMinutesLatestDaysFormatted(365));
-            timeTotal.setText(ac.getFormattedTimeTotal());
-
-            Log.i("demo", "nuevo: " + ac.toJson().toString());
-
-            TextView headerTitle = findViewById(R.id.activityName);
-            headerTitle.setText(ac.getName());*/
-
-
-
-
-/////////pruebas
-      /*      ActivitySession demo = new ActivitySession("2023-04-17",10);
-
-            Activity demoAc = new Activity();
-
-
-
-
-            //Cuidado, si se meten datos de prueba deben meterse en orden de antiguo a nuevo
-            demoAc.demoAddSession("2022-01-01", 5);
-            demoAc.demoAddSession("2022-01-02", 10);
-            demoAc.demoAddSession("2023-04-04", 20);
-            demoAc.addNewSession(5);
-            demoAc.addNewSession(10);
-
-
-
-            Log.i("demo", "info json: "+ demo.toJson().toString());
-
-            Log.i("demo", "mins en 17-04-2023: " + demoAc.getMinutesLatestdays(1));
-
-            Log.i("demo", "mins en 17-03-2023: " + demoAc.getMinutesLatestdays(30));
-
-            Log.i("demo", "mins en mas de un anio: " + demoAc.getMinutesLatestdays(600));
-
-            demoAc.updateLatestSessions();
-
-            Log.i("demo", "mins en mas de un anio: " + demoAc.getMinutesLatestdays(600));
-
-
-            Log.i("demo","Json activity: "+ demoAc.toJson().toString());*/
-
-
-    ///////// fin pruebas
-
-
-            //String activityName = getIntent().getStringExtra("activityName");
-
-           // TextView headerTitle = findViewById(R.id.activityName);
-           // headerTitle.setText(activityName);
 
             categoriesSpinner = findViewById(R.id.categorySpinner);
 
@@ -277,9 +215,81 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
                     //TODO leer json completo de actividades y hacer remove(ac.getId())
                     //volver a MainActivity
 
+                    Button undoDeleteBtn = findViewById(R.id.undoDeleteButton);
+                    Button deleteButton = findViewById(R.id.deleteButton);
+                    deleteButton.setVisibility(View.GONE);
+                    undoDeleteBtn.setVisibility(View.VISIBLE);
+                    categoriesSpinner.setEnabled(false);
+                    Log.i("demo2", "aqui");
+
+                    JSONObject jsonActvities = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+
+                   try {
+                        acBackup = Activity.createActivityFromJson(jsonActvities.getJSONObject(idActivity+""),idActivity);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    jsonActvities.remove(idActivity+"");
+                    JSONObject jsonExtra = dm.load(DataManager.EXTRA_FILE_NAME);
+
+
+                        try {
+                            JSONArray last3Json = jsonExtra.getJSONArray("Last3");
+                            List<String> last3Str = new ArrayList<>();
+                            for(int i = 0; i < last3Json.length(); i++)
+                            {
+                                last3Str.add(last3Json.getInt(i)+"");
+                            }
+                            if(last3Str.contains(idActivity+""))
+                            {
+                                last3Str.remove(idActivity+"");
+                                JSONArray newLast3 = new JSONArray();
+                                for(int i = 0; i < last3Str.size(); i++)
+                                {
+                                    newLast3.put(Integer.parseInt(last3Str.get(i)));
+                                }
+                                jsonExtra.put("Last3", newLast3);
+                                dm.save(DataManager.EXTRA_FILE_NAME, jsonExtra);
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+
+                    dm.save(DataManager.ACTIVITIES_FILE_NAME, jsonActvities);
+
+                 //   Intent intent = new Intent(ActivityInfoActivity.this, MainActivity.class);
+                //    startActivity(intent);
 
                 }
             });
+
+
+           Button undoDeleteBtn = findViewById(R.id.undoDeleteButton);
+
+            undoDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.i("demo2", "undo pulsaod");
+                    undoDeleteBtn.setVisibility(View.GONE);
+                    categoriesSpinner.setEnabled(true);
+
+                    Button deleteButton = findViewById(R.id.deleteButton);
+                    deleteButton.setVisibility(View.VISIBLE);
+
+                    JSONObject jsonActivities = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+
+                    try {
+                        jsonActivities.put(idActivity+"", acBackup.toJson());
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    dm.save(DataManager.ACTIVITIES_FILE_NAME, jsonActivities);
+
+
+                }
+            });
+
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

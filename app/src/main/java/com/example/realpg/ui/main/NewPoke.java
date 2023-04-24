@@ -63,11 +63,27 @@ public class NewPoke extends AppCompatActivity {
 
     private int money;
 
+    DataManager dm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_poke);
         initFields();
+
+        dm = new DataManager(this);
+
+        JSONObject jsonExtra =  dm.load(DataManager.EXTRA_FILE_NAME);
+
+        try {
+            money = jsonExtra.getInt("Coins");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        TextView coinsText = findViewById(R.id.coinsText);
+        coinsText.setText("Monedas "+money);
+
 
         //Se inicializa el boton de volver atras
         ImageButton back = findViewById(R.id.back);
@@ -109,7 +125,7 @@ public class NewPoke extends AppCompatActivity {
         random = new Random();
         evolutions = new ArrayList<Evolution>();
         times = 0;
-        money = 10;
+      //  money = 10;
     }
 
     //ApiCall llama una única vez a la api, se le pasa un id previamente generado aleatoriamente
@@ -217,6 +233,19 @@ public class NewPoke extends AppCompatActivity {
 
             //Restar monedas
             money -= 10;
+            TextView coinsText = findViewById(R.id.coinsText);
+            coinsText.setText("Monedas "+money);
+
+            JSONObject jsonExtra =  dm.load(DataManager.EXTRA_FILE_NAME);
+
+            try {
+                jsonExtra.put("Coins", money);
+                dm.save(DataManager.EXTRA_FILE_NAME,jsonExtra);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+
             Log.d("Monedas", "monedas : " + money);
             //Volver
             Intent intent = new Intent(this, MainActivity.class);

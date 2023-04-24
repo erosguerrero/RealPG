@@ -29,10 +29,16 @@ public class MyOnClickListenerStartActivity implements View.OnClickListener {
     public void onClick(View v) {
         Log.i("demo2", "Activity pulsado para comenzar con id " + idAct);
 
+        //se debe llamar lo primero al setIdRunning ya que el resto de funciones del cronometro pueden usarlo
+        Page1.getInstance().setIdRunningAct(idAct);
         MainActivity mainActivityContext = (MainActivity)context;
         mainActivityContext.setTab(1);
 
         Page1.getInstance().startStopWatch();
+
+
+
+        Page1.getInstance().updateLatestActivities(idAct);
 
        /*Intent intent = new Intent(context, ActivityInfoActivity.class);
         intent.putExtra("idAct", idAct);
