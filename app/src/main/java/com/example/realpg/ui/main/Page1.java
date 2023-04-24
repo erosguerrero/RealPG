@@ -30,6 +30,7 @@ import com.example.realpg.MyOnClickListenerRunAct;
 import com.example.realpg.MyOnClickListenerStartActivity;
 import com.example.realpg.Pokemon;
 import com.example.realpg.R;
+import com.example.realpg.Utils;
 import com.example.realpg.databinding.FragmentMain2Binding;
 import com.example.realpg.databinding.FragmentPage1Binding;
 
@@ -110,6 +111,8 @@ public class Page1 extends Fragment {
         this.DM = new DataManager(getActivity());
         jsonPokemon = DM.load("pokemon.json");
         jsonExtra = DM.load("extra.json");
+
+
     }
 
     public static Page1 getInstance() {
@@ -193,6 +196,9 @@ public class Page1 extends Fragment {
         mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
 
+        if (!Utils.isNetworkAvailable(this.getActivity())){
+            Utils.showNoInternetConnection(this.getActivity());
+        }
 
         //TODO DEMO BORRAR
         //DM.demoPokemonJson();

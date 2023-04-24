@@ -30,6 +30,7 @@ import com.example.realpg.Evolution;
 import com.example.realpg.EvolutionLoaderCallbacks;
 import com.example.realpg.MainActivity;
 import com.example.realpg.R;
+import com.example.realpg.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,8 +114,7 @@ public class NewPoke extends AppCompatActivity {
             apiCalls(null);
         }
         else{
-            Toast toast = Toast.makeText(this, "Sin conexión a internet", Toast.LENGTH_LONG);
-            toast.show();
+            Utils.showNoInternetConnection(this);
         }
 
 
@@ -259,8 +259,6 @@ public class NewPoke extends AppCompatActivity {
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = cm != null ? cm.getActiveNetworkInfo() : null;
-        return info != null && info.isConnected();
+        return Utils.isNetworkAvailable(this);
     }
 }

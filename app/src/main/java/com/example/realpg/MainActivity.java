@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity{
         {
             activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.ESTUDIOS));
         }*/
+
+
     }
 
 

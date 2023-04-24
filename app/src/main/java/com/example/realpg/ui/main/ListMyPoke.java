@@ -20,6 +20,7 @@ import com.example.realpg.Evolution;
 import com.example.realpg.MainActivity;
 import com.example.realpg.Pokemon;
 import com.example.realpg.R;
+import com.example.realpg.Utils;
 import com.github.mikephil.charting.renderer.scatter.ChevronUpShapeRenderer;
 
 import org.json.JSONException;
@@ -48,6 +49,10 @@ public class ListMyPoke extends AppCompatActivity {
 
 
         setContentView(R.layout.list_my_poke);
+
+        if (!Utils.isNetworkAvailable(this)){
+            Utils.showNoInternetConnection(this);
+        }
 
 
         //Recycler view
