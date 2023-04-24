@@ -115,7 +115,7 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelTextSize(16);
         pieChart.setEntryLabelColor(Color.BLACK);
-        pieChart.setCenterText("% de horas por categoria");
+        pieChart.setCenterText("Horas por categoría");
         pieChart.setCenterTextSize(24);
         pieChart.getDescription().setEnabled(false);
 
@@ -151,6 +151,7 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         for (Category cat : Category.values()) {
 
             float p = (float)1/9;
+            //TODO utilizar metodo de cats en minuscula con la primera mayuscula
             entries.add(new PieEntry(p, cat.toString()));
         }
 

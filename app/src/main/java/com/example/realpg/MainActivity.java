@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,27 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        ArrayList<Activity> alist = new ArrayList<>();
+        Activity a1 = new Activity(100, 5, null, "act1", Category.CASA);
+        Activity a2 = new Activity(101, 1, null, "act2", Category.CASA);
+        Activity a3 = new Activity(102, 3, null, "act3", Category.CASA);
+        Activity a4 = new Activity(103, 10, null, "act4", Category.CASA);
+        Activity a5 = new Activity(104, 100, null, "act5", Category.CASA);
+        Activity a6 = new Activity(105, 6, null, "act6", Category.CASA);
+        alist.add(a1);
+        alist.add(a2);
+        alist.add(a3);
+        alist.add(a4);
+        alist.add(a5);
+        alist.add(a6);
+
+        Collections.sort(alist, new ActivityComparator());
+
+        for(Activity a: alist){
+            Log.i("MainActivity", a.getName() + " " + a.getTotalMinutes());
+        }
+
 
         //TODO: datos de prueba, quitar en version final
         //solo llamarla una vez y luego comentarla
