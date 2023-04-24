@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.realpg.ui.main.Page3;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -104,8 +105,13 @@ public class MainActivity extends AppCompatActivity{
                 {
                     Log.i("demo2", "pulsado el page3");
                     //TODO llamar a una funcion updatePage3Info para actualizar su informacion
-                    //TODO: tener cuidado conq ue haya problemas de que los elementos de la vista aun no
+                    //TODO: tener cuidado con que haya problemas de que los elementos de la vista aun no
                     //esten cargados y se esten intentando modificar. No se si puede pasar
+                    try {
+                        Page3.getInstance().updatePieChartData();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
             }

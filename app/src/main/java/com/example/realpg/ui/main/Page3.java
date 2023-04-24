@@ -35,6 +35,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ import java.util.ArrayList;
 public class Page3 extends Fragment implements OnChartValueSelectedListener {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static PieChart pieChart;
+    private static Page3 instance;
+
  //   private PageViewModel pageViewModel;
     private FragmentPage3Binding binding;
 
@@ -69,6 +72,7 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         }
       //  pageViewModel.setIndex(index);
 
+        instance = this;
     }
 
     @Override
@@ -98,10 +102,18 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
             pieChart.animateY(1400, Easing.EaseInOutQuad);
         }
         setupPieChart();
-        loadPieChartData();
+        try {
+            loadPieChartData();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         pieChart.setOnChartValueSelectedListener(this);
 
         return root;
+    }
+
+    public static Page3 getInstance(){
+        return instance;
     }
 
     @Override
@@ -128,31 +140,21 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            // load data here
-        }else{
-            // fragment is no longer visible
-        }
-    }
-
     //TODO: problema. Los datos de las categorias y actividades se cargan de fichero desde aqui
     //sin embargo este codigo solo se ejecuta cuando se carga esta pagina dese 0
     //es decir, si vienes de la izquierda del todo a esta
     //Por tanto se pierde informacion para las estadisticas de una actividad que acabes de terminar
     //ya que pasarais de la del centro a a esta, y por tanto este codigo no se ejecutaria
     //TODO: pensar en una solucion para eso o hacer como si nada (aunque puede que se note que no va bien)
-    private void loadPieChartData() {
+    private void loadPieChartData() throws JSONException {
         ArrayList<PieEntry> entries = new ArrayList<>();
         JSONObject jsonCatMinutes = Activity.getCategoriesMinutes(getActivity());
         Log.i("demo2", jsonCatMinutes.toString());
         for (Category cat : Category.values()) {
 
-            float p = (float)1/9;
+            float p = (float)jsonCatMinutes.getInt(cat.toString())/jsonCatMinutes.getInt("TOTAL");
             //TODO utilizar metodo de cats en minuscula con la primera mayuscula
-            entries.add(new PieEntry(p, cat.toString()));
+            if(jsonCatMinutes.getInt(cat.toString()) != 0) entries.add(new PieEntry(p, cat.toString()));
         }
 
         ArrayList<Integer> colors = new ArrayList<>();
@@ -179,10 +181,10 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         pieChart.animateY(1400, Easing.EaseInOutQuad);
     }
 
-    public static void update(){
-        pieChart.animateY(1400, Easing.EaseInOutQuad);
+    public void updatePieChartData() throws JSONException {
+        pieChart.clear();
+        loadPieChartData();
     }
-
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         PieEntry pe = (PieEntry) e;
