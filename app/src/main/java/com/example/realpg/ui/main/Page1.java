@@ -125,22 +125,25 @@ public class Page1 extends Fragment {
         Boolean savedOnPause = mPreferences.getBoolean("onPause", true);
         double savedMinutes = mPreferences.getFloat("savedMinutes", -2);
         idRunningAct = mPreferences.getInt("idRunningAct", -1);
-        if(isActivityDisplaying){
-            Log.i("Page1", "Inside displaying activity");
-            LocalDateTime time = LocalDateTime.now();
-            double actualMinutes = parseLocalDateTimeToFloat(time);
-            double stopWatchTime = mPreferences.getFloat("stopWatchTime", -1);
-            double minutesPassed = actualMinutes - savedMinutes;
-            double timeToDisplay = stopWatchTime + minutesPassed;
-            onPause = savedOnPause;
-            if(!onPause) {
-                Log.i("Page1", "no esta en pausa");
-                setStopWatchTime(timeToDisplay);
-            } else {
-                setStopWatchTime(stopWatchTime);
+        if(idRunningAct != -1){
+            if(isActivityDisplaying){
+                Log.i("Page1", "Inside displaying activity");
+                LocalDateTime time = LocalDateTime.now();
+                double actualMinutes = parseLocalDateTimeToFloat(time);
+                double stopWatchTime = mPreferences.getFloat("stopWatchTime", -1);
+                double minutesPassed = actualMinutes - savedMinutes;
+                double timeToDisplay = stopWatchTime + minutesPassed;
+                onPause = savedOnPause;
+                if(!onPause) {
+                    Log.i("Page1", "no esta en pausa");
+                    setStopWatchTime(timeToDisplay);
+                } else {
+                    setStopWatchTime(stopWatchTime);
+                }
+                showTimeWatch();
             }
-            showTimeWatch();
         }
+
     }
 
     @Override
