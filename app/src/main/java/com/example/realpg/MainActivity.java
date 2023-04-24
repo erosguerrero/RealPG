@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity{
 
     DataManager dm;
 
+
+
     private List<ActivityBasicInfo> activitesBasicInfoList;
 
     //private PieChart pieChart;
@@ -66,6 +68,32 @@ public class MainActivity extends AppCompatActivity{
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+               // tabSelected = position;
+                if(position == 2)
+                {
+                    Log.i("demo2", "pulsado el page3");
+                    //TODO llamar a una funcion updatePage3Info para actualizar su informacion
+                    //TODO: tener cuidado conq ue haya problemas de que los elementos de la vista aun no
+                    //esten cargados y se esten intentando modificar. No se si puede pasar
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
@@ -157,5 +185,11 @@ public class MainActivity extends AppCompatActivity{
         TabLayout.Tab tab = tabs.getTabAt(tabIndex);
         tab.select();
     }
+
+    /**
+     * Devuelve la pos del tab al que se ha accedido
+     * @return -1 sin inicializar, 0 izq, 1 centro, 2 dcha
+     */
+
 
 }

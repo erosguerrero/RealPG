@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.realpg.Activity;
 import com.example.realpg.Category;
 import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.R;
@@ -32,6 +34,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,8 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,8 +128,26 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // load data here
+        }else{
+            // fragment is no longer visible
+        }
+    }
+
+    //TODO: problema. Los datos de las categorias y actividades se cargan de fichero desde aqui
+    //sin embargo este codigo solo se ejecuta cuando se carga esta pagina dese 0
+    //es decir, si vienes de la izquierda del todo a esta
+    //Por tanto se pierde informacion para las estadisticas de una actividad que acabes de terminar
+    //ya que pasarais de la del centro a a esta, y por tanto este codigo no se ejecutaria
+    //TODO: pensar en una solucion para eso o hacer como si nada (aunque puede que se note que no va bien)
     private void loadPieChartData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
+        JSONObject jsonCatMinutes = Activity.getCategoriesMinutes(getActivity());
+        Log.i("demo2", jsonCatMinutes.toString());
         for (Category cat : Category.values()) {
 
             float p = (float)1/9;

@@ -1,6 +1,10 @@
 package com.example.realpg;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.example.realpg.ui.main.PokeRecyclerInfo;
+import com.github.mikephil.charting.data.PieEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,6 +12,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -291,6 +296,75 @@ public class Activity {
         String cat = categoryToStr(category).toLowerCase();
         cat = cat.substring(0, 1).toUpperCase() + cat.substring(1);
         return cat;
+    }
+
+    public String getCatStrUpperCase()
+    {
+        return category.toString();
+    }
+
+    public static List<Activity> loadAllActivities(Context context)
+    {
+        DataManager dm = new DataManager(context);
+
+        JSONObject jsonActivities = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+
+        List<Activity> acList = new ArrayList<>();
+        String key;
+        for (Iterator<String> it = jsonActivities.keys(); it.hasNext(); ) {
+            key = it.next();
+
+            try {
+                Activity a = Activity.createActivityFromJson(jsonActivities.getJSONObject(key),Integer.parseInt(key));
+                acList.add(a);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return  acList;
+    }
+
+    public static JSONObject getCategoriesMinutes(Context context)
+    {
+        JSONObject catMinutes = new JSONObject();
+        List<Activity> acList = loadAllActivities(context);
+
+
+        try {
+            for (Category cat : Category.values()) {
+                catMinutes.put(cat.toString(),0);
+            }
+
+            int total = 0;
+            for(Activity ac: acList)
+            {
+                String catUpperCase = ac.getCatStrUpperCase();
+                int minutes = catMinutes.getInt(catUpperCase) + ac.getTotalMinutes();
+                catMinutes.put(catUpperCase, minutes);
+                total += ac.getTotalMinutes();
+            }
+            catMinutes.put("TOTAL", total);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return catMinutes;
+
+    }
+
+    public static String CatStrFormated(String cat)
+    {
+        String catStr = cat;
+        catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1);
+        return catStr;
+    }
+    public static String CatStrFormated(Category cat)
+    {
+        String catStr =  categoryToStr(cat).toLowerCase();
+        catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1);
+        return catStr;
     }
 
     public static String categoryToStr(Category cat) {
