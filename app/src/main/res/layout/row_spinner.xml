@@ -99,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText1"
         android:layout_centerHorizontal="true"
-        android:text="Okay" />
+        android:backgroundTint="@color/primary"
+        android:text="@string/confirmar" />
 
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.example.realpg;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -19,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.core.app.NotificationCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity{
     private ActivityMainBinding binding;
 
     DataManager dm;
+
+    NotificationChannel channel;
+    NotificationManager notificationManager;
 
 
 
@@ -89,6 +96,25 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
         }
 
+        //NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // Crear el objeto NotificationChannel
+        channel = new NotificationChannel("channel_id", "Nombre del canal", NotificationManager.IMPORTANCE_DEFAULT);
+
+// Registrar el canal de notificación
+        notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+// Crear el objeto NotificationCompat.Builder
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "channel_id")
+                .setSmallIcon(R.drawable.playicon)
+                .setContentTitle("Título de la notificación")
+                .setContentText("Texto de la notificación")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+// Mostrar la notificación
+   /*     int notificationId = 1;
+        notificationManager.notify(notificationId, builder.build());
+*/
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -218,6 +244,16 @@ public class MainActivity extends AppCompatActivity{
         TabLayout tabs = binding.tabs;
         TabLayout.Tab tab = tabs.getTabAt(tabIndex);
         tab.select();
+    }
+
+    public void showNotification(int notificationId,NotificationCompat.Builder builder)
+    {
+        notificationManager.notify(notificationId, builder.build());
+    }
+
+    public void hideNotification(int notificationId)
+    {
+        notificationManager.cancel(notificationId);
     }
 
     /**
