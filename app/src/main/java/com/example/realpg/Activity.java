@@ -360,6 +360,23 @@ public class Activity {
         catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1);
         return catStr;
     }
+
+    public static List<Activity> getActivitiesOfCat(Context context, Category cat)
+    {
+        List<Activity> actCat = new ArrayList<>();
+
+        List<Activity> acList = loadAllActivities(context);
+
+
+        for(Activity ac: acList)
+        {
+            String catUpperCase = ac.getCatStrUpperCase();
+           if(catUpperCase.equals(cat.toString()))
+               actCat.add(ac);
+        }
+
+        return actCat;
+    }
     public static String CatStrFormated(Category cat)
     {
         String catStr =  categoryToStr(cat).toLowerCase();

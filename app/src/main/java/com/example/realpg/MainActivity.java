@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity{
                     //TODO: tener cuidado con que haya problemas de que los elementos de la vista aun no
                     //esten cargados y se esten intentando modificar. No se si puede pasar
                     try {
-                        Page3.getInstance().updatePieChartData();
+                        Page3 p3 = Page3.getInstance();
+                        if(p3!=null)
+                            p3.updatePieChartData();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }

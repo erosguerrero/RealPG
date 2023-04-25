@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.List;
+
 public class CategoryInfoActivity extends AppCompatActivity {
 
     @Override
@@ -20,10 +22,14 @@ public class CategoryInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_info);
 
-        String title = getIntent().getStringExtra("categoryName");
+        String catUpperCase = getIntent().getStringExtra("categoryName");
+
+        String title = Activity.CatStrFormated(catUpperCase);
 
         TextView categoryTitle = findViewById(R.id.categoryTitle);
         categoryTitle.setText(title);
+
+        List<Activity> acList = Activity.getActivitiesOfCat(this, Activity.strToCategory(catUpperCase));
 
         LinearLayout layout = findViewById(R.id.scrollLayout);
         for(int i = 0; i < 20; i++){
