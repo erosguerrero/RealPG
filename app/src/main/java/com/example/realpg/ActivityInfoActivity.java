@@ -2,13 +2,22 @@ package com.example.realpg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,81 +42,14 @@ public class ActivityInfoActivity extends AppCompatActivity {
 
     JSONObject json;
 
+    String initialName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-
-        //Leer datos del json almacenado en disco
-        //simulados ahora con el string readedData
-
-
-        /*String readedData = "\n" +
-                "{\"activities\":[{\"idAct\":0,\"totalMin\":50,\"latestSessions\":[{\"date\":\"2023-04-04\",\"minutes\":20},{\"date\":\"2023-04-17\",\"minutes\":15}]},\n" +
-                "\t       {\"idAct\":1,\"totalMin\":12,\"latestSessions\":[{\"date\":\"2023-03-03\",\"minutes\":20},{\"date\":\"2023-03-22\",\"minutes\":2}]}]}";
-*/
-        //data como json completo, sin jsonArray
-        //TODO quizas no necesario primera clave activities si este json esta en un fichero diferente a los demas
-       //ahora mismo esta hecho como si esuviera en otro archivo diferente a lso demas
-        //TODO ver si necesario guardra un valor en el json que sea siguiente id
-        //se utilizaria como id al crear una actividad y se incrementaria en uno
-        //Asi asegura ids unicas sin mucha complejidad
-        /*String readedData = "{\n" +
-                "\n" +
-                "\t\"0\": {\n" +
-                "\t\t\"cat\": \"CASA\",\n" +
-                "\t\t\"name\": \"Actividad 0\",\n" +
-                "\t\t\"totalMin\": 50,\n" +
-                "\t\t\"latestSessions\": [{\n" +
-                "\t\t\t\"date\": \"2023-04-04\",\n" +
-                "\t\t\t\"minutes\": 20\n" +
-                "\t\t}, {\n" +
-                "\t\t\t\"date\": \"2023-04-17\",\n" +
-                "\t\t\t\"minutes\": 15\n" +
-                "\t\t}]\n" +
-                "\t},\n" +
-                "\t\"1\": {\n" +
-                "\t\t\"cat\": \"BIENESTAR\",\n" +
-                "\t\t\"name\": \"Actividad 1\",\n" +
-                "\t\t\"totalMin\": 60,\n" +
-                "\t\t\"latestSessions\": [{\n" +
-                "\t\t\t\"date\": \"2023-04-04\",\n" +
-                "\t\t\t\"minutes\": 20\n" +
-                "\t\t}, {\n" +
-                "\t\t\t\"date\": \"2023-04-17\",\n" +
-                "\t\t\t\"minutes\": 15\n" +
-                "\t\t}]\n" +
-                "\t},\n" +
-                "\t\"2\": {\n" +
-                "\t\t\"cat\": \"BIENESTAR\",\n" +
-                "\t\t\"name\": \"Actividad 2\",\n" +
-                "\t\t\"totalMin\": 20,\n" +
-                "\t\t\"latestSessions\": [{\n" +
-                "\t\t\t\"date\": \"2023-04-04\",\n" +
-                "\t\t\t\"minutes\": 20\n" +
-                "\t\t}, {\n" +
-                "\t\t\t\"date\": \"2023-04-17\",\n" +
-                "\t\t\t\"minutes\": 15\n" +
-                "\t\t}]\n" +
-                "\t},\n" +
-                "\t\"3\": {\n" +
-                "\t\t\"cat\": \"ESTUDIOS\",\n" +
-                "\t\t\"name\": \"Actividad 3\",\n" +
-                "\t\t\"totalMin\": 10,\n" +
-                "\t\t\"latestSessions\": [{\n" +
-                "\t\t\t\"date\": \"2023-04-04\",\n" +
-                "\t\t\t\"minutes\": 20\n" +
-                "\t\t}, {\n" +
-                "\t\t\t\"date\": \"2023-04-17\",\n" +
-                "\t\t\t\"minutes\": 15\n" +
-                "\t\t}]\n" +
-                "\t}\n" +
-                "\n" +
-                "}";*/
-
-
-
+        
         try {
             DataManager dm = new DataManager(this);
             //JSONObject json = new JSONObject(readedData);
@@ -124,8 +66,10 @@ public class ActivityInfoActivity extends AppCompatActivity {
 
             ac = Activity.createActivityFromJson(jsonAct, idActivity);
 
-            TextView headerTitle = findViewById(R.id.activityName);
+            EditText headerTitle = findViewById(R.id.activityName);
             headerTitle.setText(ac.getName());
+
+            initialName = ac.getName();
 
             TextView timeWeek = findViewById(R.id.timeWeek);
             TextView timeMonth = findViewById(R.id.timeMonth);
@@ -138,6 +82,104 @@ public class ActivityInfoActivity extends AppCompatActivity {
             timeTotal.setText(ac.getFormattedTimeTotal());
 
 
+
+          //  EditText  edit =  findViewById(R.id.edit);
+//Hace que el cursor de escritura se muestre solo al pulsar sobre el texto y se muestra el teclado
+            //source: https://stackoverflow.com/questions/17711075/android-only-show-cursor-in-edittext-when-keyboard-is-displayed
+            final View activityRootView = findViewById(R.id.activityInfoLayout);
+            activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Rect r = new Rect();
+                    activityRootView.getWindowVisibleDisplayFrame(r);
+                    int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                    if (heightDiff > 200) { // if more than 100 pixels, its probably a keyboard...
+                        if (headerTitle != null) {
+                            Log.i("demo2", "detectado");
+                            headerTitle.setCursorVisible(true);
+                        }
+                    } else {
+                        if (headerTitle != null) {
+                            headerTitle.setCursorVisible(false);
+                        }
+                    }
+                }
+            });
+
+
+            headerTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Establecer la selección del cursor en la posición final del texto
+                    headerTitle.setSelection(headerTitle.getText().length());
+                }
+            });
+
+
+            //oculta el teclado si se pulsa fuera de el
+            activityRootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Ocultar el teclado virtual
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            });
+
+
+            //esta funcion y la siguiente oculta el teclado si se pulsa enter al final del nombre
+            headerTitle.setFilters(new InputFilter[] {
+                    new InputFilter() {
+                        @Override
+                        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                            if (source.length() > 0 && source.charAt(0) == '\n') {
+                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(headerTitle.getWindowToken(), 0);
+                                return "";
+                            }
+                            return null;
+                        }
+                    }
+            });
+
+            headerTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        headerTitle.setFilters(new InputFilter[] {
+                                new InputFilter() {
+                                    @Override
+                                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                                        if (source.length() > 0 && source.charAt(0) == '\n') {
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(headerTitle.getWindowToken(), 0);
+                                            return "";
+                                        }
+                                        return null;
+                                    }
+                                }
+                        });
+                    } else {
+                        headerTitle.setFilters(new InputFilter[0]);
+                    }
+                }
+            });
+
+
+         /*   headerTitle.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                        // Aquí se finaliza la edición del EditText
+                        Log.i("demo3", "detectado enter");
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(headerTitle.getWindowToken(), 0);
+                        return true;
+                    }
+
+                    return false;
+                }
+            });*/
 
         /*    JSONArray jsonArrayAct = new JSONArray();
 
@@ -203,6 +245,27 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
             ImageButton backArrowButton = findViewById(R.id.backArrow);
             backArrowButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
+                    if(headerTitle.isEnabled())
+                    {
+                        Log.i("demo3", "No se borro");
+                        String newName = headerTitle.getText().toString();
+                        if(!initialName.equals(newName))
+                        {
+
+                            try {
+                                JSONObject jsonActivities = dm.load(DataManager.ACTIVITIES_FILE_NAME);
+                                JSONObject jsonAc = jsonActivities.getJSONObject(idActivity+"");
+                                jsonAc.put("name", newName);
+                                jsonActivities.put(idActivity+"",jsonAc);
+                                dm.save(DataManager.ACTIVITIES_FILE_NAME, jsonActivities);
+
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+
                     Intent intent = new Intent(ActivityInfoActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -220,6 +283,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
                     deleteButton.setVisibility(View.GONE);
                     undoDeleteBtn.setVisibility(View.VISIBLE);
                     categoriesSpinner.setEnabled(false);
+                    headerTitle.setEnabled(false);
                     Log.i("demo2", "aqui");
 
                     JSONObject jsonActvities = dm.load(DataManager.ACTIVITIES_FILE_NAME);
@@ -273,6 +337,7 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
                     Log.i("demo2", "undo pulsaod");
                     undoDeleteBtn.setVisibility(View.GONE);
                     categoriesSpinner.setEnabled(true);
+                    headerTitle.setEnabled(true);
 
                     Button deleteButton = findViewById(R.id.deleteButton);
                     deleteButton.setVisibility(View.VISIBLE);
@@ -289,6 +354,9 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
                 }
             });
+
+
+
 
 
         } catch (JSONException e) {

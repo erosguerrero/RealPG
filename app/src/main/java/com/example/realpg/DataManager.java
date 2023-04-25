@@ -77,6 +77,16 @@ public class DataManager {
             }
 
         }
+        else {
+            try {
+                //si el id seleccionado era -1 es que no se acabo de elegir el primer pokemon
+                int idSelected = json.getInt("PokeChosen");
+                if(idSelected == -1)
+                    nuevo = true;
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
 
         return nuevo;

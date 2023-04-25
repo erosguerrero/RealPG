@@ -1,5 +1,6 @@
 package com.example.realpg.ui.main;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -75,6 +77,8 @@ public class Page1 extends Fragment {
  //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
     private static Page1 instance;
+
+    int idNotificationRunningCrono = 1;
 
     private Boolean onPause = false;
     private Boolean isActivityDisplaying = false;
@@ -146,6 +150,8 @@ public class Page1 extends Fragment {
                     setStopWatchTime(stopWatchTime);
                 }
                 showTimeWatch();
+
+                ((MainActivity)(getActivity())).hideNotification(idNotificationRunningCrono);
             }
         }
 
@@ -168,6 +174,34 @@ public class Page1 extends Fragment {
         preferencesEditor.apply();
         onPause = true; // necesario para q no se quede el hilo contando de la activity, pq cuando se vuelve a crear
         // la activity se crea otro hilo y cuenta x2 (o algo asi)
+
+        if(isActivityDisplaying)
+        {
+            JSONObject jsonActivities = DM.load(DataManager.ACTIVITIES_FILE_NAME);
+            String nameAct;
+            try {
+               nameAct = jsonActivities.getJSONObject(idRunningAct+"").getString("name");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+            Intent intent = new Intent(this.getActivity(), MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "channel_id")
+                    .setSmallIcon(R.drawable.playicon)
+                    .setContentTitle("Cronometro funcionando")
+                    .setContentText("Tienes un cronometro activo sobre "+ nameAct)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+// Mostrar la notificación
+            ((MainActivity)(getActivity())).showNotification(idNotificationRunningCrono,builder);
+        }
+        // Crear el objeto NotificationCompat.Builder
+
+     /*   int notificationId = 1;
+        notificationManager.notify(notificationId, builder.build());*/
     }
 
     /*@Override
