@@ -106,7 +106,8 @@ public class NewPoke extends AppCompatActivity {
             });
             button.setVisibility(View.GONE);
             if (money < 10){
-                button.setEnabled(false);
+                button.setAlpha(.4f);
+                button.setClickable(false);
             }
         }
 
