@@ -226,7 +226,7 @@
         android:id="@+id/hoursPerCatTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hoursPerCatTitle"
+        android:text="@string/activitiesOfCategory"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView2"
