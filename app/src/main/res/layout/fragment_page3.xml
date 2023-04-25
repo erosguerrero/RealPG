@@ -28,6 +28,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/entry_rectangle"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
                 app:layout_constraintTop_toBottomOf="@+id/top1rectangle" />
 
@@ -37,6 +38,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/entry_rectangle"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
                 app:layout_constraintTop_toBottomOf="@+id/top2rectangle" />
 
@@ -69,7 +71,7 @@
                 android:background="@drawable/section_rectangle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/top3rectangle" />
+                app:layout_constraintTop_toBottomOf="@+id/top3rectangle"  />
 
             <View
                 android:id="@+id/top1rectangle"
@@ -77,6 +79,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/entry_rectangle"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
                 app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
@@ -105,6 +108,19 @@
                 app:layout_constraintTop_toTopOf="@+id/myRectangleView2" />
 
             <TextView
+                android:id="@+id/noActMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/noActMsg"
+                android:textColor="#FFFFFF"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/myRectangleView"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="@+id/myRectangleView"
+                app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
+
+            <TextView
                 android:id="@+id/top1Activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +128,7 @@
                 android:text="@string/top1Activity"
                 android:textColor="#FDFDFD"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
                 app:layout_constraintStart_toStartOf="@+id/top1rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
@@ -124,6 +141,7 @@
                 android:text="@string/top2Activity"
                 android:textColor="#FDFDFD"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
                 app:layout_constraintStart_toStartOf="@+id/top2rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -136,6 +154,7 @@
                 android:text="@string/top3Activity"
                 android:textColor="#FDFDFD"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
                 app:layout_constraintStart_toStartOf="@+id/top3rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
@@ -147,6 +166,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/gold_medal_icon_svg"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/top1rectangle"
                 app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
@@ -157,6 +177,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/silver_medal_icon_svg"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/top2rectangle"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewTop1" />
 
@@ -167,6 +188,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/bronze_medal_icon_svg"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/top3rectangle"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewTop2" />
 
@@ -176,6 +198,7 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/clock"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
                 app:layout_constraintEnd_toStartOf="@+id/top1ActivityTime"
                 app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
@@ -186,6 +209,7 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/clock"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
                 app:layout_constraintEnd_toStartOf="@+id/top2ActivityTime"
                 app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -196,6 +220,7 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/clock"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
                 app:layout_constraintEnd_toStartOf="@+id/top3ActivityTime"
                 app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
@@ -208,6 +233,7 @@
                 android:text="@string/top1ActivityTime"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top1rectangle"
                 app:layout_constraintEnd_toEndOf="@+id/top1rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top1rectangle" />
@@ -220,6 +246,7 @@
                 android:text="@string/top2ActivityTime"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
                 app:layout_constraintEnd_toEndOf="@+id/top2rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -232,6 +259,7 @@
                 android:text="@string/top3ActivityTime"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
                 app:layout_constraintEnd_toEndOf="@+id/top3rectangle"
                 app:layout_constraintTop_toTopOf="@+id/top3rectangle" />

@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.realpg.Activity;
 import com.example.realpg.Category;
 import com.example.realpg.CategoryInfoActivity;
+import com.example.realpg.MyOnClickListenerRunAct;
 import com.example.realpg.R;
 import com.example.realpg.databinding.FragmentPage1Binding;
 import com.example.realpg.databinding.FragmentPage3Binding;
@@ -39,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -83,17 +86,7 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         binding = FragmentPage3Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        /*final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
-        //pieChart = getView().findViewById(R.id.activity_piechart);
-        //setupPieChart();
-        //loadPieChartData();
 
         //para acceder a las views a traves de su ID, hay que usar binding
         pieChart = binding.activityPiechart;
@@ -110,6 +103,25 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         pieChart.setOnChartValueSelectedListener(this);
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        List<Activity> topAct = Activity.getTop3Act(getActivity());
+        if(topAct.size() == 0) {
+            getActivity().findViewById(R.id.noActMsg).setVisibility(View.VISIBLE);
+            View v = getActivity().findViewById(R.id.myRectangleView2);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(0,150,0,0);
+            v.requestLayout();
+        } else {
+            getActivity().findViewById(R.id.noActMsg).setVisibility(View.GONE);
+            for(int i = 0; i < topAct.size(); i++){
+                loadPanelTop(topAct.get(i),i);
+            }
+        }
+
     }
 
     public static Page3 getInstance(){
@@ -182,6 +194,17 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
     }
 
     public void updatePieChartData() throws JSONException {
+        List<Activity> topAct = Activity.getTop3Act(getActivity());
+        if(topAct.size()!=0) {
+            getActivity().findViewById(R.id.noActMsg).setVisibility(View.GONE);
+            View v = getActivity().findViewById(R.id.myRectangleView2);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(0,50,0,0);
+            v.requestLayout();
+        }
+        for(int i = 0; i < topAct.size(); i++){
+            loadPanelTop(topAct.get(i),i);
+        }
         pieChart.clear();
         loadPieChartData();
     }
@@ -203,6 +226,48 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         Intent intent = new Intent(this.getActivity(), CategoryInfoActivity.class);
         intent.putExtra("categoryName", pe.getLabel());
         startActivity(intent);
+    }
+
+    private void loadPanelTop(Activity ac, int index)
+    {
+        TextView tv = new TextView(getActivity());
+        TextView tvTime = new TextView(getActivity());
+        View rectangle = new View(getActivity());
+        if(index== 0)
+        {
+            tv= getActivity().findViewById(R.id.top1Activity);
+            tvTime = getActivity().findViewById(R.id.top1ActivityTime);
+            rectangle = getActivity().findViewById(R.id.top1rectangle);
+            getActivity().findViewById(R.id.imageViewTop1).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.clock1).setVisibility(View.VISIBLE);
+        }
+
+        if(index== 1)
+        {
+            tv= getActivity().findViewById(R.id.top2Activity);
+            tvTime = getActivity().findViewById(R.id.top2ActivityTime);
+            rectangle = getActivity().findViewById(R.id.top2rectangle);
+            getActivity().findViewById(R.id.imageViewTop2).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.clock2).setVisibility(View.VISIBLE);
+        }
+        if(index== 2)
+        {
+            tv= getActivity().findViewById(R.id.top3Activity);
+            tvTime = getActivity().findViewById(R.id.top3ActivityTime);
+            rectangle = getActivity().findViewById(R.id.top3rectangle);
+            getActivity().findViewById(R.id.imageViewTop3).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.clock3).setVisibility(View.VISIBLE);
+        }
+
+
+        tv.setText(ac.getName());
+        tv.setVisibility(View.VISIBLE);
+        tvTime.setText(ac.getFormattedTimeTotal());
+        tvTime.setVisibility(View.VISIBLE);
+
+        rectangle.setVisibility(View.VISIBLE);
+        rectangle.setOnClickListener(new MyOnClickListenerRunAct(ac.getIdActivity(), getActivity(),2));
+
     }
 
     @Override
