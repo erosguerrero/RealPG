@@ -183,7 +183,9 @@ public class PokeViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             allLayout.setBackground(ContextCompat.getDrawable(allLayout.getContext(), R.drawable.custom_border));
         }
 */
-        textName.setText(pokeInfo.name);
+        String formatedName = pokeInfo.name.substring(0, 1).toUpperCase() +pokeInfo.name.substring(1);
+     //   textName.setText(pokeInfo.name);
+        textName.setText(formatedName);
 
 
         if(pokeImg != null)

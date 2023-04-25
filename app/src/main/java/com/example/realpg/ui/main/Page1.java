@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.example.realpg.Activity;
 import com.example.realpg.CategoryInfoActivity;
 import com.example.realpg.DataManager;
 import com.example.realpg.Evolution;
+import com.example.realpg.Initial;
 import com.example.realpg.MainActivity;
 import com.example.realpg.MyOnClickListenerRunAct;
 import com.example.realpg.MyOnClickListenerStartActivity;
@@ -381,6 +383,7 @@ public class Page1 extends Fragment {
                                 coins += dif;
                                 jsonExtra2.put("Coins", coins);
                                 DM.save(DataManager.EXTRA_FILE_NAME, jsonExtra2);
+                                Toast.makeText(getActivity(), "Has obtenido " + dif + " \uD83D\uDC8E", Toast.LENGTH_LONG).show();
                             }
 
                             changeLvl(root,evo.getCurrentXp());

@@ -85,7 +85,7 @@ public class NewPoke extends AppCompatActivity {
         }
 
         TextView coinsText = findViewById(R.id.coinsText);
-        coinsText.setText("Monedas "+money);
+        coinsText.setText("Tienes "+money+" \uD83D\uDC8E");
 
 
         //Se inicializa el boton de volver atras
@@ -236,7 +236,7 @@ public class NewPoke extends AppCompatActivity {
             //Restar monedas
             money -= 10;
             TextView coinsText = findViewById(R.id.coinsText);
-            coinsText.setText("Monedas "+money);
+            coinsText.setText("Tienes "+money+" \uD83D\uDC8E");
 
             JSONObject jsonExtra =  dm.load(DataManager.EXTRA_FILE_NAME);
 

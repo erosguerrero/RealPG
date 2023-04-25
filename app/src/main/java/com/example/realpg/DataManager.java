@@ -70,7 +70,7 @@ public class DataManager {
 
 
                 jsonExtra.put("Length",0);
-                jsonExtra.put("Coins", 0);
+                jsonExtra.put("Coins", 10);
                 dm.save(EXTRA_FILE_NAME, jsonExtra);
             } catch (JSONException e) {
                 throw new RuntimeException(e);

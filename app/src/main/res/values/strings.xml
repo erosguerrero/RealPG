@@ -25,4 +25,8 @@
     <string name="timeSpent">XXd YYh ZZmin</string>
     <string name="delete">Eliminar</string>
     <string name="stopWatch">00:00:00</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="anterior">Anterior</string>
+    <string name="comenzar">Comenzar</string>
+    <string name="confirmar">Confirmar</string>
 </resources>

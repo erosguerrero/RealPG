@@ -11,6 +11,8 @@ import androidx.loader.content.Loader;
 
 import com.example.realpg.ui.main.NewPoke;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<Evolution> {
@@ -34,8 +36,15 @@ public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<E
     @Override
     public void onLoadFinished(@NonNull Loader<Evolution> loader, Evolution data) {
         Log.d("EVOLUTIONAPI", "Carga completada");
-        NewPoke n = (NewPoke) context;
-        n.apiCalls(data);
+        try{
+            NewPoke n = (NewPoke) context;
+            n.apiCalls(data);
+        } catch (java.lang.ClassCastException e) {
+            //si lo primero produce error, es que se llamo desde la nueva clase Initial
+            Initial n2 = (Initial) context;
+            n2.apiCalls(data);
+        }
+
     }
 
     @Override

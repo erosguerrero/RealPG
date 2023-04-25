@@ -18,6 +18,9 @@
             android:name=".ui.main.NewPoke"
             android:exported="false" />
         <activity
+            android:name=".Initial"
+            android:exported="false" />
+        <activity
             android:name=".ActivityInfoActivity"
             android:exported="false" />
         <activity

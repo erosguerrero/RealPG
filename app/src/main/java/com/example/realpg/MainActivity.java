@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+
         ArrayList<Activity> alist = new ArrayList<>();
         Activity a1 = new Activity(100, 5, null, "act1", Category.CASA);
         Activity a2 = new Activity(101, 1, null, "act2", Category.CASA);
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity{
         if(DataManager.initFiles(this))
         {
             //TODO: aqui se inicio la aplicacion por primera vez. Hacer un codigo para esa situacion
+            Intent intent = new Intent(MainActivity.this, Initial.class);
+            startActivity(intent);
         }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
