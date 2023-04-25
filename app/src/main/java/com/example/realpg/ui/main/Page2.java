@@ -405,7 +405,7 @@ public class Page2 extends Fragment {
         tv.setText(abi.getName());
         Log.i("demo", "id en al add " + abi.getId());
         //item.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
-        tv.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
+        tv.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity(),0));
 
         ImageButton playButton = item.findViewById(R.id.startActivityButton);
         playButton.setOnClickListener(new MyOnClickListenerStartActivity(abi.getId(), getActivity()));

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -357,7 +358,7 @@ public class Activity {
     public static String CatStrFormated(String cat)
     {
         String catStr = cat;
-        catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1);
+        catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1).toLowerCase();
         return catStr;
     }
 
@@ -376,6 +377,43 @@ public class Activity {
         }
 
         return actCat;
+    }
+
+    public static List<Activity> getTop3Act(Context context)
+    {
+
+        List<Activity> acList = loadAllActivities(context);
+        if(acList.size()==0)
+            return acList;
+
+        Collections.sort(acList, new ActivityComparator());
+
+        int min = 3;
+        if(acList.size() < min)
+            min = acList.size();
+
+        //sabemos que como minimo size es 1, por tanto podemos restar 1
+        return acList.subList(0,min);
+    }
+
+    public static List<Activity> getTop3ActCat(Context context, Category cat)
+    {
+
+        List<Activity> acList = getActivitiesOfCat(context,cat);
+
+        Log.i("demo2", "in fun size: "+ acList.size());
+        if(acList.size()==0)
+            return acList;
+
+        Collections.sort(acList, new ActivityComparator());
+
+        int min = 3;
+        if(acList.size() < min)
+            min = acList.size();
+
+
+
+        return acList.subList(0,min);
     }
     public static String CatStrFormated(Category cat)
     {

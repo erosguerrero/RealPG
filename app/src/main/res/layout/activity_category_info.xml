@@ -48,6 +48,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/entry_rectangle"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top1rectangle" />
 
@@ -58,6 +59,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/entry_rectangle"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top2rectangle" />
 
@@ -90,6 +92,7 @@
         android:text="@string/top2Activity"
         android:textColor="#FDFDFD"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
         app:layout_constraintStart_toStartOf="@+id/top2rectangle"
         app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -102,12 +105,13 @@
         android:text="@string/top3Activity"
         android:textColor="#FDFDFD"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
         app:layout_constraintStart_toStartOf="@+id/top3rectangle"
         app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewTop1"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -117,24 +121,26 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewTop2"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/silver_medal_icon_svg"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/top2rectangle"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTop1" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewTop3"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/bronze_medal_icon_svg"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/top3rectangle"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewTop2" />
 
     <TextView
         android:id="@+id/top1ActivityTime"
@@ -156,6 +162,7 @@
         android:text="@string/top2ActivityTime"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
         app:layout_constraintEnd_toEndOf="@+id/top2rectangle"
         app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -168,6 +175,7 @@
         android:text="@string/top3ActivityTime"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
         app:layout_constraintEnd_toEndOf="@+id/top3rectangle"
         app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
@@ -188,6 +196,7 @@
         android:layout_height="25dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/clock"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/top2rectangle"
         app:layout_constraintEnd_toStartOf="@+id/top2ActivityTime"
         app:layout_constraintTop_toTopOf="@+id/top2rectangle" />
@@ -200,7 +209,8 @@
         android:background="@drawable/clock"
         app:layout_constraintBottom_toBottomOf="@+id/top3rectangle"
         app:layout_constraintEnd_toStartOf="@+id/top3ActivityTime"
-        app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
+        app:layout_constraintTop_toTopOf="@+id/top3rectangle"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/myRectangleView2"

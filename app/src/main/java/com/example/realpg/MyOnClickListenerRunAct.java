@@ -15,12 +15,14 @@ public class MyOnClickListenerRunAct implements View.OnClickListener {
 
     int idAct;
     Context context;
+    int prevTab;
 
-    public MyOnClickListenerRunAct(int idAct, Context context)
+    public MyOnClickListenerRunAct(int idAct, Context context, int prevTab)
     {
         Log.i("demo", "el id seteado es: "+ idAct);
         this.idAct = idAct;
         this.context = context;
+        this.prevTab = prevTab;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class MyOnClickListenerRunAct implements View.OnClickListener {
         SharedPreferences mPreferences = context.getSharedPreferences("previousTab", MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         preferencesEditor.putBoolean("tabHasToChange", true);
-        preferencesEditor.putInt("prevTab", 0);
+        preferencesEditor.putInt("prevTab", prevTab);
         preferencesEditor.apply();
 
         Intent intent = new Intent(context, ActivityInfoActivity.class);

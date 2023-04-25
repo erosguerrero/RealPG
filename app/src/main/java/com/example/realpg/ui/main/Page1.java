@@ -565,7 +565,7 @@ public class Page1 extends Fragment {
                 int idAct = last3.getInt(i);
                 View item = getLayoutInflater().inflate(R.layout.item_panel, null);
                 TextView tv = item.findViewById(R.id.itemName);
-                tv.setOnClickListener(new MyOnClickListenerRunAct(idAct, getActivity()));
+                tv.setOnClickListener(new MyOnClickListenerRunAct(idAct, getActivity(),1));
                 //dado el id guardado, leemos el archivo de actividades y cogemos la actividad con ese id
                 ImageButton playButton = item.findViewById(R.id.startActivityButton);
                 playButton.setOnClickListener(new MyOnClickListenerStartActivity(idAct, getActivity()));

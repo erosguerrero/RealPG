@@ -141,7 +141,7 @@
                 app:layout_constraintTop_toTopOf="@+id/top3rectangle" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewTop1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -151,24 +151,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageViewTop2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/silver_medal_icon_svg"
                 app:layout_constraintEnd_toStartOf="@+id/top2rectangle"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewTop1" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageViewTop3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/bronze_medal_icon_svg"
                 app:layout_constraintEnd_toStartOf="@+id/top3rectangle"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewTop2" />
 
             <View
                 android:id="@+id/clock1"
