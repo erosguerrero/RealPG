@@ -64,4 +64,5 @@
     <string name="noInternet">Sin conexión a internet</string>
     <string name="cronoNotiTitle">Cronometro funcionando</string>
     <string name="cronoNotiTextPrev">Tienes un cronometro activo sobre </string>
+    <string name="undoDelete">Deshacer borrado</string>
 </resources>

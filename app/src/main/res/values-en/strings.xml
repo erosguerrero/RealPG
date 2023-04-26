@@ -65,6 +65,6 @@
     <string name="noInternet">No internet connection</string>
     <string name="cronoNotiTitle">The timer is running</string>
     <string name="cronoNotiTextPrev">"You have an active timer on</string>
-
+    <string name="undoDelete">Undo delete</string>
 
 </resources>

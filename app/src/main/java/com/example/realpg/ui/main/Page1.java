@@ -186,7 +186,7 @@ public class Page1 extends Fragment {
             }
 
             Intent intent = new Intent(this.getActivity(), MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "channel_id")
                     .setSmallIcon(R.drawable.playicon)
                     .setContentTitle(getString(R.string.cronoNotiTitle))
