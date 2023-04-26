@@ -132,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Seleccionar"
+        android:text="@string/seleccionar"
         app:layout_constraintEnd_toEndOf="@+id/pokeImage1"
         app:layout_constraintStart_toStartOf="@+id/pokeImage1"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage1" />
@@ -142,7 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Seleccionar"
+        android:text="@string/seleccionar"
         app:layout_constraintEnd_toEndOf="@+id/pokeImage2"
         app:layout_constraintStart_toStartOf="@+id/pokeImage2"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage2" />
@@ -152,7 +152,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Seleccionar"
+        android:text="@string/seleccionar"
         app:layout_constraintEnd_toEndOf="@+id/pokeImage3"
         app:layout_constraintStart_toStartOf="@+id/pokeImage3"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage3" />
@@ -162,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Seleccionar"
+        android:text="@string/seleccionar"
         app:layout_constraintEnd_toEndOf="@+id/pokeImage4"
         app:layout_constraintStart_toStartOf="@+id/pokeImage4"
         app:layout_constraintTop_toBottomOf="@+id/pokeImage4" />
@@ -172,7 +172,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
-        android:text="TextView"
+        android:text="@string/prevDiamondHave"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/pokeImage4"

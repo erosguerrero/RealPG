@@ -14,7 +14,7 @@ public class Utils {
     }
 
     public static void showNoInternetConnection(Context context){
-        Toast toast = Toast.makeText(context, "Sin conexión a internet", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, R.string.noInternet, Toast.LENGTH_LONG);
         toast.show();
     }
 

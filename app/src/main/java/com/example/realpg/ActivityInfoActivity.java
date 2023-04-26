@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ActivityInfoActivity extends AppCompatActivity {
     protected ArrayAdapter<String> spinnerAdapter;
@@ -49,7 +50,7 @@ public class ActivityInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
-        
+
         try {
             DataManager dm = new DataManager(this);
             //JSONObject json = new JSONObject(readedData);
@@ -201,6 +202,13 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
             //currentCategory = "Viajes";
             currentCategory = ac.getCatStr();
+            Locale currentLocale = getResources().getConfiguration().locale;
+            String language = currentLocale.getLanguage();
+
+            if (language.equals("en")) {
+                currentCategory = Activity.transalateCatEsToEn( ac.getCatStr());
+            }
+
 
             categories = manageSpinnerList(currentCategory);
 
@@ -368,13 +376,25 @@ Podria ser un Json actividades que contiene claves idActividad y sus valores es 
 
 
     private ArrayList<String> manageSpinnerList(String firstCategory){
-        String[] categoriesList = {"Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+        String[] categoriesList = {"Bienestar", "Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String language = currentLocale.getLanguage();
+        if (language.equals("en")) {
+            for(int i = 0; i < categoriesList.length;i++)
+            {
+                categoriesList[i] = Activity.CatStrFormated( Activity.transalateCatEsToEn(categoriesList[i]));
+            }
+            // El idioma del dispositivo es inglés
+        } else {
+            // El idioma del dispositivo no es inglés
+        }
         ArrayList<String> newCategories = new ArrayList<>();
 
         newCategories.add(firstCategory);
 
         for(String cat: categoriesList){
-            if(cat != firstCategory) newCategories.add(cat);
+            if(!cat.equals(firstCategory)) newCategories.add(cat);
         }
 
         return newCategories;

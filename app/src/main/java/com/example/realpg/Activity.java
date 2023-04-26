@@ -246,22 +246,40 @@ public class Activity {
         switch (catStr) {
             case "BIENESTAR":
                     return Category.BIENESTAR;
+            case "WELL-BEING":
+                return Category.BIENESTAR;
             case "CASA":
                     return Category.CASA;
-            case "DEPORTE":
+            case "HOME":
+                return Category.CASA;
+            case "SPORTS":
                     return Category.DEPORTE;
+            case "DEPORTE":
+                return Category.DEPORTE;
             case "ESTUDIOS":
                     return Category.ESTUDIOS;
+            case "STUDIES":
+                return Category.ESTUDIOS;
             case "OCIO":
                     return Category.OCIO;
+            case "LEISURE":
+                return Category.OCIO;
             case "OTROS":
                     return Category.OTROS;
+            case "OTHERS":
+                return Category.OTROS;
             case "PROYECTOS":
                     return Category.PROYECTOS;
+            case "PROJECTS":
+                return Category.PROYECTOS;
             case "TRABAJO":
                     return Category.TRABAJO;
-            case "VIAJES":
+            case "WORK":
+                return Category.TRABAJO;
+            case "TRAVEL":
                     return Category.VIAJES;
+            case "VIAJES":
+                return Category.VIAJES;
             default:
                 throw new IllegalArgumentException("Invalid category: " + catStr);
         }
@@ -422,6 +440,13 @@ public class Activity {
         return catStr;
     }
 
+    public static String CatStrFormatedEn(Category cat)
+    {
+        String catStr =  categoryToStr(cat).toLowerCase();
+        catStr = catStr.substring(0, 1).toUpperCase() + catStr.substring(1);
+        return catStr;
+    }
+
     public static String categoryToStr(Category cat) {
 
         switch (cat) {
@@ -445,6 +470,60 @@ public class Activity {
                 return "VIAJES";
             default:
                 throw new IllegalArgumentException("Invalid category: " + cat);
+        }
+    }
+
+    public static String transalateCatEsToEn(String catES)
+    {
+        catES = catES.toUpperCase();
+        switch (catES) {
+            case "BIENESTAR":
+                return "Well-being";
+            case "CASA":
+                return "Home";
+            case "DEPORTE":
+                return  "Sports";
+            case "ESTUDIOS":
+                return "Studies";
+            case "OCIO":
+                return "Leisure";
+            case "OTROS":
+                return  "Other";
+            case "PROYECTOS":
+                return "Projects";
+            case "TRABAJO":
+                return  "Work";
+            case "VIAJES":
+                return "Travel";
+            default:
+                throw new IllegalArgumentException("Invalid category: " + catES);
+        }
+    }
+
+    public static String transalateCatEnToEs(String catEN)
+    {
+        catEN = catEN.toUpperCase();
+        switch (catEN) {
+            case "WELL-BEING":
+                return "BIENESTAR";
+            case "HOME":
+                return "CASA";
+            case  "SPORTS":
+                return  "DEPORTE";
+            case "STUDIES":
+                return "ESTUDIOS";
+            case "LEISURE":
+                return "OCIO";
+            case "OTHERS":
+                return  "OTROS";
+            case "PROJECTS":
+                return "PROYECTOS";
+            case "WORK":
+                return  "TRABAJO";
+            case "TRAVEL":
+                return "VIAJES";
+            default:
+                throw new IllegalArgumentException("Invalid category: " + catEN);
         }
     }
 }

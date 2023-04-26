@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Bienestar"
+                    android:text="@string/Bienestar"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconGravity="start"
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Casa"
+                    android:text="@string/Casa"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Deporte"
+                    android:text="@string/Deporte"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Estudios"
+                    android:text="@string/Estudios"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Ocio"
+                    android:text="@string/Ocio"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Otros"
+                    android:text="@string/Otros"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -173,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Proyectos"
+                    android:text="@string/Proyectos"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -192,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Trabajo"
+                    android:text="@string/Trabajo"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />
@@ -211,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greenSecondary"
-                    android:text="Viajes"
+                    android:text="@string/Viajes"
                     android:textAlignment="textStart"
                     app:icon="@drawable/arrow_forward"
                     app:iconSize="20dp" />

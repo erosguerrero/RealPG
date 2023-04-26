@@ -136,7 +136,7 @@ public class Initial  extends AppCompatActivity {
             public void onClick(View v) {
                 if(idSelected == -1)
                 {
-                    Toast.makeText(Initial.this, "Selecciona primero el pokemon que quieras obtener", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Initial.this, R.string.warningFirstPoke, Toast.LENGTH_LONG).show();
                     return;
                 }
 

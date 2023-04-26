@@ -20,7 +20,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="10dp"
-        android:text="Crear una nueva actividad"
+        android:text="@string/createActTitle"
         android:textAlignment="center"
         android:textSize="18sp"
         android:visibility="visible" />
@@ -53,7 +53,7 @@
         android:paddingStart="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="Selecciona una categoria"
+        android:text="@string/selectCatTitle"
         android:visibility="visible" />
 
     <Spinner
@@ -79,7 +79,7 @@
         android:paddingStart="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="Nombre de la actividad" />
+        android:text="@string/nameOfActTitle" />
 
     <EditText
         android:id="@+id/editText1"

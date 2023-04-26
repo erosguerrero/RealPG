@@ -417,7 +417,7 @@ public class Page1 extends Fragment {
                                 coins += dif;
                                 jsonExtra2.put("Coins", coins);
                                 DM.save(DataManager.EXTRA_FILE_NAME, jsonExtra2);
-                                Toast.makeText(getActivity(), "Has obtenido " + dif + " \uD83D\uDC8E", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), R.string.prevHasObtained + dif + " \uD83D\uDC8E", Toast.LENGTH_LONG).show();
                             }
 
                             changeLvl(root,evo.getCurrentXp());

@@ -39,6 +39,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Dialog;
 import android.widget.Toast;
@@ -105,7 +106,12 @@ public class Page2 extends Fragment {
 
 
         //categoriesSpinner = binding.
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String language = currentLocale.getLanguage();
         String currentCategory = "Bienestar";
+        if (language.equals("en")) {
+            currentCategory = "Welfare";
+        }
 
         categories = manageSpinnerList(currentCategory);
         //adapter=new SpinnerAdapter(getApplicationContext());
@@ -161,7 +167,7 @@ public class Page2 extends Fragment {
                     public void onClick(View v) {
 
                         if(edittext.getText().toString().equals(""))
-                            Toast.makeText(getActivity(), "Debes indicar un nombre para la nueva Actividad", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), R.string.warningNoName, Toast.LENGTH_LONG).show();
                         else {
                             dialog.dismiss();
 
@@ -177,7 +183,7 @@ public class Page2 extends Fragment {
                                 throw new RuntimeException(e);
                             }
 
-                            Toast.makeText(getActivity(), "Actividad creada con exito", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), R.string.newActOk, Toast.LENGTH_LONG).show();
 
                             //TODO, ver que id toca poner e incrementarlo para el siguinte (lectura y escritura dle fihero)
                             ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), newId, Activity.strToCategory(catToCreate));
@@ -454,13 +460,25 @@ public class Page2 extends Fragment {
     }
 
     private ArrayList<String> manageSpinnerList(String firstCategory){
-        String[] categoriesList = {"Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+        String[] categoriesList = {"Bienestar", "Casa", "Deporte", "Estudios", "Ocio", "Proyectos", "Trabajo", "Viajes", "Otros"};
+
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String language = currentLocale.getLanguage();
+        if (language.equals("en")) {
+            for(int i = 0; i < categoriesList.length;i++)
+            {
+                categoriesList[i] = Activity.CatStrFormated( Activity.transalateCatEsToEn(categoriesList[i]));
+            }
+            // El idioma del dispositivo es inglés
+        } else {
+            // El idioma del dispositivo no es inglés
+        }
         ArrayList<String> newCategories = new ArrayList<>();
 
         newCategories.add(firstCategory);
 
         for(String cat: categoriesList){
-            if(cat != firstCategory) newCategories.add(cat);
+            if(!cat.equals(firstCategory)) newCategories.add(cat);
         }
 
         return newCategories;
