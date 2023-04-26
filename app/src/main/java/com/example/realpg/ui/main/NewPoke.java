@@ -210,6 +210,11 @@ public class NewPoke extends AppCompatActivity {
         for (Integer level : levels)
             if (level == null) return false;
 
+        JSONObject jsonPokes = dm.load(DataManager.POKEMON_FILE_NAME);
+
+        if(jsonPokes.has(evolution.getId()+""))
+            return false;
+
 
         return true;
     }
