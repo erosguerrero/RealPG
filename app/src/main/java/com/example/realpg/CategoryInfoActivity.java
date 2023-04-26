@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryInfoActivity extends AppCompatActivity {
 
@@ -26,6 +27,11 @@ public class CategoryInfoActivity extends AppCompatActivity {
         String catUpperCase = getIntent().getStringExtra("categoryName");
 
         String title = Activity.CatStrFormated(catUpperCase);
+     /*   Locale currentLocale = getResources().getConfiguration().locale;
+        String language = currentLocale.getLanguage();
+        if (language.equals("en")) {
+            title = Activity.transalateCatEsToEn(title);
+        }*/
 
         TextView categoryTitle = findViewById(R.id.categoryTitle);
         categoryTitle.setText(title);

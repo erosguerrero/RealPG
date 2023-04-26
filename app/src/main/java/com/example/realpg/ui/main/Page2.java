@@ -167,7 +167,7 @@ public class Page2 extends Fragment {
                     public void onClick(View v) {
 
                         if(edittext.getText().toString().equals(""))
-                            Toast.makeText(getActivity(), R.string.warningNoName, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.warningNoName), Toast.LENGTH_LONG).show();
                         else {
                             dialog.dismiss();
 
@@ -183,7 +183,7 @@ public class Page2 extends Fragment {
                                 throw new RuntimeException(e);
                             }
 
-                            Toast.makeText(getActivity(), R.string.newActOk, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.newActOk), Toast.LENGTH_LONG).show();
 
                             //TODO, ver que id toca poner e incrementarlo para el siguinte (lectura y escritura dle fihero)
                             ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), newId, Activity.strToCategory(catToCreate));

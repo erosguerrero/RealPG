@@ -42,6 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -154,11 +155,16 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
         ArrayList<PieEntry> entries = new ArrayList<>();
         JSONObject jsonCatMinutes = Activity.getCategoriesMinutes(getActivity());
         Log.i("demo2", jsonCatMinutes.toString());
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String language = currentLocale.getLanguage();
         for (Category cat : Category.values()) {
-
+           String catTrans = cat.toString();
+            if (language.equals("en")) {
+                catTrans = Activity.transalateCatEsToEn(cat.toString());
+            }
             float p = (float)jsonCatMinutes.getInt(cat.toString())/jsonCatMinutes.getInt("TOTAL");
             //TODO utilizar metodo de cats en minuscula con la primera mayuscula
-            if(jsonCatMinutes.getInt(cat.toString()) != 0) entries.add(new PieEntry(p, cat.toString()));
+            if(jsonCatMinutes.getInt(cat.toString()) != 0) entries.add(new PieEntry(p, catTrans));
         }
 
         ArrayList<Integer> colors = new ArrayList<>();

@@ -189,8 +189,8 @@ public class Page1 extends Fragment {
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "channel_id")
                     .setSmallIcon(R.drawable.playicon)
-                    .setContentTitle("Cronometro funcionando")
-                    .setContentText("Tienes un cronometro activo sobre "+ nameAct)
+                    .setContentTitle(getString(R.string.cronoNotiTitle))
+                    .setContentText(getString(R.string.cronoNotiTextPrev)+ " " + nameAct)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
@@ -417,7 +417,8 @@ public class Page1 extends Fragment {
                                 coins += dif;
                                 jsonExtra2.put("Coins", coins);
                                 DM.save(DataManager.EXTRA_FILE_NAME, jsonExtra2);
-                                Toast.makeText(getActivity(), R.string.prevHasObtained + dif + " \uD83D\uDC8E", Toast.LENGTH_LONG).show();
+                                String prev = getString(R.string.prevHasObtained);
+                                Toast.makeText(getActivity(), prev + " "+  dif + " \uD83D\uDC8E", Toast.LENGTH_LONG).show();
                             }
 
                             changeLvl(root,evo.getCurrentXp());

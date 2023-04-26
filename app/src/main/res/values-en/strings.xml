@@ -42,7 +42,7 @@
     <string name="Proyectos">Projects</string>
     <string name="Trabajo">Work</string>
     <string name="Viajes">Travel</string>
-    <string name="prevDiamondHave">You have: </string>
+    <string name="prevDiamondHave">You have:</string>
     <string name="seleccionar">Select</string>
     <string name="actividadesRecientes">Recent activities</string>
     <string name="subtitleApp">The RPG of your life</string>
@@ -58,11 +58,13 @@
     <string name="createActTitle">Create a new activity</string>
     <string name="selectCatTitle">Select a category</string>
     <string name="nameOfActTitle">Name of the activity</string>
-    <string name="prevHasObtained">You have obtained </string>
+    <string name="prevHasObtained">You have obtained</string>
     <string name="warningNoName">You must indicate a name for the new activity</string>
     <string name="newActOk">Activity created successfully</string>
     <string name="warningFirstPoke">Select the Pokemon you want to obtain first</string>
     <string name="noInternet">No internet connection</string>
+    <string name="cronoNotiTitle">The timer is running</string>
+    <string name="cronoNotiTextPrev">"You have an active timer on</string>
 
 
 </resources>
