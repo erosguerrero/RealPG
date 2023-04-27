@@ -110,7 +110,7 @@ public class Page2 extends Fragment {
         String language = currentLocale.getLanguage();
         String currentCategory = "Bienestar";
         if (language.equals("en")) {
-            currentCategory = "Welfare";
+            currentCategory = "Well-being";
         }
 
         categories = manageSpinnerList(currentCategory);
