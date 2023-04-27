@@ -158,7 +158,7 @@ public class Evolution {
      */
     public void addXp(int minutes)
     {
-        currentXp += (minutes*0.5);
+        currentXp += (minutes*0.6);
     }
 
     @Override
