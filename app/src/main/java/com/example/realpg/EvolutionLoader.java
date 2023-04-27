@@ -28,14 +28,12 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
 
         if (id == null){
-            Log.e("EVOLUTIONAPI", "ID es null");
             return null;
         }
 
         String json = EvolutionNetwork.getEvolutionChain(id);
 
         if (json == null){
-            Log.d("EVOLUTIONAPI", "El json es null");
             return null;
         }
 
@@ -90,11 +88,11 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
             }
 
             evolution.getLevels().set(0,0);
-            Log.d("EVOLUTIONAPI", evolution.toString());
+
 
         }
         catch (Exception e){
-            Log.e("EVOLUTIONAPI", "Error al convertir el json: " + e.getMessage());
+
         }
 
 
@@ -104,7 +102,7 @@ public class EvolutionLoader extends AsyncTaskLoader<Evolution> {
 
 
     private static void printJSON(String json){
-        Log.d("EVOLUTIONAPI", json);
+
     }
 
     @Override

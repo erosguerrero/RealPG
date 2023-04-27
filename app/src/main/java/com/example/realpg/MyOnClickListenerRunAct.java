@@ -27,10 +27,6 @@ public class MyOnClickListenerRunAct implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Log.i("demo", "Activity pulsado con id " + idAct);
-
-        //MainActivity mainActivityContext = (MainActivity)context;
-        //mainActivityContext.setTab(0);
 
         SharedPreferences mPreferences = context.getSharedPreferences("previousTab", MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();

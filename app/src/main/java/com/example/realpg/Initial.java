@@ -36,7 +36,7 @@ public class Initial  extends AppCompatActivity {
     private static final int EVOLUTION_LOADER_ID = 0;
     private static final int MAX_POKES = 4;
     private EvolutionLoaderCallbacks evolutionLoaderCallbacks = new EvolutionLoaderCallbacks(this);
-    private int times; //Contador de las veces que se ha llamado a la api
+    private int times;
     private Random random;
 
     int idSelected = -1;
@@ -45,11 +45,6 @@ public class Initial  extends AppCompatActivity {
 
     int indexSelected = -1;
 
-    /*
-        Como el número de imágnes, barras de progreso y botones es siempre el mismo,
-        y su funcionalidad tambíen, se almacenan sus ids en unos arrays para que sea
-        más sencillo trabajar con ellos
-     */
     private int[] images;
 
     private int[] progress;
@@ -118,10 +113,6 @@ public class Initial  extends AppCompatActivity {
                 buttonAction(evolutions.get(finalI), finalI);
             });
             button.setEnabled(false);
-           /* button.setVisibility(View.GONE);
-            if (money < 10){
-                button.setEnabled(false);
-            }*/
         }
 
         if (isNetworkAvailable()){
@@ -161,9 +152,6 @@ public class Initial  extends AppCompatActivity {
 
     }
 
-
-    //View.VISIBLE
-    //View.GONE;
     private void setVisibilityPage1(int state)
     {
         findViewById(R.id.text1Bienv).setVisibility(state);
@@ -222,11 +210,9 @@ public class Initial  extends AppCompatActivity {
         images = new int[]{R.id.pokeImageP41, R.id.pokeImageP42, R.id.pokeImageP43, R.id.pokeImageP44};
         progress = new int[]{R.id.pokeBarP41, R.id.pokeBarP42, R.id.pokeBarP43, R.id.pokeBarP44};
         readies = new boolean[]{false, false, false, false};
-      //  buttons = new int[]{R.id.pokeButton1, R.id.pokeButton2, R.id.pokeButton3, R.id.pokeButton4};
         random = new Random();
         evolutions = new ArrayList<Evolution>();
         times = 0;
-        //  money = 10;
     }
 
 
@@ -245,7 +231,6 @@ public class Initial  extends AppCompatActivity {
 
     }
 
-    //LoadImage carga la imagen correspondiente con el id en su espacio adecuado
     private void loadImage(Integer id){
         int time = times - 1;
         ImageView imageView = findViewById(images[times - 1]);
@@ -269,8 +254,6 @@ public class Initial  extends AppCompatActivity {
                 ImageView button = findViewById(images[time]);
                 button.setEnabled(true);
 
-              //  Button b = findViewById(buttons[time]);
-              //  b.setVisibility(View.VISIBLE);
                 return false;
             }
         }).into(imageView);
@@ -293,9 +276,6 @@ public class Initial  extends AppCompatActivity {
 
     }
 
-    /*
-     * Dada una evolución comprueba que es correcta
-     * */
     private boolean isCorrect(Evolution evolution){
 
         if (evolution == null) return false;
@@ -329,43 +309,7 @@ public class Initial  extends AppCompatActivity {
             findViewById(R.id.pokeImageP43).setSelected(true);
         if(index == 3)
             findViewById(R.id.pokeImageP44).setSelected(true);
-       /* DataManager dm = new DataManager(this);
-        JSONObject pokemonJson = dm.load(dm.POKEMON_FILE_NAME);
-        JSONObject extraJson = dm.load(dm.EXTRA_FILE_NAME);
-        try {
-            String evoId = String.valueOf(evolution.getId());
 
-            //Modificaciones
-            pokemonJson.put(evoId, evolution.toJson());
-            extraJson.put("PokeChosen", evoId);
-
-            //Guardado
-            dm.save(dm.POKEMON_FILE_NAME,pokemonJson);
-            dm.save(dm.EXTRA_FILE_NAME, extraJson);
-
-
-            //Restar monedas
-            money -= 10;
-            TextView coinsText = findViewById(R.id.coinsText);
-            coinsText.setText("Monedas "+money);
-
-            JSONObject jsonExtra =  dm.load(DataManager.EXTRA_FILE_NAME);
-
-            try {
-                jsonExtra.put("Coins", money);
-                dm.save(DataManager.EXTRA_FILE_NAME,jsonExtra);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-
-
-            Log.d("Monedas", "monedas : " + money);
-            //Volver
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }*/
 
     }
 

@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity{
 
 
     private List<ActivityBasicInfo> activitesBasicInfoList;
-
-    //private PieChart pieChart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,41 +78,26 @@ public class MainActivity extends AppCompatActivity{
 
         Collections.sort(alist, new ActivityComparator());
 
-        for(Activity a: alist){
-            Log.i("MainActivity", a.getName() + " " + a.getTotalMinutes());
-        }
-
-
-        //TODO: datos de prueba, quitar en version final
-        //solo llamarla una vez y luego comentarla
-        //DataManager.demoCreateActivitiesData(this);
 
         if(DataManager.initFiles(this))
         {
-            //TODO: aqui se inicio la aplicacion por primera vez. Hacer un codigo para esa situacion
             Intent intent = new Intent(MainActivity.this, Initial.class);
             startActivity(intent);
         }
 
-        //NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // Crear el objeto NotificationChannel
         channel = new NotificationChannel("channel_id", "Nombre del canal", NotificationManager.IMPORTANCE_DEFAULT);
 
-// Registrar el canal de notificación
+
         notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
 
-// Crear el objeto NotificationCompat.Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "channel_id")
                 .setSmallIcon(R.drawable.playicon)
                 .setContentTitle("Título de la notificación")
                 .setContentText("Texto de la notificación")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-// Mostrar la notificación
-   /*     int notificationId = 1;
-        notificationManager.notify(notificationId, builder.build());
-*/
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -133,10 +116,6 @@ public class MainActivity extends AppCompatActivity{
                // tabSelected = position;
                 if(position == 2)
                 {
-                    Log.i("demo2", "pulsado el page3");
-                    //TODO llamar a una funcion updatePage3Info para actualizar su informacion
-                    //TODO: tener cuidado con que haya problemas de que los elementos de la vista aun no
-                    //esten cargados y se esten intentando modificar. No se si puede pasar
                     try {
                         Page3 p3 = Page3.getInstance();
                         if(p3!=null)
@@ -158,14 +137,12 @@ public class MainActivity extends AppCompatActivity{
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
 
-        //TabLayout.Tab tab = tabs.getTabAt(1);
-        //tab.select();
+
         SharedPreferences mPreferences = getSharedPreferences("previousTab", MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
         int tabIndex = mPreferences.getInt("prevTab", -1);
         boolean tabHasToChange = mPreferences.getBoolean("tabHasToChange", false);
         if(tabHasToChange) {
-            Log.i("MainActivity", "Si que hay cambio de tab");
             setTab(tabIndex);
         } else {
             setTab(1);
@@ -184,7 +161,6 @@ public class MainActivity extends AppCompatActivity{
         dm = new DataManager(this);
         activitesBasicInfoList = new ArrayList<>();
         JSONObject activitiesJson = dm.load(DataManager.ACTIVITIES_FILE_NAME);
-        Log.i("demo2","json leido de fichero"+ activitiesJson.toString());
 
         ArrayList<String> keys = new ArrayList<>();
         String key;
@@ -205,26 +181,6 @@ public class MainActivity extends AppCompatActivity{
 
             keys.add(key);
         }
-
-        //datos de prueba para actividades
-
-
-
-       /* activitesBasicInfoList = new ArrayList<>();
-        for(int i = 0; i < 1; i++)
-        {
-            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.CASA));
-        }
-
-        for(int i = 1; i < 3; i++)
-        {
-            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.BIENESTAR));
-        }
-
-        for(int i = 3; i < 4; i++)
-        {
-            activitesBasicInfoList.add(new ActivityBasicInfo("Actividad "+i,i, Category.ESTUDIOS));
-        }*/
 
 
     }
@@ -256,10 +212,6 @@ public class MainActivity extends AppCompatActivity{
         notificationManager.cancel(notificationId);
     }
 
-    /**
-     * Devuelve la pos del tab al que se ha accedido
-     * @return -1 sin inicializar, 0 izq, 1 centro, 2 dcha
-     */
 
 
 }

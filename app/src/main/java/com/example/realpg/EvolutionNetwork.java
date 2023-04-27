@@ -52,11 +52,10 @@ public class EvolutionNetwork {
 
         }
         catch (UnknownHostException e){
-            Log.e("EVOLUTIONAPI", "Error al conectar con el host: " + e.getMessage());
 
         }
         catch (Exception e){
-            Log.e("EVOLUTIONAPI", "Error al llamar a la api: " + e.getMessage());
+
 
         }
         finally {

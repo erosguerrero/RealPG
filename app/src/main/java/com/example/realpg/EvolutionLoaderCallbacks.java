@@ -35,12 +35,11 @@ public class EvolutionLoaderCallbacks implements LoaderManager.LoaderCallbacks<E
 
     @Override
     public void onLoadFinished(@NonNull Loader<Evolution> loader, Evolution data) {
-        Log.d("EVOLUTIONAPI", "Carga completada");
+
         try{
             NewPoke n = (NewPoke) context;
             n.apiCalls(data);
         } catch (java.lang.ClassCastException e) {
-            //si lo primero produce error, es que se llamo desde la nueva clase Initial
             Initial n2 = (Initial) context;
             n2.apiCalls(data);
         }
