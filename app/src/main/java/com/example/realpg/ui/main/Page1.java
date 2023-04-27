@@ -73,8 +73,6 @@ import static android.view.View.VISIBLE;
 public class Page1 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
- //   private PageViewModel pageViewModel;
     private FragmentPage1Binding binding;
     private static Page1 instance;
 
@@ -108,12 +106,10 @@ public class Page1 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
-   //     pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-      //  pageViewModel.setIndex(index);
         this.DM = new DataManager(getActivity());
         jsonPokemon = DM.load("pokemon.json");
         jsonExtra = DM.load("extra.json");
@@ -164,7 +160,6 @@ public class Page1 extends Fragment {
         Log.i("Page1", "onPause: " + onPause + " displaying: " + isActivityDisplaying);
 
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        //preferencesEditor.putFloat("stopWatchMinutes", (float)getStopWatchTimeMinutes());
         LocalDateTime time = LocalDateTime.now();
         preferencesEditor.putFloat("savedMinutes", parseLocalDateTimeToFloat(time));
         preferencesEditor.putFloat("stopWatchTime", (float)getStopWatchTimeMinutes());
@@ -198,24 +193,9 @@ public class Page1 extends Fragment {
 // Mostrar la notificación
             ((MainActivity)(getActivity())).showNotification(idNotificationRunningCrono,builder);
         }
-        // Crear el objeto NotificationCompat.Builder
 
-     /*   int notificationId = 1;
-        notificationManager.notify(notificationId, builder.build());*/
     }
 
-    /*@Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // para q cada vez q se cierre del to.do la app, se muestre la pantalla de actividades recientes
-        // ojala, pero no seirve pq onViewCreated creo q se ejecuta antes q onResume
-        setStopWatchTime(0);
-        onPause = true;
-        isActivityDisplaying = false;
-        mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        preferencesEditor.putBoolean("onPause", onPause);
-        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
-    }*/
 
     @Override
     public View onCreateView(
@@ -236,65 +216,16 @@ public class Page1 extends Fragment {
             Utils.showNoInternetConnection(this.getActivity());
         }
 
-        //TODO DEMO BORRAR
-        //DM.demoPokemonJson();
-       // DM.demoExtraJson();//comentado porque ya se genera vacio y no necesario para datos de prueba
-        //FIN DEMO
-
-        //LATEST ACTIVITIES
-        //TODO Controlar falta de extra.json
-        //TODO creo que ya esta hecho
-
         updateLatestActivitiesPanel();
-   /*     try {
-            JSONObject last3json = jsonExtra.getJSONObject("Last3");
-            LinearLayout latestActCont =  root.findViewById(R.id.LatestActivitiesContainer);
-            //TODO ¿Que hago con la ID  de la tarea?
-            View item1 = getLayoutInflater().inflate(R.layout.item_panel, null);
-            TextView tv1 = item1.findViewById(R.id.itemName);
-            tv1.setText(last3json.getJSONObject("1").getString("nombre"));
-            ImageButton startActivityButton = item1.findViewById(R.id.startActivityButton);
-            startActivityButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Log.i("Panel1", "start activity1");
-                    onPause = false;
-                    isActivityDisplaying = true;
-                    preferencesEditor.putBoolean("onPause", onPause);
-                    preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
-                    showTimeWatch();
-                }
-            });
-            latestActCont.addView(item1);
-
-            View item2 = getLayoutInflater().inflate(R.layout.item_panel, null);
-            TextView t2 = item2.findViewById(R.id.itemName);
-            t2.setText(last3json.getJSONObject("2").getString("nombre"));
-            latestActCont.addView(item2);
-
-            View item3 = getLayoutInflater().inflate(R.layout.item_panel, null);
-            TextView tv3 = item3.findViewById(R.id.itemName);
-            tv3.setText(last3json.getJSONObject("3").getString("nombre"));
-            latestActCont.addView(item3);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-*/
 
         ImageButton pokeball = binding.pokeballButton;//getActivity().findViewById(R.id.pokeballButton);
         ImageButton pokeBall2 = binding.pokeballButton2;
-        /*final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
         pokeball.setOnClickListener(v -> {
             Intent intent = new Intent(this.getActivity(), ListMyPoke.class);
-            // intent.putExtra("categoryName", pe.getLabel());
+
             startActivity(intent);
-            //hola
+
         });
 
         pokeBall2.setOnClickListener(v -> {
@@ -321,7 +252,6 @@ public class Page1 extends Fragment {
 
         restartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "restart activity1");
                 setStopWatchTime(0);
                 preferencesEditor.putBoolean("isActivityDisplaying", true);
                 LocalDateTime time = LocalDateTime.now();
@@ -334,7 +264,6 @@ public class Page1 extends Fragment {
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "pause activity1");
                 onPause = true;
                 preferencesEditor.putBoolean("onPause", onPause);
                 preferencesEditor.putBoolean("isActivityDisplaying", true);
@@ -349,7 +278,6 @@ public class Page1 extends Fragment {
 
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "play activity1");
                 onPause = false;
                 preferencesEditor.putBoolean("onPause", onPause);
                 preferencesEditor.putBoolean("isActivityDisplaying", true);
@@ -361,7 +289,6 @@ public class Page1 extends Fragment {
 
         endButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i("Panel1", "end activity1");
                 onPause = true;
                 isActivityDisplaying = false;
                 preferencesEditor.putBoolean("onPause", onPause);
@@ -370,18 +297,14 @@ public class Page1 extends Fragment {
                 preferencesEditor.putFloat("savedMinutes", parseLocalDateTimeToFloat(time));
                 preferencesEditor.putFloat("stopWatchTime", (float)getStopWatchTimeMinutes());
                 preferencesEditor.apply();
-                Log.i("Page1", "activity displaying inside endbutton: " + isActivityDisplaying);
 
                 showLatestActivities();
                 String currentTime = getStopWatchTime();
-                Log.i("Page1", "current time: " + currentTime);
                 setStopWatchTime(0);
 
                 int minutes = strTimeToMinutes(currentTime);
-                Log.i("Page1", "minutes "+ minutes);
 
                 isActivityDisplaying = mPreferences.getBoolean("isActivityDisplaying", false);
-                Log.i("Page1", "activity displaying inside endbutton2: " + isActivityDisplaying);
 
 
                 if(minutes > 0)
@@ -396,7 +319,6 @@ public class Page1 extends Fragment {
 
                         int coins = jsonExtra2.getInt("Coins");
 
-                        Log.i("Page1", "el id del seleccionado es "+idEvoSelected);
                         if(idEvoSelected != -1) {
                             JSONObject jsonEvolutions = DM.load(DataManager.POKEMON_FILE_NAME);
 
@@ -405,12 +327,10 @@ public class Page1 extends Fragment {
                             Pokemon prevPoke = evo.getCurrentPokemon();
                             double prevLvl = evo.getCurrentXp();
                             evo.addXp(minutes);
-                            //evo.demoSetLvl(31.7);
                             Pokemon newPoke = evo.getCurrentPokemon();
                             double newLvl = evo.getCurrentXp();
 
                             int dif = (int)Math.floor(newLvl) - (int)Math.floor(prevLvl);
-                            Log.i("demo2", "dif: "+ dif);
                             if(dif > 0)
                             {
                                 Log.i("demo2", "nuevas coins: "+ coins + " + " + dif);
@@ -456,19 +376,8 @@ public class Page1 extends Fragment {
                     }
                 }
 
-
-
-
             }
         });
-
-        // ImageView demo = binding.selectedPokemonImage;//getActivity().findViewById(R.id.selectedPokemonImage);
-
-        //demo.setImageDrawable(Page1.LoadImageFromWebOperations("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png"));
-
-        //new DownloadImageTask(demo).execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png");
-
-        // Glide.with(this).load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/394.png").into(demo);
 
 
         int idEvoSelected = -1;
@@ -494,13 +403,6 @@ public class Page1 extends Fragment {
 
         }
 
-        /*final TextView textView = binding.sectionLabel;
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
         return root;
     }
 
@@ -540,11 +442,6 @@ public class Page1 extends Fragment {
             {
                 lastActivitiesStr.remove(newId+"");
                 lastActivitiesStr.add(0, newId+"");
-           /*     List<String> newListStr = new ArrayList<>();
-                newListStr.add(newId+"");
-                for(int i = 0; i < lastActivitiesStr.size(); i++) {
-                    newListStr.add( lastActivitiesStr.get(i));
-                }*/
 
             }
             else {
@@ -572,22 +469,17 @@ public class Page1 extends Fragment {
     }
 
 
-    //TODO: actualizar lista de recientes dinamicamente
     public void updateLatestActivitiesPanel()
     {
         mPreferences = getActivity().getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();
 
-        //TODO crear nueva clase listener para el comienzo de actividades y ponerselo a estas
         JSONObject jsonExtra = DM.load(DataManager.EXTRA_FILE_NAME);
 
-        //JSONObject last3json = jsonExtra.getJSONObject("Last3");
         try {
             JSONArray last3 = jsonExtra.getJSONArray("Last3");
 
-            //last3.put(0);
-            //  last3.put(1);
-            //  last3.put(2);
+
             LinearLayout latestActCont = binding.LatestActivitiesContainer;
             latestActCont.removeAllViews();
             if(last3.length() ==0)
@@ -609,18 +501,6 @@ public class Page1 extends Fragment {
 
                 Activity ac = Activity.createActivityFromJson(jsonActivities.getJSONObject(idAct+""), idAct);
                 tv.setText(ac.getName());
-              /*  ImageButton startActivityButton = item.findViewById(R.id.startActivityButton);
-                startActivityButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Log.i("Panel1", "start activity1");
-                        onPause = false;
-                        isActivityDisplaying = true;
-                        preferencesEditor.putBoolean("onPause", onPause);
-                        preferencesEditor.putBoolean("isActivityDisplaying", isActivityDisplaying);
-                        showTimeWatch();
-
-                    }
-                });*/
 
                 latestActCont.addView(item);
             }
@@ -647,7 +527,6 @@ public class Page1 extends Fragment {
     }
 
     private void showTimeWatch(){
-        Log.i("Page1", "mostrando stopWatch");
 
         // hide latest activities related views
         TextView recentActividadesLabel = getActivity().findViewById(R.id.recentActividadesLabel);
@@ -747,7 +626,6 @@ public class Page1 extends Fragment {
                 Integer hours = Integer.parseInt(parts[0]);
                 Integer mins = Integer.parseInt(parts[1]);
                 Integer secs = Integer.parseInt(parts[2]);
-                //Log.i("Panel1", "Hours: " + hours + " Mins: " + mins + " Seconds: " + secs);
 
                 secs +=1;
 
@@ -766,8 +644,6 @@ public class Page1 extends Fragment {
                     mins = 0;
                     hours = 0;
                 }
-
-                Log.i("Page1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
 
                 String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
                 stopWatch.setText(actualTime);
@@ -789,24 +665,18 @@ public class Page1 extends Fragment {
     }
 
     private void setStopWatchTime(double minutes){
-        Log.i("Page1", "en setTime, onPause: " + onPause + " onDisplaying: " + isActivityDisplaying);
-
         TextView stopWatch = getActivity().findViewById(R.id.stopWatch);
 
         String stringMinutes = String.valueOf(minutes);
-        //Log.i("Page1", "stringMins: " + stringMinutes);
         String[] parts = stringMinutes.split("\\.");
 
         double intPart = Double.parseDouble(parts[0]);
-        //int decimalPart = Integer.parseInt(parts[1]);
-        //Log.i("Page1", "decimalPart: " + decimalPart);
+
         double decimals = Double.parseDouble("0." + parts[1]);
-        //Log.i("Page1", "decimals: " + decimals);
 
         Integer hours = (int)intPart/60;
         Integer mins = (int)intPart%60;
         Integer secs = (int)(decimals*60);
-        //Log.i("Page1", "Hours: " + hours.toString() + " Mins: " + mins.toString() + " Seconds: " + secs.toString());
 
         String actualTime = String.format("%02d", hours) + ":" + String.format("%02d", mins) + ":" + String.format("%02d", secs);
         stopWatch.setText(actualTime);
@@ -836,7 +706,6 @@ public class Page1 extends Fragment {
         float hours = time.getHour();
         float minutes = time.getMinute();
         float seconds = time.getSecond();
-        Log.i("Page1", "Inside parseLocalDateTime " + hours + " "+ minutes+" "+seconds);
         return hours*60 + minutes + seconds/60;
     }
 
