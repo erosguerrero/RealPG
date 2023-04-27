@@ -52,7 +52,6 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
     private static PieChart pieChart;
     private static Page3 instance;
 
- //   private PageViewModel pageViewModel;
     private FragmentPage3Binding binding;
 
     public static Page3 newInstance(int index) {
@@ -69,12 +68,10 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   //     pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-      //  pageViewModel.setIndex(index);
 
         instance = this;
     }
@@ -144,17 +141,11 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
 
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
-        /*l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);*/
-
     }
 
     private void loadPieChartData() throws JSONException {
         ArrayList<PieEntry> entries = new ArrayList<>();
         JSONObject jsonCatMinutes = Activity.getCategoriesMinutes(getActivity());
-        Log.i("demo2", jsonCatMinutes.toString());
         Locale currentLocale = getResources().getConfiguration().locale;
         String language = currentLocale.getLanguage();
         for (Category cat : Category.values()) {
@@ -163,7 +154,6 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
                 catTrans = Activity.transalateCatEsToEn(cat.toString());
             }
             float p = (float)jsonCatMinutes.getInt(cat.toString())/jsonCatMinutes.getInt("TOTAL");
-            //TODO utilizar metodo de cats en minuscula con la primera mayuscula
             if(jsonCatMinutes.getInt(cat.toString()) != 0) entries.add(new PieEntry(p, catTrans));
         }
 
@@ -252,11 +242,6 @@ public class Page3 extends Fragment implements OnChartValueSelectedListener {
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         PieEntry pe = (PieEntry) e;
-        Log.d("page3", "en onValueSelected");
-        Log.d("page3", "entry selected: " + ((PieEntry) e).getLabel());
-
-        //TextView v = binding.clickedEntry;
-        //v.setText(pe.getLabel());
 
         SharedPreferences mPreferences = getActivity().getSharedPreferences("previousTab", MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = mPreferences.edit();

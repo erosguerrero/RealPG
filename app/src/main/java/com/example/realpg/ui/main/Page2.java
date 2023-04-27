@@ -53,19 +53,12 @@ import org.json.JSONObject;
 public class Page2 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-
- //   private PageViewModel pageViewModel;
     private FragmentPage2Binding binding;
 
     protected ArrayAdapter<String> spinnerAdapter;
     protected ArrayList<String> categories;
 
     String catToCreate = "Bienestar";
-   // protected Spinner categoriesSpinner;
-
-    public void changeShow2(){
-        Log.i("MainActivity","pulsado");
-    }
 
     public static Page2 newInstance(int index) {
         Page2 fragment = new Page2();
@@ -79,12 +72,10 @@ public class Page2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   //     pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
-      //  pageViewModel.setIndex(index);
     }
 
     @Override
@@ -98,14 +89,9 @@ public class Page2 extends Fragment {
 
         setButtonsPanelsListeners();
         for(ActivityBasicInfo abi : ((MainActivity) getActivity()).getActivitesBasicInfoList()) {
-            Log.i("demo","los ids son: "+ abi.getId());
              addActivityToCatPanel(abi);
         }
 
-
-
-
-        //categoriesSpinner = binding.
         Locale currentLocale = getResources().getConfiguration().locale;
         String language = currentLocale.getLanguage();
         String currentCategory = "Bienestar";
@@ -114,9 +100,7 @@ public class Page2 extends Fragment {
         }
 
         categories = manageSpinnerList(currentCategory);
-        //adapter=new SpinnerAdapter(getApplicationContext());
         spinnerAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, categories);
-
 
         binding.addActivityButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -131,16 +115,13 @@ public class Page2 extends Fragment {
                 Button button = (Button) dialog.findViewById(R.id.button1);
 
                 spinner.setAdapter(spinnerAdapter);
-
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        //Toast.makeText(ActivityInfoActivity.this, "Selecciona una", Toast.LENGTH_SHORT).show();
                         String selectedCat = (String) spinner.getSelectedItem();
 
                         if(i == 0) {
                             // cuando se carga la activity/se recarga el adapter, el item en pos 0 se autoselecciona
-                            Log.i("ActivityInfo", "Seleccionado categoria actual: " + selectedCat + " en pos 0");
                         } else if (i > 0){
 
                             Log.i("ActivityInfo", "Cat seleccionada: " + selectedCat);
@@ -149,8 +130,6 @@ public class Page2 extends Fragment {
                             spinnerAdapter.addAll(manageSpinnerList(selectedCat));
                             spinner.setAdapter(spinnerAdapter);
                             catToCreate = selectedCat;
-                            //ac.setCategory(selectedCat);
-
                         }
                     }
 
@@ -185,15 +164,12 @@ public class Page2 extends Fragment {
 
                             Toast.makeText(getActivity(), getString(R.string.newActOk), Toast.LENGTH_LONG).show();
 
-                            //TODO, ver que id toca poner e incrementarlo para el siguinte (lectura y escritura dle fihero)
                             ActivityBasicInfo ab= new ActivityBasicInfo(edittext.getText().toString(), newId, Activity.strToCategory(catToCreate));
                             addActivityToCatPanel(ab);
                             ((MainActivity)getActivity()).addActBasInf(ab);
 
                             Activity a = new Activity(newId,edittext.getText().toString(), catToCreate);
 
-
-                            //TODO guardar la info de la nueva actividad en la lista de actividades
                             JSONObject jsonAct = dm.load(DataManager.ACTIVITIES_FILE_NAME);
                             try {
                                 jsonAct.put(a.getIdActivity()+"", a.toJson());
@@ -227,11 +203,6 @@ public class Page2 extends Fragment {
                 {
                     binding.panel1.setVisibility(View.VISIBLE);
                     b.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down));
-                    //con atributos de tema
-                    //ContextCompat.getDrawable(getActivity(), R.drawable.arrow_down);
-                    //sin atributos de tema
-                    //ResourcesCompat.getDrawable(getResources(),  R.drawable.arrow_down, null);
-
                 }
                 else {
                     binding.panel1.setVisibility(View.GONE);
@@ -257,8 +228,6 @@ public class Page2 extends Fragment {
             }
 
             LinearLayout root = (LinearLayout) binding.panel2;
-            //View child = getLayoutInflater().inflate(R.layout.child, null);
-            //root.ad
         });
         binding.activatePanel3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -386,7 +355,6 @@ public class Page2 extends Fragment {
 
     private void HideAllPanels()
     {
-        //TODO reemplazar con el numero de categorias de la app
         binding.panel1.setVisibility(View.GONE);
         binding.panel2.setVisibility(View.GONE);
         binding.panel3.setVisibility(View.GONE);
@@ -409,8 +377,6 @@ public class Page2 extends Fragment {
         View item = getLayoutInflater().inflate(R.layout.item_panel, null);
         TextView tv = item.findViewById(R.id.itemName);
         tv.setText(abi.getName());
-        Log.i("demo", "id en al add " + abi.getId());
-        //item.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity()));
         tv.setOnClickListener(new MyOnClickListenerRunAct(abi.getId(), getActivity(),0));
 
         ImageButton playButton = item.findViewById(R.id.startActivityButton);
